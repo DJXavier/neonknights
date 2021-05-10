@@ -47,6 +47,21 @@
                 Attaining Chivalry points is the only way to level up, although there can be special story events that can
                 level up characters without the required points.
             </p>
+
+            <h2>Character Abilities</h2>
+            <p>Characters hav four attributes:<p>
+            <ul>
+                <li>Strength</li>
+                <li>Dexterity</li>
+                <li>Constitution</li>
+                <li>Stamina</li>
+            </ul>
+            <p>
+                Stamina is a Points pool that reflects the overall physical status of a character, and its maximum is the sum
+                of Strength + Constitution. Some physical actions (like jousting, or partying at the tavern) can consume the
+                Stamina pool of a character. Player characters can recover their stamina using the “Slacking” action. If a
+                character gets to 0 stamina points, they cannot do any more actions during the current round. 
+            </p>
         </div>
     </body>
 </html>
