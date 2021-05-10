@@ -15,10 +15,13 @@ use App\Http\Controllers\SignInController;
 */
 
 //Route::get('/home', [SignInController::class, 'homePage']);
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('homepage.homePage');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
