@@ -14,4 +14,11 @@ use App\Http\Controllers\SignInController;
 |
 */
 
-Route::get('/home', [SignInController::class, 'homePage']);
+//Route::get('/home', [SignInController::class, 'homePage']);
+Route::get('/home', function () {
+    return view('homepage.homePage');
+});
+
+Route::get('/', function () {
+    return view('welcome');
+});
