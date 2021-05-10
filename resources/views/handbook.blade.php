@@ -29,15 +29,21 @@
                 To get their Chivalry Level up, player characters need attain as much Chilvary Points as 3 times the next
                 level to attain during a month. For example, if a player character is at Level 1, needs to get 6 points
                 during a month to get to Level 2.
+            </p>
+            <p>
                 Chivalry points are NOT kept from month to month. After the 4 weekly rounds in that month, if a player
                 character cannot get to a higher level of Chivalry, their Chivalry points are reset to 0. There is only one
                 exception to this: if a character did level up, the remaining points after the level upgrade are kept for the
                 next month. If for some reason a character ended with a negative count of points, their points count are also
                 reset to 0 next month.
+            </p>
+            <p>
                 For example: A player character is at Level 1, and at the end of the month has attained 8 Chivalry points.
                 She will level up to Level 2, and keep 2 Chivalry Points (as only 6 points were needed to level 2). Another
                 player character is at Level 1 and only attained 4 Chivalry points, so can’t level up and their points are
                 reset to 0 in the next month.
+            </p>
+            <p>
                 Attaining Chivalry points is the only way to level up, although there can be special story events that can
                 level up characters without the required points.
             </p>
