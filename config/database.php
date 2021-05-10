@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION_MONGO', 'mongodb'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,6 +41,12 @@ return [
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+        ],
+
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('DB_DSN_MONGO'),
+            'database' => env('DB_DATABASE_MONGO', 'homestead'),
         ],
 
         'mysql' => [
