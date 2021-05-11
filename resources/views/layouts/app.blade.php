@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <style>
     img {
-    width:200px; /* you can use % */
+    width:200px;
     height: auto;
 }
 </style>
