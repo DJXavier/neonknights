@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SignInController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route::get('/home', [SignInController::class, 'homePage']);
 Route::get('/', function () {
-    return view('welcome');
+    return view('homepage.homePage');
+});
+
+Route::get('/policy', function () {
+    return view('homepage.privacy_policy');
 });
 
 Route::get('/manual', function () {
-    return view('handbook');
+    return view('homepage.gameManual');
 });
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
