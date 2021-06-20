@@ -14,13 +14,6 @@
                         </div>
                     @endif
 
-                    @php
-                        $test = App\Models\CharTest::First();
-                        Auth::user()->CharTests()->associate($test);
-                        echo Auth::user()->CharTests;
-                        Auth::user()->save();
-                    @endphp
-
                     {{ __('You are logged in!') }}
                 </div>
             </div>
