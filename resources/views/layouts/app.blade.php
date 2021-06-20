@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <style>
     img {
-    width:200px; /* you can use % */
+    width:200px;
     height: auto;
 }
 </style>
@@ -39,7 +39,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="/manual">{{ __('Game Manual') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/policy">{{ __('Privacy Policy') }}</a>
+                        </li>
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->

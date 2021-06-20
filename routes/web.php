@@ -19,6 +19,14 @@ Route::get('/', function () {
     return view('homepage.homePage');
 });
 
+Route::get('/policy', function () {
+    return view('homepage.privacy_policy');
+});
+
+Route::get('/manual', function () {
+    return view('homepage.gameManual');
+});
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
