@@ -30,13 +30,10 @@ Route::get('/policy', function () {
     return view('homepage.privacy_policy');
 });
 
-Route::get('/manual', function () {
-    return view('homepage.gameManual');
+Route::get('/handbook', function () {
+    return view('homepage.handbook');
 });
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

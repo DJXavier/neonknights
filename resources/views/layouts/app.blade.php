@@ -40,7 +40,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/manual">{{ __('Game Manual') }}</a>
+                            <a class="nav-link" href="/handbook">{{ __('Game Handbook') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/policy">{{ __('Privacy Policy') }}</a>
