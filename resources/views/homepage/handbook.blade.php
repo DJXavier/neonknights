@@ -29,7 +29,7 @@
         </p>
 
         <h2>Character Abilities</h2>
-        <p>Characters hav four attributes:<p>
+        <p>Characters have four attributes:<p>
         <ul>
             <li>Strength</li>
             <li>Dexterity</li>
