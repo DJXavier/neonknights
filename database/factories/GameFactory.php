@@ -22,7 +22,9 @@ class GameFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->company(),
+            'type' => $this->faker->randomElement(array('Adventure', 'Campaign')),
+            'noPlayers' => $this->faker->numberBetween(1, 14),
         ];
     }
 }

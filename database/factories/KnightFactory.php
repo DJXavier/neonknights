@@ -22,7 +22,26 @@ class KnightFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'level' => $this->faker->randomDigit(),
+            'chivalryPoints' => $this->faker->biasedNumberBetween(1, 20, function($x) { return 1 - sqrt($x); }),
+            'strength' => $this->faker->numberBetween(3, 18),
+            'dexterity' => $this->faker->numberBetween(3, 18),
+            'trainingDexterity' => 0,
+            'constitution' => $this->faker->numberBetween(3, 18),
+            'maxEndurance' => 0,
+            'currentEndurance' => 0,
+            'trainingPoints' => 0,
         ];
+    }
+
+    public function configure() {
+        return $this->aftermaking(function(Knight $knight) {
+
+        })->afterCreating(function(Knight $knight) {
+            $knight->maxEndurance = $knight->strength + $knight->constitution;
+            $knight->currentEndurance = $this->faker->numberBetween(0, $knight->maxEndurance);
+            $knight->save();
+        });
     }
 }
