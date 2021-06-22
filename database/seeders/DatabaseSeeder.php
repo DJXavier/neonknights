@@ -45,15 +45,21 @@ class DatabaseSeeder extends Seeder
                 );
             };
 
-            $uGames  = $user->games;
-            $user->knights()->each(function ($knight) use ($uGames) {
+            $user->knights()->each(function ($knight) use ($user) {
+                $uGames  = $user->games;
                 //Get games with no knight.
-                $filteredGames = $uGames->filter(function ($value, $key) {
-                    return $value->knights == null;
+                $filteredGames = $uGames->filter(function ($value, $key) use ($user) {
+                    //Get the knights in the game.
+                    $test = $value->knights()->get();
+                    //See if any knight is connected to the current user.
+                    $test2 = $user->knights->diff($test);
+                    //If there isn't, add the game to the list.
+                    return $test2->count() == $user->knights->count();
                 });
                 //If games exist, save to random.
                 if ($filteredGames->count() > 0) {
-                    $filteredGames->random(1)->first()->knights()->save($knight);
+                    $gameToStore = $filteredGames->random(1)->first();
+                    $gameToStore->knights()->save($knight);
                 };
             });
         });
