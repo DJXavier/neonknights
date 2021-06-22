@@ -25,6 +25,8 @@ class GameFactory extends Factory
             'name' => $this->faker->company(),
             'type' => $this->faker->randomElement(array('Adventure', 'Campaign')),
             'noPlayers' => $this->faker->numberBetween(1, 14),
+            'currentRound' => $this->faker->numberBetween(1, 4),
+            'resetDate' => 'Thursday',
         ];
     }
 }
