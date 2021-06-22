@@ -50,11 +50,10 @@ class DatabaseSeeder extends Seeder
                 //Get games with no knight.
                 $filteredGames = $uGames->filter(function ($value, $key) use ($user) {
                     //Get the knights in the game.
-                    $test = $value->knights()->get();
                     //See if any knight is connected to the current user.
-                    $test2 = $user->knights->diff($test);
+                    $knightsNotIn = $user->knights->diff($value->knights()->get());
                     //If there isn't, add the game to the list.
-                    return $test2->count() == $user->knights->count();
+                    return $knightsNotIn->count() == $user->knights->count();
                 });
                 //If games exist, save to random.
                 if ($filteredGames->count() > 0) {
