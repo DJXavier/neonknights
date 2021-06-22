@@ -9,11 +9,11 @@ class Knight extends Model
 {
     use HasFactory;
 
-    public function getAttribute($key) {
+    /* public function getAttribute($key) {
         if (array_key_exists($key, $this->attributes)) {
             return parent::getAttribute($key);
         }
-    }
+    } */
 
     public function user() {
         return $this->belongsTo(User::class);
