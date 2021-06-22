@@ -9,6 +9,12 @@ class Game extends Model
 {
     use HasFactory;
 
+    public function getAttribute($key) {
+        if (array_key_exists($key, $this->attributes)) {
+            return parent::getAttribute($key);
+        }
+    }
+
     public function users() {
         return $this->belongsToMany(User::class);
     }
