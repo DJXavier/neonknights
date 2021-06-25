@@ -5,6 +5,13 @@
     width:200px;
     height: auto;
 }
+
+footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
 </style>
 <head>
     <meta charset="utf-8">
@@ -91,5 +98,9 @@
             @yield('content')
         </main>
     </div>
+
+    <footer class="container-fluid text-center">
+        <p><a href="mailto:neonknightsrpg@gmail.com">neonknightsrpg@gmail.com</a></p><p>2019 DRAWFOLIO S.L. <a href="/privacy.html">Política de privacidad</a></p><p>Images from Knightriders (1981) Please George Romero, don't sue us!</p><p>Heavily inspired by Black Sabbath and El Señor de la Rueda (Gabriel Bermúdez Castillo, 1979)</p>
+    </footer>
 </body>
 </html>
