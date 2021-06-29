@@ -90,19 +90,19 @@
         <h2>[Character Name]</h2>
         <div class="Row">
             <div class="Action">
-                <button class="button_add">Add</button>
+                <button class="button_add" onclick="">Add</button>
                 <div class="label">Quest (3 Slots)</div>
             </div>
             <div class="Action">
-                <button class="button_add">Add</button>
+                <button class="button_add" onclick="">Add</button>
                 <div class="label">Party (1 Slot)</div>
             </div>
             <div class="Action">
-                <button class="button_add">Add</button>
+                <button class="button_add" onclick="">Add</button>
                 <div class="label">Train (1 Slot)</div>
             </div>
             <div class="Action">
-                <button class="button_add">Add</button>
+                <button class="button_add" onclick="">Add</button>
                 <div class="label">Slack off (1 Slot)</div>
             </div>
         </div>
