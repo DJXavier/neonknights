@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SignInController;
+use App\Http\Controllers\Auth\ChangePasswordController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +25,24 @@ Route::get('/policy', function () {
     return view('homepage.privacy_policy');
 });
 
-Route::get('/handbook', function () {
-    return view('homepage.handbook');
+Route::get('/manual', function () {
+    return view('homepage.gameManual');
 });
 
+Route::get('/changepassword', function () {
+    return view('Auth.changePassword'); 
+});
+
+Route::get('/changePasswordSuccessfully', function(){
+    return view('Auth.changePasswordSuccessfully');
+});
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/changepassword', 'ChangePasswordController@store')->name('change.password');
+//Route::post('/change-password', [App\Http\Controllers\Auth\ChangePasswordController::class, 'store'])->name('change.password');
+//Route::post('/change-password', 'ChangePasswordController@store')->name('change.password');
