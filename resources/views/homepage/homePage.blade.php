@@ -3,15 +3,43 @@
 @section('content')
 
 
+<style>
+    body {
+        background-color: #080325e6;
+    }
+    
+    strong {
+        font-size: large;
+    }
+
+    h1 {
+        color: #ffffff;
+    }
+
+    h3 {
+        color: #ffffff;
+    }
+
+    div{
+        color: #ffffff;
+    }
+
+</style>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="resources\css\youplay.css">
+</head>
+
 <section>
     <div class="container">
-        <h1><img src="http://neonknightsrpg.com/assets/images/logo-splash.png"></h1>
+        <h1><img src="http://neonknightsrpg.com/assets/images/logo-splash.png" style="width: 45%;"></h1>
                 
-        <p>The Role-Playing Game for people without time enough to play Role-Playing Games.</p>
-        <p>Play a Neon Knight, a chivalry member in a medieval-post-apocalyptic future, and play an email based RPG with your friends in weekly rounds.</p>
-        <br>
+        <p><strong>The Role-Playing Game for people without time enough to play Role-Playing Games.</strong></p>
+        <p>Play a Neon Knight,<strong> a chivalry member in a medieval-post-apocalyptic future,</strong> and play an email based RPG with your friends in weekly rounds.</p>
     </div>
 </section> 
+<br>
 
 <section>
     <div class="container">
@@ -26,30 +54,36 @@
         </p>
 
     </div>
-</section> 
+</section>
 
 <section class="container">
-    <div class="col-sm-4">  
-        <h3>Create your Character</h3>
-        <div>
-            Set Name, Titles, Banner, Gender (or non-binary), personality, oddities.. whatever you want!
-        </div>
-    </div>   
+    <div class="row">
+        <div class="col-sm-4 justify-content-center text-center"> 
+            <div><i class="fa fa-fw fa-user-circle fa-3x pb-3" style="color: #ffffff"></i></div> 
+            <h3>Create your Character</h3>
+            <div>
+                Set Name, Titles, Banner, Gender (or non-binary), personality, oddities.. whatever you want!
+            </div>
+        </div>   
 
-    <div class="col-sm-4">
-        <h3>Decide your Turn</h3>
-        <div>
-            Set which actions will your Neon Knights invest their time in for the weekly turn.
+        <div class="col-sm-4 justify-content-center text-center">
+            <i class="fa fa-fw fa-calendar-check-o fa-3x pb-3" style="color: #ffffff"></i>
+            <h3>Decide your Turn</h3>
+            <div>
+                Set which actions will your Neon Knights invest their time in for the weekly turn.
+            </div>
         </div>
-    </div>
 
-    <div class="col-sm-4">
-        <h3>Read the Weekly Bulletin</h3>
-        <div>
-            Each week, you will receive by email a bulletin with all the group's actions resolved, and the Allegiance Points earned or lose by everyone.<br>
-        </div>
-    </div>  
+        <div class="col-sm-4 justify-content-center text-center">
+            <i class="fa fa-fw fa-envelope-open fa-3x pb-3" style="color: #ffffff"></i>
+            <h3>Read the Weekly Bulletin</h3>
+            <div>
+                Each week, you will receive by email a bulletin with all the group's actions resolved, and the Allegiance Points earned or lose by everyone.
+            </div>
+        </div>  
+    </div> 
 </section>
+<br>
 
 <section>
     <div class="container">
@@ -77,29 +111,42 @@
         </div>
     </div>  
 </section> 
+<br>
 
 <section>
     <div class="container align-center">
         <h2>Follow us in our social media</h2>
         <br>
         <div class="container">
-            <div class="social-icon">
-                <a href="https://www.twitter.com/NeonKnightsRPG">
-                    <img src="http://neonknightsrpg.com/assets/images/logo-neon-knights-header.png"><br>
-                    <span>Twitter</span>
-                </a>
-            </div>
-            <div class="social-icon">
-                <a href="https://www.facebook.com/NeonKnightsRPG">
-                    <img src="http://neonknightsrpg.com/assets/images/logo-neon-knights-header.png"><br>
-                    <span>Facebook</span>
-                </a>
-            </div>
-            <div class="social-icon">
-                <a href="https://www.instagram.com/neonknights_rpg/">
-                    <img src="http://neonknightsrpg.com/assets/images/logo-neon-knights-header.png"><br>
-                    <span>Instagram</span>
-                </a>
+            <div class="row">
+                <div class="col-sm-2">
+                </div> 
+                <div class="col-sm-3">
+                    <a href="https://www.twitter.com/NeonKnightsRPG" style="text-decoration: none">
+                        &nbsp;	&nbsp;	&nbsp; &nbsp; &nbsp; &nbsp;
+                        <i class="fa fa-fw fa-twitter-square fa-5x" style="color: #ffffff"></i><br>
+                        &nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <span style="color: #ffffff">Twitter</span>
+                    </a>
+                </div>
+                
+                <div class="col-sm-3">
+                    <a href="https://www.facebook.com/NeonKnightsRPG" style="text-decoration: none">
+                        &nbsp;	&nbsp;	&nbsp; &nbsp; &nbsp; &nbsp;
+                        <i class="fa fa-fw fa-facebook-square fa-5x" style="color: #ffffff"></i><br>
+                        &nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp; &nbsp; &nbsp; &nbsp;
+                        <span style="color: #ffffff">Facebook</span>
+                    </a>
+                </div>
+
+                <div class="col-sm-3">
+                    <a href="https://www.instagram.com/neonknights_rpg/" style="text-decoration: none">
+                        &nbsp;	&nbsp;	&nbsp; &nbsp; &nbsp; &nbsp;
+                        <i class="fa fa-fw fa-instagram fa-5x" style="color: #ffffff"></i><br>
+                        &nbsp;	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <span style="color: #ffffff">Instagram</span>
+                    </a>
+                </div>
             </div>   
         </div>
     </div>
