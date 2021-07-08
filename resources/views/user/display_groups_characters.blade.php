@@ -94,7 +94,7 @@
             @endforeach
         </table>
 
-        <a class="btn btn-primary" type="button" href="/create-character">{{ __('Create Character') }}</a>
+        <a class="btn btn-primary" type="button" href="#">{{ __('Create Character') }}</a>
     </div>
 
 @endsection

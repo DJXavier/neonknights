@@ -13,7 +13,7 @@
                 <div class="card-header">{{ __('Create Group') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="">
                         @csrf
 
                         <div class="form-group row">
@@ -47,28 +47,62 @@
                                 </select>
                             </div>
                         </div>
+                        
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address 1') }}</label>
 
-                            <?php
-                                $i=1;
-                                while ($i<=12){
-                            ?>
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email1" type="email" class="form-control @error('email1') is-invalid @enderror" name="email" value="{{ old('email1') }}" required autocomplete="email">
 
-                                @error('email')
+                                @error('email1')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
-                            <?php 
-                                    $i=$i+1;
-                                }
+                        </div>
 
-                            ?>
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address 2') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email2" type="email" class="form-control @error('email2') is-invalid @enderror" name="email" value="{{ old('email2') }}" required autocomplete="email">
+
+                                @error('email2')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address 3') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email3" type="email" class="form-control @error('email3') is-invalid @enderror" name="email" value="{{ old('email3') }}" required autocomplete="email">
+
+                                @error('email3')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address 4') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email4" type="email" class="form-control @error('email4') is-invalid @enderror" name="email" value="{{ old('email4') }}" required autocomplete="email">
+
+                                @error('email4')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="form-group row mb-0">

@@ -23,16 +23,8 @@ Route::get('/display-groups-characters', function () {
     return view('user.display_groups_characters');
 });
 
-Route::get('/insert-weekly-actions', function () {
-    return view('user.insert_weekly_actions');
-});
-
 Route::get('/create-group', function () {
     return view('user.create_group');
-});
-
-Route::get('/create-character', function () {
-    return view('user.create_character');
 });
 
 Route::get('/policy', function () {
