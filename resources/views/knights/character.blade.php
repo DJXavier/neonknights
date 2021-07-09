@@ -13,7 +13,7 @@
 <input type="radio" value="Female" id="female" name="gender">
 <label for="female">She/Her</label>
 <input type="radio" value="Them" id="them" name="gender">
-<label for="female">They/Them</label>
+<label for="them">They/Them</label>
 <br>
 <label for="strength">Strength: </label>
 <input type="button" value="Roll Dice" id="strength" name="strength">
