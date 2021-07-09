@@ -27,6 +27,10 @@ Route::get('/handbook', function () {
     return view('homepage.handbook');
 });
 
+Route::get('/character', function () {
+    return view('knights.character');
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
