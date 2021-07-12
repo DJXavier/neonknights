@@ -1,47 +1,93 @@
-import { size } from 'lodash';
-import React from 'react';
+import axios from 'axios';
+import GroupEmailSize from './GroupEmailSize.js';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-export default class GroupMailEntry extends React.Component {
+class GroupEmailEntry extends Component {
     constructor(props){
         super(props);
         this.state = {
-            groupSize: 4
+            groupSize: 4,
         }
+
+        this.groupSizeHandler = this.groupSizeHandler.bind(this);
     }
 
-    document.getElementById('players-select')
-
-    mailFieldsDisplay = function() {
-        for (i = 4; i <= this.state.groupSize; i++)
-        {
-            emailName = "email" + i;
-
-            <div class="form-group row">
-                <label for={emailName} class="col-md-4 col-form-label text-md-right">E-mail Address {i}</label>
-
-                <div class="col-md-6">
-                    <input id={emailName} type="email" class="form-control @error('email') is-invalid @enderror" name={emailName} value="{{ old('email') }}" required autocomplete="email"/>
-
-                    @error('email{i}')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-        }
+    groupSizeHandler() {
+        let newSize = document.getElementById('playersSelect').value;
+        this.setState({
+            groupSize: newSize,
+        })
     }
     
     render() {
+        let emails = [];
+
+        for (let i = 1; i <= (this.state.groupSize); i++) {
+            let emailName = "email" + i;
+            emails.push(
+                <div className="form-group row" key={emailName}>
+                    <label type="text" className="col-md-4 col-form-label text-md-right">{"Email " + i}</label>
+                    <div className="col-md-6">
+                        <input type="text" className="form-control" name={emailName} />
+                    </div>
+                </div>
+            )
+        }
+
         return (
-            this.mailFieldsDisplay()
+            <React.Fragment>
+                <div className="form-group row">
+                    <label htmlFor="name" className="col-md-4 col-form-label text-md-right">Group Name</label>
+
+                    <div className="col-md-6">
+                        <input id="name" type="text" className="form-control" name="name" required autofocus></input>
+                    </div>
+                </div>
+
+                <div className="form-group row">
+                    <GroupEmailSize labelName="Max Players" groupSizeHandler={() => this.groupSizeHandler()} value={this.state.groupSize}/>
+                </div>
+
+                {emails}
+
+                <div className="form-group row">
+                    <label className="col-md-4 col-form-label text-md-right">Game Type</label>
+
+                    <div className="col-md-6 form-check-inline">
+                        <div className="form-check-inline">
+                            <input type="radio" className="form-check-input" name="gameType" id="arcade" value="arcade" />
+                            <label htmlFor="arcade" className="form-check-label">Arcade</label>
+                        </div>
+                        <div className="form-check-inline">
+                            <input type="radio" className="form-check-input" name="gameType" id="campaign" value="campaign" defaultChecked />
+                            <label htmlFor="campaign" className="form-check-label">Campaign</label>
+                        </div>
+                    </div>
+                </div>
+                <div className="form-group row mb-0">
+                    <div className="col-md-8 offset-md-4">
+                        <button type="submit" className="btn btn-primary">
+                            Create Game
+                        </button>
+                    </div>
+                </div>
+            </React.Fragment>
         );
     }
 }
 
-export default GroupEmailEntry;
+if(document.getElementById('groupForm')) {
+    document.getElementById('groupForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        let formInfo = new FormData(e.target);
+        axios.post('/api/apigame', formInfo)
+            .then(response => console.log(response))
+            .catch(error => console.log(error.response.data));
+    });
+}
 
-if (document.getElementById('group-email-entry')) {
-    ReactDOM.render(<GroupEmailEntry />, document.getElementById('group-email-entry'));
+if (document.getElementById('groupEmail')) {
+    let entryElement = document.getElementById('groupEmail');
+    ReactDOM.render(<GroupEmailEntry />, entryElement)
 }
