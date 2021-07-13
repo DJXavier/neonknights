@@ -2,6 +2,23 @@
 
 @section('content')
 
+<style>
+    body {
+        background-color: #080325e6;
+    }
+    h1 {
+        color: #ffffff;
+    }
+
+    h3 {
+        color: #ffffff;
+    }
+
+    div{
+        color: #ffffff;
+    }
+</style>
+
 <h1>POLÍTICA DE PRIVACIDAD DE NEONKNIGHTSRPG.COM</h1>
 
 <p>(Actualizado el 11/3/2019)</p> 

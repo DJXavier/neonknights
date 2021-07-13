@@ -2,16 +2,15 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <style>
     img {
-    width:200px;
-    height: auto;
-}
-
-footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
+        width:200px;
+        height: auto;
     }
 
+    footer {
+        background-color: #100a2b;
+        color: white;
+        padding: 10px;
+    }
 </style>
 <head>
     <meta charset="utf-8">
@@ -34,7 +33,7 @@ footer {
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="http://neonknightsrpg.com/assets/images/logo-neon-knights-header.png">
@@ -47,10 +46,10 @@ footer {
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/handbook">{{ __('Game Handbook') }}</a>
+                            <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="/handbook">{{ __('Game Handbook') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/policy">{{ __('Privacy Policy') }}</a>
+                            <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="/policy">{{ __('Privacy Policy') }}</a>
                         </li>
                         
                     </ul>
@@ -61,18 +60,18 @@ footer {
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
@@ -100,7 +99,12 @@ footer {
     </div>
 
     <footer class="container-fluid text-center">
-        <p><a href="mailto:neonknightsrpg@gmail.com">neonknightsrpg@gmail.com</a></p><p>2019 DRAWFOLIO S.L. <a href="/privacy.html">Política de privacidad</a></p><p>Images from Knightriders (1981) Please George Romero, don't sue us!</p><p>Heavily inspired by Black Sabbath and El Señor de la Rueda (Gabriel Bermúdez Castillo, 1979)</p>
+        <p></p>
+        <p style="font-size:15px"><a href="mailto:neonknightsrpg@gmail.com" style="color: white;"><u>neonknightsrpg@gmail.com</u></a></p>
+        <p style="font-size:15px">2019 DRAWFOLIO S.L. <a href="/policy" style="color: white;"><u>Política de privacidad</u></a></p>
+        <p style="font-size:15px">Images from Knightriders (1981) Please George Romero, don't sue us!</p>
+        <p style="font-size:15px">Heavily inspired by Black Sabbath and El Señor de la Rueda (Gabriel Bermúdez Castillo, 1979)</p>
+        <p></p>
     </footer>
 </body>
 </html>
