@@ -16,8 +16,8 @@
                             Change Password Successfully.       
                                 
                             </div>
-                            <a type="submit" class="btn btn-primary" href="/login">                
-                                {{ __('Return to Dashboard') }}
+                            <a type="submit" class="btn btn-primary" href="/">                
+                                {{ __('Return to Home') }}
                                 </a>
                         </div>    
                     </div> 
