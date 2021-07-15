@@ -5,7 +5,7 @@
         margin-bottom: 10px;
     }
     table {
-        width: 70%;
+        width: 80%;
         border-collapse: collapse;
     }
     th, td {
@@ -27,7 +27,7 @@
 
 @section('content')
 
-    <div class="pageContent">
+    <div class="container pageContent">
         <h1>
             Running Games
         </h1>
@@ -47,7 +47,7 @@
             @foreach ($games as $game)
                 <tr>
                     <td>
-                        <div class="actions-entered"><input class="actions-entered" type="checkbox" value="" id="actionsEntered" disabled></div>
+                        <input class="actions-entered" type="checkbox" value="" id="actionsEntered" disabled>
                     </td>
                     <td>{{$game->name}}</th>
                     <td>{{$knights->where('game_id', $game->_id)->pluck('name')->first()}}</th>
@@ -55,13 +55,13 @@
                     <td>{{$game->type}}</th>
                     <td>{{$game->noPlayers}}</th>
                     <td>{{$game->resetDate}}</th>
-                    <th><a href="#">Placeholder Link</a></th>
+                    <th><a href="/insert-weekly-actions">Placeholder Link</a></th>
                     <th><a href="#">Placeholder Link</a></th>
                 </tr>
             @endforeach
         </table>
 
-        <a class="btn btn-primary" type="button" href="/create-group">{{ __('Create Group') }}</a>
+        <a class="btn btn-primary mt-2 mb-5" type="button" href="/create-group">{{ __('Create Group') }}</a>
 
         <h1>
             Characters
@@ -94,7 +94,7 @@
             @endforeach
         </table>
 
-        <a class="btn btn-primary" type="button" href="#">{{ __('Create Character') }}</a>
+        <a class="btn btn-primary mt-2" type="button" href="#">{{ __('Create Character') }}</a>
     </div>
 
 @endsection

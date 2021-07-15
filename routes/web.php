@@ -35,6 +35,10 @@ Route::get('/handbook', function () {
     return view('homepage.handbook');
 });
 
+Route::get('/insert-weekly-actions', function () {
+    return view('user.insert_weekly_actions');
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
