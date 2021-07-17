@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
             ); 
         });
 
+        $games->each(function ($games) {
+            $games->gameMaster = $games->users->random();
+        });
+
         \App\Models\User::all()->each(function ($user) {
             $knights = \App\Models\Knight::all();
             $filteredKnights = $knights->filter(function ($value, $key) {

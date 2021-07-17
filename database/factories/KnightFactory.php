@@ -24,6 +24,7 @@ class KnightFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'level' => $this->faker->randomDigit(),
+            'pronoun' => $this->faker->randomElements(['he/him', 'she/her', 'they/them']),
             'chivalryPoints' => $this->faker->biasedNumberBetween(1, 20, function($x) { return 1 - sqrt($x); }),
             'strength' => $this->faker->numberBetween(3, 18),
             'dexterity' => $this->faker->numberBetween(3, 18),
