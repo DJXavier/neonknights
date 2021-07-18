@@ -21,12 +21,16 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::all()->each(function ($user) use ($games) { 
             $user->games()->attach(
-                $games->random(rand(1, 3))->pluck('id')->toArray()
+                $games->random(rand(1, 4))->pluck('id')->toArray()
             ); 
         });
 
         $games->each(function ($games) {
             $games->gameMaster = $games->users->random();
+            
+            $inv = $games->invited;
+            array_splice($inv, 0, ($games->noPlayers - $games->users->count()));
+            $games->invited = $inv;
         });
 
         \App\Models\User::all()->each(function ($user) {

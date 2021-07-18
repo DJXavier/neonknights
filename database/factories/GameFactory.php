@@ -24,9 +24,26 @@ class GameFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'type' => $this->faker->randomElement(array('Adventure', 'Campaign')),
-            'noPlayers' => $this->faker->numberBetween(1, 14),
+            'noPlayers' => $this->faker->numberBetween(4, 12),
             'currentRound' => $this->faker->numberBetween(1, 4),
             'resetDate' => 'Thursday',
         ];
+    }
+
+    public function configure() {
+        $generator = $this->faker;
+
+        return $this->aftermaking(function(Game $game) {
+
+        })->afterCreating(function(Game $game) use ($generator) {
+            $invited = [];
+
+            for ($i = 0; $i < $game->noPlayers; $i++) {
+                array_push($invited, $generator->unique()->safeEmail());
+            }
+
+            $game->invited = $invited;
+            $game->save();
+        });
     }
 }
