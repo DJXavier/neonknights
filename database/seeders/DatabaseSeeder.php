@@ -25,12 +25,17 @@ class DatabaseSeeder extends Seeder
             ); 
         });
 
-        $games->each(function ($games) {
-            $games->gameMaster = $games->users()->inRandomOrder()->first();
+        sleep(10);
+
+        \App\Models\Game::all()->each(function ($game) {
+            $gameMaster = $game->users()->get()->first();
+            $game->gameMaster = $gameMaster->id;
             
-            $inv = $games->invited;
-            array_splice($inv, 0, ($games->noPlayers - $games->users()->count()));
-            $games->invited = $inv;
+            $inv = $game->invited;
+            array_splice($inv, 0, ($game->users()->count()));
+            $game->invited = $inv;
+
+            $game->save();
         });
 
         \App\Models\User::all()->each(function ($user) {
