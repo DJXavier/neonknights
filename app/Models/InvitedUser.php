@@ -11,6 +11,6 @@ class InvitedUser extends Eloquent
     protected $collection = 'invited_user';
 
     protected $fillable = [
-        'gameId','email'
+        'player1'
     ];
 }

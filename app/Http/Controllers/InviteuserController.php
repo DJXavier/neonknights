@@ -1,48 +1,41 @@
 <?php
-
 namespace App\Http\Controllers;
+use App\Models\GameProperty;
+use Illuminate\Http\Request;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-use App\Models\Game;
-use App\Models\User;
+    class InviteuserController extends Controller{
+        /**
+         * Create a new controller instance.
+         *
+         * @return void
+         */
+        public function __construct()
+        {
+            $this->middleware('auth');
+        }
 
-class GameInvite extends Mailable
-{
-    use Queueable, SerializesModels;
-
-    protected $game;
-    protected $gameMaster;
-    protected $recipient;
-
-
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct(Game $game, User $gameMaster, User $recipient = null)
+        /**
+         * Show the application dashboard.
+         *
+         * @return \Illuminate\Contracts\Support\Renderable
+         */
+    public function store(Request $request)
     {
-        $this->game = $game;
-        $this->gameMaster = $gameMaster;
-        $this->recipient = $recipient;
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->markdown('email.newgame', [
-            'masterHandle' => $this->gameMaster->name,
-            'gameName' => $this->game->name,
-            'gameLink' => url('/knight/create/' . $this->game->id),
-            'recipientHandle' => $this->recipient?->name,
-
+        $request->validate([
+            'inviteemail'=>'required',
+        ],
+        [
+            'inviteemail.required' => 'Please type the E-mail address.'
         ]);
+
+
+        $gameProperty = new GameProperty([
+            'user_array' => $request -> get('inviteemail')
+        ]);
+
+        $gameProperty -> save();
+
+        return redirect('/');
     }
 }
+?>

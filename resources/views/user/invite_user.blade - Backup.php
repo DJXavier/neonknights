@@ -34,37 +34,26 @@
                             <?php 
                                 $count =$gameProperties->where('_id',session()->get('curId'))->pluck('noPlayers');
                                 
-                                if($count[0] != '0'){
-                                   // echo $count[0]; 
+                                if($count[0] == '3'){
+                                    //echo $count[0]; 
                                 }
                                 session()->put('playerCount',$count[0]);
                             ?> 
 
                         </div>
-                    </form>
 
-                    <form action="{{route('invite.propertySubmit')}}" method="POST">
-                        @csrf 
-                        @foreach ($errors->all() as $error)
-                            <p class="text-danger">{{ $error }}</p>
-                        @endforeach 
-                        <?php 
-                            $thisId = session()->get('curId');
-                            echo '<input value ="' . $thisId . '"' . 'type="hidden" name="thisId" id="thisId">';
-                        ?>
                         <div class="form-group row">
                             <label for="playerEmails" class="col-md-4 col-form-label text-md-right">Player Emails</label>
-                            
+
                             <div class="col-md-6"  >
+       
                                 <?php 
-                                    for($i = 1; $i < session()->get('playerCount'); $i++){
-                                        echo $i;
-                                        echo '.';
-                                        echo '<input value="" type="display" name="player'. $i . '"' . 'id="player' . $i .'"><br></br>'; 
+                                    for($i = 0; $i < session()->get('playerCount'); $i++){
+                                        echo '<input value="" type="display" id =player' . $i .'>'; 
                                     }
-                                ?> 
-                            </div>    
-                            
+                                ?>
+
+                            </div>
                         </div>
 
 
@@ -73,7 +62,6 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Invite Now') }}
                                 </button>
-                                 
                             </div>
                         </div>
 
