@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
         });
 
         $games->each(function ($games) {
-            $games->gameMaster = $games->users->random();
+            $games->gameMaster = $games->users()->inRandomOrder()->first();
             
             $inv = $games->invited;
-            array_splice($inv, 0, ($games->noPlayers - $games->users->count()));
+            array_splice($inv, 0, ($games->noPlayers - $games->users()->count()));
             $games->invited = $inv;
         });
 
