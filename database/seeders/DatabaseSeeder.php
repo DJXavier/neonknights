@@ -17,12 +17,23 @@ class DatabaseSeeder extends Seeder
         \App\Models\Game::factory(10)->create();
         \App\Models\Knight::factory(30)->create();
 
-        $games = \App\Models\Game::all();
+        $users = \App\Models\User::all();
 
-        \App\Models\User::all()->each(function ($user) use ($games) { 
-            $user->games()->attach(
-                $games->random(rand(1, 3))->pluck('id')->toArray()
+        \App\Models\Game::all()->each(function ($game) use ($users) { 
+            $game->users()->attach(
+                $users->random(rand(1, 4))->pluck('id')->toArray()
             ); 
+        });
+
+        \App\Models\Game::all()->each(function ($game) {
+            $gameMaster = $game->users()->get()->first();
+            $game->gameMaster = $gameMaster->id;
+            
+            $inv = $game->invited;
+            array_splice($inv, 0, ($game->users()->count()));
+            $game->invited = $inv;
+
+            $game->save();
         });
 
         \App\Models\User::all()->each(function ($user) {
