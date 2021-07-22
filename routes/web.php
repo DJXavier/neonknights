@@ -49,6 +49,14 @@ Route::get('/invite-user', function () {
     return view('user.invite_user');
 });
 
+Route::get('/invitationEmail', function () {
+    return view('emails.invitationEmail');
+});
+Route::get('/invite-successful', function () {
+    return view('user.invite_successful');
+});
+
+
 
 
 
@@ -61,5 +69,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::post('/changepassword', 'ChangePasswordController@store')->name('change.password');
 Route::post('/create-group', 'CreateGroupController@store')->name('game.property');
 Route::get('/invite-user','InviteController@index')->name('invite.property');
-Route::post('/invite-user-submit','InviteController@update')->name('invite.propertySubmit');
+Route::post('/invite-successful','InviteController@update')->name('invite.propertySubmit');
 

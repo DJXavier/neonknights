@@ -7,7 +7,7 @@
     }
 </style>
 
-<title>Create Group</title>
+<title>Invite Players</title>
 
 @section('content')
 <div class="container">
@@ -20,9 +20,9 @@
                     <form action="{{ route('invite.property') }}" method="GET">
 
                         @csrf 
-                        @foreach ($errors->all() as $error)
+                        <!-- @foreach ($errors->all() as $error)
                             <p class="text-danger">{{ $error }}</p>
-                        @endforeach 
+                        @endforeach  -->
                         @if(session()->get('curId') != "0")
                             {{'Game id is:'}}
                             {{ $gameProperties->where('_id',session()->get('curId'))->pluck('id')[0]}}
@@ -71,7 +71,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Invite Now') }}
+                                    {{ __('Confirm') }}
                                 </button>
                                  
                             </div>

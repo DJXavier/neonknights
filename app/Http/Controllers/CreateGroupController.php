@@ -59,7 +59,6 @@
             ]);
     
             
-            //return Redirect::to('changePassword',compact('message'));
             $gameProperty->save();
             session()->remove('curId');
             session()->put('curId', $gameProperty->_id);

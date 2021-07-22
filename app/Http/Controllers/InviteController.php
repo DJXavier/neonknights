@@ -5,8 +5,13 @@
     use Illuminate\Http\Request;
     use Carbon\Carbon;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Mail\Mailable;
+    use Mail;
+    use App\Mail\GameInvite;
+
 
     class InviteController extends Controller{
+        
         /**
          * Create a new controller instance.
          *
@@ -33,36 +38,31 @@
         public function update(Request $request)
         {
             $gameProperty= GameProperty::find($request->get('thisId'));
-            
-            //array_push($gameProperty->user_array,$request->get('player1'));
-            //$gameProperty->user_array = $request->get('player1');   
+            $emailList = array();
+           
             for($k = 1; $k < $gameProperty->noPlayers; $k++){
                 $tempName = 'player' . $k;
+                $request->validate([
+                    $tempName=>'required|email'
+                ]);
                 $gameProperty->user_array = $gameProperty->user_array.','.$request->get($tempName);
+                array_push($emailList,$request->get($tempName));
+                
             }
             
-           // $request->input($gameProperty->user_array.','.$request->get('player1'));     
             $gameProperty->save();
-            return redirect('/')->with('success', 'game property has been successfully update');
+            
+            $gameProperty = GameProperty::findOrFail($request->get('thisId'));
+            foreach ($emailList as $recipient) {
+                Mail::to($recipient)->send(new GameInvite($gameProperty));
+            }
+            //now we want to mail to those emails
+            //To retrieve emails, just use $emaisToSentList
+            //eg: $emaisToSentList[0], $emaisToSentList[1], according to for your self-made for loop
+
+            return redirect('/invite-successful')->with('success', 'game property has been successfully update');
         }
 
-        public function store(Request $request)
-        {
-            $request->validate([
-                'user_array'=>'required',
-            ],
-            [
-                'user_array' => 'Please type the E-mail address.'
-            ]);
-
-
-            $gameProperty = new InvitedUser([
-                'user_array' => $request -> get('player1')
-            ]);
-
-            $invitedUser -> save();
-
-            return redirect('/');
-        }
+        
     }
 ?>
