@@ -5,17 +5,27 @@
         margin-bottom: 10px;
     }
     table {
-        width: 80%;
+        width: 100%;
+        height: 250px;
         border-collapse: collapse;
     }
     th, td {
         padding: 5px;
     }
-    .pageContent {
-        padding-left: 30px;
-    }
     a.btn {
         margin-bottom: 10px;
+    }
+    .scroll-table {
+        overflow-y :scroll;
+    }
+    .wd-75 {
+        width: 75px;
+    }
+    .wd-100 {
+        width: 100px;
+    }
+    .wd-125 {
+        width: 125px;
     }
 </style>
 <title>Display Characters</title>
@@ -27,21 +37,23 @@
 
 @section('content')
 
-    <div class="container pageContent">
+    <div class="container">
         <h1>
             Running Games
         </h1>
+        <div class="scroll-table">
         <table>
             <tr>
-                <th>Actions Entered</th>
+                <th class="wd-75">Actions Entered</th>
                 <th>Group Name</th>
                 <th>Character</th>
                 <th>Current Round</th>
                 <th>Type</th>
                 <th>No. of Players</th>
                 <th>Reset Date</th>
-                <th>(Re)Select Weekly Actions</th>
-                <th>Group Forum</th>
+                <th class="wd-125">(Re)Select Weekly Actions</th>
+                <th class="wd-100">Group Forum</th>
+                <th class="wd-100">Manage Group</th>
             </tr>
 
             @foreach ($games as $game)
@@ -55,11 +67,13 @@
                     <td>{{$game->type}}</th>
                     <td>{{$game->noPlayers}}</th>
                     <td>{{$game->resetDate}}</th>
-                    <th><a href="/insert-weekly-actions">Placeholder Link</a></th>
-                    <th><a href="#">Placeholder Link</a></th>
+                    <td><a class="btn btn-sm btn-secondary my-0" type="button" href="/insert-weekly-actions">Placeholder Link</a></td>
+                    <td><a class="btn btn-sm btn-secondary my-0" type="button" href="#">Placeholder Link</a></td>
+                    <td><a class="btn btn-sm btn-secondary my-0" type="button" href="group-management/{{$game->id}}">Manage Group</a></td>
                 </tr>
             @endforeach
         </table>
+        </div>
 
         <a class="btn btn-primary mt-2 mb-5" type="button" href="/create-group">{{ __('Create Group') }}</a>
 

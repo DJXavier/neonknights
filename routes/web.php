@@ -39,6 +39,10 @@ Route::get('/insert-weekly-actions', function () {
     return view('user.insert_weekly_actions');
 });
 
+Route::get('/group-management/{game_id}', function ($game_id) {
+    return view('user.group_management', ['gameId' => $game_id]);
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
