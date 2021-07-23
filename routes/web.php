@@ -27,6 +27,15 @@ Route::get('/handbook', function () {
     return view('homepage.handbook');
 });
 
+Route::get('/changepassword', function () {
+    return view('auth.changePassword'); 
+});
+
+Route::get('/changePasswordSuccessfully', function(){
+    return view('auth.changePasswordSuccessfully');
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/changepassword', [App\Http\Controllers\ChangePasswordController::class, 'store'])->name('change.password');
