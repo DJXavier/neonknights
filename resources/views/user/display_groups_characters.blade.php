@@ -96,7 +96,7 @@
             @foreach ($knights as $knight)
                 <tr>
                     <td>{{$knight->name}}</th>
-                    <td>Sample Pronouns</th>
+                    <td>{{$knight->pronoun}}</th>
                     <td>{{$knight->strength}}</th>
                     <td>{{$knight->dexterity}}</th>
                     <td>{{$knight->constitution}}</th>

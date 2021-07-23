@@ -51,8 +51,8 @@
 
                             @foreach ($game->user_ids as $user)
                             <tr>
-                                <td>{{$game->users()->where('_id', $user)->pluck('email')}}</td>
-                                <td>Test</td>
+                                <td>{{$game->users()->where('_id', $user)->pluck('email')->first()}}</td>
+                                <td></td>
                             </tr>
                             @endforeach
                         </table>
