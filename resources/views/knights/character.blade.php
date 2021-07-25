@@ -71,7 +71,8 @@ function rollConstitution() {
                 <div class="card-body ">
                 
                     <br>
-                    <form action="" method="POST">
+                    <form action="{{ route('knight.store') }}" method="POST">
+                        @csrf
                         <div class="form-group row text-white">
                             <label for="knight" class="col-md-4 col-form-label text-md-right">{{ __('Knight Name') }} </label>
                             <div class="col-md-6"> 

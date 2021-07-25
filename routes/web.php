@@ -36,3 +36,4 @@ Route::get('/character', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/knight', [App\Http\Controllers\KnightController::class, 'store'])->name('knight.store');
