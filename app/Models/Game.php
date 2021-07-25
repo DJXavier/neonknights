@@ -8,6 +8,11 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Game extends Model
 {
     use HasFactory;
+    protected $connection = 'mongodb';
+    protected $collection = 'games';
+    protected $fillable = [
+        'name','type','noPlayers','currentRound','resetDate','invited','user_ids','gameMaster'
+    ];
 
     /* public function getAttribute($key) {
         if (array_key_exists($key, $this->attributes)) {

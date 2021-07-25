@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\GameProperty;
+use App\Models\Game;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,7 +14,7 @@ class GameInvite extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $gameProperty;
+    protected $game;
    
 
 
@@ -23,9 +23,9 @@ class GameInvite extends Mailable
      *
      * @return void
      */
-    public function __construct(GameProperty $gameProperty)
+    public function __construct(Game $game)
     {
-        $this->gameProperty = $gameProperty;
+        $this->game = $game;
         
     }
 
@@ -38,7 +38,7 @@ class GameInvite extends Mailable
     {
         return $this->markdown('emails.invitationEmail', [
            
-            'gameName' => $this->gameProperty->name,
+            'gameName' => $this->game->name,
             'gameLink' => url('/'),
             
         ]);

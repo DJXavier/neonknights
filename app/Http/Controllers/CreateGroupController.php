@@ -1,6 +1,6 @@
 <?php
     namespace App\Http\Controllers;
-    use App\Models\GameProperty;
+    use App\Models\Game;
     use Illuminate\Http\Request;
     use Carbon\Carbon;
     use Illuminate\Support\Facades\Auth;
@@ -23,8 +23,8 @@
          */
         public function index()
         {
-            $gameProperty = GameProperty::all();
-            return view('user.create-group')->with('gameProperties',$gameProperty);
+            $game = Game::all();
+            return view('user.create-group')->with('game',$game);
 
             //return view('create-group',compact('gameProperty','gameProperty'));
         } 
@@ -40,7 +40,8 @@
             $request->validate([
                 'name'=>'required|Min:5|Max:20|',
                 'type'=> 'required',
-                'noPlayers' => 'required'
+                'noPlayers' => 'required',
+                
             ],
             [
                 'name.required' => 'Game Name is required. (At least 5 letters and no more than 20 letters)',
@@ -48,20 +49,23 @@
                 'noPlayers.required' => 'You need to select Number of players.'
             ]);
             
-    
-            $gameProperty = new GameProperty([
+            //this happens when creating new game
+            //below stats will be stored
+            $game = new Game([
                 'name' => $request->get('name'),
                 'type'=> $request->get('type'),
                 'noPlayers'=> $request->get('noPlayers'),
-                'dayOfWeek' => Carbon::parse(now())->format('l'),
-                'user_array' => Auth::user()->email
-
+                'currentRound'=> 1,
+                'resetDate' => Carbon::parse(now())->format('l'),
+                'invited' => array(),
+                'user_ids' => array(),
+                'gameMaster' => Auth::user()->_id
             ]);
     
             
-            $gameProperty->save();
+            $game->save();
             session()->remove('curId');
-            session()->put('curId', $gameProperty->_id);
+            session()->put('curId', $game->_id);
             return redirect('/invite-user');
         }
  

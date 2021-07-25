@@ -1,7 +1,8 @@
 <?php
     namespace App\Http\Controllers;
     use App\Models\InvitedUser;
-    use App\Models\GameProperty;
+    use App\Models\Game;
+    use App\Models\User;
     use Illuminate\Http\Request;
     use Carbon\Carbon;
     use Illuminate\Support\Facades\Auth;
@@ -29,37 +30,42 @@
          */
         public function index(Request $request)
         {
-            $gameProperty = GameProperty::all();
+            $game = Game::all();
            
-            return view('user.invite_user')->with('gameProperties',$gameProperty);
+            return view('user.invite_user')->with('game',$game);
            
-        } 
+        }
+        
 
         public function update(Request $request)
         {
-            $gameProperty= GameProperty::find($request->get('thisId'));
+            $game= Game::find($request->get('thisId'));
+            //using a local variable emailList 
             $emailList = array();
-           
-            for($k = 1; $k < $gameProperty->noPlayers; $k++){
+            $curGameMaster = User::findOrFail($game->gameMaster);
+            //pushing in current game master into the email list first 
+            array_push($emailList,$curGameMaster->email);
+
+            //then looping through all players from input field
+            for($k = 1; $k < $game->noPlayers; $k++){
                 $tempName = 'player' . $k;
                 $request->validate([
                     $tempName=>'required|email'
                 ]);
-                $gameProperty->user_array = $gameProperty->user_array.','.$request->get($tempName);
                 array_push($emailList,$request->get($tempName));
-                
             }
-            
-            $gameProperty->save();
-            
-            $gameProperty = GameProperty::findOrFail($request->get('thisId'));
-            foreach ($emailList as $recipient) {
-                Mail::to($recipient)->send(new GameInvite($gameProperty));
-            }
-            //now we want to mail to those emails
-            //To retrieve emails, just use $emaisToSentList
-            //eg: $emaisToSentList[0], $emaisToSentList[1], according to for your self-made for loop
+            //fiannly make invited field in game collection equals to emaillist contents
+            $game->invited = $emailList;
 
+            $game->save();
+            
+            $game = Game::findOrFail($request->get('thisId'));
+            //now we sent mail to those emails
+            foreach ($emailList as $recipient) {
+                Mail::to($recipient)->send(new GameInvite($game));
+            }
+            
+            
             return redirect('/invite-successful')->with('success', 'game property has been successfully update');
         }
 

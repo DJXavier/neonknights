@@ -25,14 +25,14 @@
                         @endforeach  -->
                         @if(session()->get('curId') != "0")
                             {{'Game id is:'}}
-                            {{ $gameProperties->where('_id',session()->get('curId'))->pluck('id')[0]}}
+                            {{ $game->where('_id',session()->get('curId'))->pluck('id')[0]}}
                             <br>
                         @endif
 
                         <div class="form-group row">
                         
                             <?php 
-                                $count =$gameProperties->where('_id',session()->get('curId'))->pluck('noPlayers');
+                                $count =$game->where('_id',session()->get('curId'))->pluck('noPlayers');
                                 
                                 if($count[0] != '0'){
                                    // echo $count[0]; 
