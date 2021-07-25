@@ -37,3 +37,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/knight', [App\Http\Controllers\KnightController::class, 'store'])->name('knight.store');
+
+Route::get('/display-groups-characters', function () {
+    return view('user.display_groups_characters');
+});
