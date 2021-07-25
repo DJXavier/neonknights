@@ -41,3 +41,9 @@ Route::post('/knight', [App\Http\Controllers\KnightController::class, 'store'])-
 Route::get('/display-groups-characters', function () {
     return view('user.display_groups_characters');
 });
+
+Route::get('/create-group', function () {
+    return view('user.create_group');
+});
+
+Route::post('/game', [App\Http\Controllers\GameController::class, 'store'])->name('game.store');
