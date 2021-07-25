@@ -10,6 +10,8 @@ class InvitationStatus extends Component {
     }
 
     render() {
+        axios.get('/game').then()
+
         if ()
 
         return {
