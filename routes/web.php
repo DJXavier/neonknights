@@ -27,8 +27,8 @@ Route::get('/handbook', function () {
     return view('homepage.handbook');
 });
 
-Route::get('/character', function () {
-    return view('knights.character');
+Route::get('/character/create/{gameId}', function ($gameId) {
+    return view('knights.character', ['id' => $gameId]);
 });
 
 
@@ -49,6 +49,10 @@ Route::get('/create-group', function () {
 Route::get('/invite/create', function () {
     return view('user.invite_user');
 })->name('invite.create');
+
+Route::get('/invite-successful', function () {
+    return view('user.invite_successful');
+});
 
 Route::post('/game', [App\Http\Controllers\GameController::class, 'store'])->name('game.store');
 Route::post('/invite/{game_id}',[App\Http\Controllers\InviteController::class, 'update'])->name('invite.update');

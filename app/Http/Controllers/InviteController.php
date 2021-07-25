@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InviteController extends Controller
 {
@@ -49,8 +50,10 @@ class InviteController extends Controller
                 $game->invited = $invited;
                 $game->save();
             }
-        }
 
-        dd($game);
+            Mail::to($email)->send(new \App\Mail\GameInvite($game));
+        }
+        
+        return redirect('/invite-successful');
     }
 }
