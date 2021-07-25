@@ -57,7 +57,7 @@ class GameController extends Controller
 
         $userId = auth()->user()->id;
         
-        /* auth()->user()->games()->create([
+        $test = auth()->user()->games()->create([
             'name' => $request['name'],
             'type' => $request['type'],
             'noPlayers' => $request['noPlayers'],
@@ -65,11 +65,12 @@ class GameController extends Controller
             'resetDay' => "Thursday",
             'invited' => array(),
             'gameMaster' => $userId,
-        ]); */
+        ])->id;
 
         $returnData = [
             'gameName' => $request['name'],
             'noPlayers' => $request['noPlayers'],
+            'id' => $test,
         ];
 
         return view('user.invite_user')->with($returnData);

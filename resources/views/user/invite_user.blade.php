@@ -29,7 +29,7 @@
                         </div>
                     </form>
 
-                    <form action="/invite/check" method="POST">
+                    <form action="/invite/{{$id}}" method="POST">
                         @csrf 
                         @foreach ($errors->all() as $error)
                             <p class="text-danger">{{ $error }}</p>
@@ -50,23 +50,15 @@
                                     }
                                 ?> 
                             </div>    
-                            
                         </div>
-
-
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Confirm') }}
                                 </button>
-                                 
                             </div>
                         </div>
-
                     </form>
-                    
-
-                    
                 </div>
             </div>
         </div>
