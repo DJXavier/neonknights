@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    body {
+        background-color: #080325e6;
+    }
+</style>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -74,4 +80,5 @@
         </div>
     </div>
 </div>
+<br><br><br>
 @endsection
