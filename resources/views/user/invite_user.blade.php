@@ -21,7 +21,7 @@
 
                         @csrf 
                         
-                        {{'Game is: '}} {{ $gameName }}
+                        {{'Game is: '}} {{ session('gameName') }}
                         <br>
 
                         <div class="form-group row">
@@ -29,21 +29,22 @@
                         </div>
                     </form>
 
-                    <form action="/invite/{{$id}}" method="POST">
+                    <form action="/invite/{{session('id')}}" method="POST">
                         @csrf 
                         @foreach ($errors->all() as $error)
                             <p class="text-danger">{{ $error }}</p>
                         @endforeach 
                         <?php 
-                            $thisId = $gameName;
+                            $thisId = session('id');
                             echo '<input value ="' . $thisId . '"' . 'type="hidden" name="thisId" id="thisId">';
+                            echo '<input value ="' . session('noPlayers') . '"' . 'type="hidden" name="players" id="players">';
                         ?>
                         <div class="form-group row">
                             <label for="playerEmails" class="col-md-4 col-form-label text-md-right">Player Emails</label>
                             
                             <div class="col-md-6"  >
                                 <?php 
-                                    for($i = 1; $i < $noPlayers; $i++){
+                                    for($i = 1; $i < session('noPlayers'); $i++){
                                         echo $i;
                                         echo '.';
                                         echo '<input value="" type="display" name="player'. $i . '"' . 'id="player' . $i .'"><br></br>'; 

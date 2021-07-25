@@ -46,5 +46,9 @@ Route::get('/create-group', function () {
     return view('user.create_group');
 });
 
+Route::get('/invite/create', function () {
+    return view('user.invite_user');
+})->name('invite.create');
+
 Route::post('/game', [App\Http\Controllers\GameController::class, 'store'])->name('game.store');
 Route::post('/invite/{game_id}',[App\Http\Controllers\InviteController::class, 'update'])->name('invite.update');

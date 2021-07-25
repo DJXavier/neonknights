@@ -67,13 +67,13 @@ class GameController extends Controller
             'gameMaster' => $userId,
         ])->id;
 
-        $returnData = [
+        session([
             'gameName' => $request['name'],
             'noPlayers' => $request['noPlayers'],
             'id' => $test,
-        ];
+        ]);
 
-        return view('user.invite_user')->with($returnData);
+        return redirect()->route('invite.create');
     }
 
     /**
