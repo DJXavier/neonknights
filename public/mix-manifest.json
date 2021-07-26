@@ -1,4 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/css/youplay-rtl.css": "/css/youplay-rtl.css",
+    "/css/youplay-light.css": "/css/youplay-light.css",
+    "/css/youplay-anime.css": "/css/youplay-anime.css",
+    "/css/youplay.css": "/css/youplay.css",
+    "/css/youplay-shooter.css": "/css/youplay-shooter.css"
 }

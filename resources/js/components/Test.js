@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import dice from "../1.png";
+//import dice from "../1.png";
 class Test extends Component {
     render() {
         return (
