@@ -11,6 +11,9 @@
     th, td {
         padding: 5px;
     }
+    .cell_fill {
+        background-color: black;
+    }
 </style>
 <title>Group Management</title>
 
@@ -22,36 +25,36 @@
     <div class="container">
         <div class="card">
             <label class="card-header">Group Management: {{$game->name}}</label>
-                <div class="card-body">
-                    <div class="row">
-                        <form method="POST" action="{{ route('game.update') }}">
-                            @csrf
-                            <div class="col-md-2">
-                                <h3>Size</h3>
-                                <div class>
-                                    <label for="update_size">Update Size:</label>
-                                    <input id="update_size" type="number" class="form-control" min="4" max="12" value='{{$game->noPlayers}}'/>
-                                </div>
-                                <button type="submit" class="btn btn-primary mt-3" type="button" id="update">Update Size</button>
-                            </div>
-                        </form>
-                        <form method="POST" action="{{ route('invite.property') }}">
-                            @csrf
-                            <div class="col-md-4">
-                                <h3>Send Invite</h3>
-                                <div>
-                                    <label for="email">Email:</label>
-                                    <input id="email" type="text" class="form-control" name="email" />
-                                </div>
-                                <button class="btn btn-primary mt-3" type="submit" id="send">Send Invitation</button>
-                            </div>
-                        </form>
+            <div class="card-body">
+                <div class="row">
+                    
+                    <div class="col-md-2">
+                        <h3>Size</h3>
+                        <div class>
+                            <label for="update_size">Update Size:</label>
+                            <input id="update_size" type="number" class="form-control" min="4" max="12" value='{{$game->noPlayers}}'/>
+                        </div>
+                        <a class="btn btn-primary mt-3" type="button" href="#">Update Size</a>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>Send Invite</h3>
+                        <div>
+                            <label for="email">Email:</label>
+                            <input id="email" type="text" class="form-control" name="email" />
+                        </div>
+                        <a class="btn btn-primary mt-3" type="button" href="#">Send Invitation</a>
+                    </div>
                     <div class="col-md-6">
-                        <h1>Invitation List</h1>
+                        <h1>User List</h1>
                         <table>
                             <tr>
                                 <th>Email</th>
                                 <th>Invite Status</th>
+                            </tr>
+
+                            <tr>
+                                <td>{{$game->users()->where('_id', $game->gameMaster)->pluck('email')->first()}}</td>
+                                <td class="cell_fill"></td>
                             </tr>
 
                             @foreach ($game->user_ids as $user)
@@ -66,13 +69,18 @@
                                 else
                                 {
                                     $status = "Accepted";
-                                }?>
+                                }
+                                
+                                if ($user != $game->gameMaster)
+                                {
+                                ?>
 
                                 <tr>
                                     <td>{{$game->users()->where('_id', $user)->pluck('email')->first()}}</td>
                                     <td>{{$status}}</td>
                                 </tr>
 
+                                <?php } ?>
                             @endforeach
 
                             @foreach ($game->invited as $user)
