@@ -56,3 +56,13 @@ Route::get('/invite-successful', function () {
 
 Route::post('/game', [App\Http\Controllers\GameController::class, 'store'])->name('game.store');
 Route::post('/invite/{game_id}',[App\Http\Controllers\InviteController::class, 'update'])->name('invite.update');
+
+Route::post('/changepassword', [App\Http\Controllers\ChangePasswordController::class, 'store'])->name('change.password');
+
+Route::get('/changepassword', function () {
+    return view('auth.changePassword'); 
+});
+
+Route::get('/changePasswordSuccessfully', function(){
+    return view('auth.changePasswordSuccessfully');
+});
