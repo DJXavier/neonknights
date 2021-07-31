@@ -70,12 +70,17 @@ function rollConstitution() {
         <div class="row justify-content-center">
         <div class="col-md-8">
         <div class="card">
+                        @foreach ($errors->all() as $error)
+                            <p class="text-danger">{{ $error }}</p>
+                         @endforeach 
             <div class="card-header">{{ __('Knight Creation')}}</div>
                 <div class="card-body ">
                 
                     <br>
                     <form action="{{ route('knight.store') }}" method="POST">
                         @csrf
+                        <input type="hidden" value="{{ $id }}" name="gameId" >
+
                         <div class="form-group row text-white">
                             <label for="knight" class="col-md-4 col-form-label text-md-right">{{ __('Knight Name') }} </label>
                             <div class="col-md-6"> 
