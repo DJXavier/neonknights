@@ -25,9 +25,9 @@ class ChangePasswordController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function changePassword()
     {
-        return view('changePassword');
+        return view('auth.changePassword');
     } 
 
     /**
