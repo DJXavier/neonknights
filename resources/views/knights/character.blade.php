@@ -8,6 +8,7 @@ function rollStrength() {
     var roll3 = Math.floor(Math.random() * 6) + 1;
     var total = roll1 + roll2 + roll3;
     document.getElementById("showStrength").innerHTML = total;
+    document.getElementById("strength").value = total;
     return total;
 }
 function rollDexterity() {
@@ -16,6 +17,7 @@ function rollDexterity() {
     var roll3 = Math.floor(Math.random() * 6) + 1;
     var total = roll1 + roll2 + roll3;
     document.getElementById("showDexterity").innerHTML = total;
+    document.getElementById("dexterity").value = total;
     return total;
 }
 function rollConstitution() {
@@ -24,6 +26,7 @@ function rollConstitution() {
     var roll3 = Math.floor(Math.random() * 6) + 1;
     var total = roll1 + roll2 + roll3;
     document.getElementById("showConstitution").innerHTML = total;
+    document.getElementById("constitution").value = total;
     return total;
 }
 
@@ -66,8 +69,8 @@ function rollConstitution() {
     <div class="container">
         <div class="row justify-content-center">
         <div class="col-md-8">
-        <div class="card text-white">
-            <div class="card-header text-white">{{ __('Knight Creation')}}</div>
+        <div class="card">
+            <div class="card-header">{{ __('Knight Creation')}}</div>
                 <div class="card-body ">
                 
                     <br>
@@ -105,7 +108,8 @@ function rollConstitution() {
                                 <i class="fa fa-fw fa-hand-grab-o fa-2x pb-3" style="color: #d92b4c"></i>
                             </div>
                             <div class="col">
-                                <input type="button" value="Roll Strength" style="width: 150px;" id="strength" name="strength" onclick="rollStrength(); this.onclick=null;">
+                                <input type="button" value="Roll Strength" style="width: 150px;" onclick="rollStrength(); this.onclick=null;">
+                                <input type="hidden" value="" id="strength" name="strength">
                                 <span class="offset-1" id= "showStrength"></span>
                             </div>
                         </div>
@@ -115,7 +119,8 @@ function rollConstitution() {
                                 <i class="fa fa-fw fa-eye fa-2x pb-3" style="color: #d92b4c"></i>
                             </div>
                             <div class="col">
-                                <input type="button" value="Roll Dexterity" style="width: 150px;" id="dexterity" name="dexterity" onclick="rollDexterity(); this.onclick=null;">
+                                <input type="button" value="Roll Dexterity" style="width: 150px;" onclick="rollDexterity(); this.onclick=null;">
+                                <input type="hidden" value="" id="dexterity" name="dexterity">
                                 <span class="offset-1" id= "showDexterity"></span>
                             </div>
                                 
@@ -126,7 +131,8 @@ function rollConstitution() {
                                 <i class="fa fa-fw fa-balance-scale fa-2x pb-3" style="color: #d92b4c"></i>
                             </div>
                             <div class="col">
-                                <input type="button" value="Roll Constitution" style="width: 150px;" id="constitution " name="constitution" onclick="rollConstitution(); this.onclick=null;">
+                                <input type="button" value="Roll Constitution" style="width: 150px;" onclick="rollConstitution(); this.onclick=null;">
+                                <input type="hidden" value="" id="constitution" name="constitution">
                                 <span class="offset-1" id= "showConstitution" ></span>
                             </div>
                         </div>
