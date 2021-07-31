@@ -1,27 +1,7 @@
-// Body
-$body-bg: #f8fafc;
-
-// Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
-
-// Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66d9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
-
 // theme colors
 $theme:                  dark !default;
-$main_color:             #d92b4c !default; // light
-$back_color:             #160962 !default; // dark
+$main_color:             #c9572a !default; // light
+$back_color:             #2b2b2b !default; // dark
 $back_darken_color:      darken($back_color, 13) !default; // darken
 $back_grey_color:        #30303d !default;
 $back_darken_grey_color: darken($back_grey_color, 10) !default;
@@ -42,17 +22,17 @@ $media-md:  "(min-width: 992px) and (max-width: 1199px)" !default;
 $media-lg:  "(min-width: 1200)" !default;
 
 // font
-$font_body: "Lato", sans-serif !default;
-$font_headings: "Lato", sans-serif !default;
-$body_letter_spacing: .06em !default;
+$font_body: "Open Sans", sans-serif !default;
+$font_headings: "Josefin Sans", sans-serif !default;
+$body_letter_spacing: normal !default;
 
 // skew size
-$skew_size: 7deg !default;
+$skew_size: 0 !default;
 
 // images opacity
-$banners_opacity: .5 !default;
-$images_opacity: .5 !default;
-$images_hover_opacity: .6 !default;
+$banners_opacity: .7 !default;
+$images_opacity: 1 !default;
+$images_hover_opacity: .7 !default;
 
 // navbar
 $navbar-height:    80px !default;
