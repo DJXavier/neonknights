@@ -43,7 +43,7 @@ class ChangePasswordController extends Controller
             'confirmed_password' => ['required', 'same:new_password'],
         ]);
 
-        Auth::user()->update(['password'=> Hash::make($request->new_password)]);
+        auth()->user()->update(['password'=> Hash::make($request->new_password)]);
 
         return redirect('changePasswordSuccessfully');
     }
