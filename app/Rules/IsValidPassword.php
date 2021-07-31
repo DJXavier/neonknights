@@ -43,16 +43,7 @@ class IsValidPassword implements Rule
      */
     public function message()
     {
-        $message = 'The :attribute must ';
-
-        if (!$this->lengthPasses)
-            $message .= 'must be at least 8 characters';
-        if (!$this->lengthPasses && !$this->numericPasses)
-            $message .= ' and ';
-        if (!$this->lengthPasses && !$this->numericPasses)
-            $message .= 'contain at least 1 number';
-
-        $message .= '.';
+        $message = 'The :attribute must be at least 8 characters and contain at least 1 number.';
 
         return $message;
     }
