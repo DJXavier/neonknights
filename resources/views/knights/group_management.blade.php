@@ -14,6 +14,9 @@
     .cell_fill {
         background-color: black;
     }
+    .wd-125 {
+        width: 125px;
+    }
 </style>
 <title>Group Management</title>
 
@@ -41,18 +44,22 @@
                     </div>
                     <div class="col-md-4">
                         <h3>Send Invite</h3>
-                        <div>
-                            <label for="email">Email:</label>
-                            <input id="email" type="text" class="form-control" name="email" />
-                        </div>
-                        <a class="btn btn-primary mt-3" type="button" href="#">Send Invitation</a>
+                        <form action="{{ route('invite.updateSingle') }}" method="POST">
+                            <div>
+                            @csrf
+                                <input id="thisId" name="thisId" type="hidden" value ="{{$gameId}}""/>
+                                <label for="email">Email:</label>
+                                <input id="email" name="email" type="text" class="form-control" value=""/>
+                            </div>
+                            <button class="btn btn-primary mt-3" type="submit">Send Invitation</button>
+                        </form>
                     </div>
                     <div class="col-md-6">
                         <h1>User List</h1>
                         <table>
                             <tr>
                                 <th>Email</th>
-                                <th>Invite Status</th>
+                                <th class="wd-125">Invite Status</th>
                             </tr>
 
                             <tr>

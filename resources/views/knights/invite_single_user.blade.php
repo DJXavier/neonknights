@@ -24,9 +24,10 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <label class="card-header">Group Management - Update Size: {{$game->name}}</label>
+            <label class="card-header">Group Management - Invite User: {{$game->name}}</label>
             <div class="card-body">
                 <p>{{session('updateMessage')}}</p>
+                <a class="btn btn-sm btn-secondary" type="button" href="/group-management/{{$game->id}}">Manage Group</a>
             </div>
         </div>
     </div>

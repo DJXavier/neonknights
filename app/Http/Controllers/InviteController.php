@@ -56,4 +56,35 @@ class InviteController extends Controller
         
         return redirect('/invite-successful');
     }
+
+    public function updateSingle(Request $request)
+    {
+        $maxGroupSize = 12;
+        $game = \App\Models\Game::FindOrFail($request['thisId']);
+
+        if ($request['email'] == '' || $request['email'] == null) {
+            $updateMessage = "Invalid input. Must enter an email.";
+        }
+        else if ($game->noPlayers == $maxGroupSize) {
+            $updateMessage = "Invite failed. Group is at max capacity of " . $maxGroupSize . ".";
+        }
+        else {
+            $users = \App\Models\User::All();
+            $player = $users->where('email', $request['email'])->first();
+            $game->increment('noPlayers');
+            if ($player != null) {
+                $game->users()->save($player);
+            } else {
+                $invited = $game->invited;
+                array_push($invited, $email);
+                $game->invited = $invited;
+                $game->save();
+            }
+            $updateMessage = "Group invite sent to " . $request['email'] . ".";
+
+            Mail::to($request['email'])->send(new \App\Mail\GameInvite($game));
+        }
+
+        return redirect('group-management/'.$game->id.'/invite-single-user')->with('updateMessage', $updateMessage);
+    }
 }

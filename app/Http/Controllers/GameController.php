@@ -116,9 +116,9 @@ class GameController extends Controller
         $game = \App\Models\Game::FindOrFail($request['gameId']);
 
         if ($request['size'] >= (sizeof($game->invited) + sizeof($game->user_ids))) {
-            $game->noPlayers=$request['size'];
+            $game->noPlayers=intval($request['size']);
             $game->save();
-            $updateMessage = "Group size udpated to " . $game->size . " players.";
+            $updateMessage = "Group size updated to " . $game->noPlayers. " players.";
         }
         else
         {
