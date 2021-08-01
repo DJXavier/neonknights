@@ -6,6 +6,23 @@ use Illuminate\Http\Request;
 
 class KnightController extends Controller
 {
+
+    private $pronouns = array(
+        'Male' => 'he/him',
+        'Female' => 'she/her',
+        'Them' => 'they/them',
+    );
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +51,35 @@ class KnightController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $characterAtt = $request->validate([
+            'gameId' => 'required',
+            'character' => 'required',
+            'gender' => 'required',
+            'strength' => 'required|gte:3|lte:18',
+            'dexterity' => 'required|gte:3|lte:18',
+            'constitution' => 'required|gte:3|lte:18',
+        ]);
+
+        $endurance = $characterAtt['strength'] + $characterAtt['constitution'];
+
+        $knight = auth()->user()->knights()->create([
+            'name' => $characterAtt['character'],
+            'level' => 1,
+            'pronoun' => $this->pronouns[$characterAtt['gender']],
+            'chivalryPoints' => 0,
+            'strength' => $characterAtt['strength'],
+            'dexterity' => $characterAtt['dexterity'],
+            'trainingDexterity' => 0,
+            'constitution' => $characterAtt['constitution'],
+            'maxEndurance' => $endurance,
+            'currentEndurance' => $endurance,
+            'trainingPoints' => 0,
+        ]);
+
+        $game = \App\Models\Game::Find($characterAtt['gameId']);
+        $game->knights()->save($knight);
+
+        return redirect()->route('home');
     }
 
     /**

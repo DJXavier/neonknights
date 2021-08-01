@@ -1,6 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
+
+<style>
+    body {
+        background-color: #080325e6;
+    }
+    h1 {
+        color: #ffffff;
+    }
+
+    h3 {
+        color: #ffffff;
+    }
+
+    div{
+        color: #ffffff;
+    }
+</style>
+
     <div class="container">
         <h2>Chivalry Points and Chivalry Level</h2>
         <p>
