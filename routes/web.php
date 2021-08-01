@@ -41,8 +41,14 @@ Route::get('/insert-weekly-actions', function () {
 
 Route::get('/group-management/{game_id}', function ($game_id) {
     return view('user.group_management', ['gameId' => $game_id]);
-});
+})->middleware('auth.gameMaster');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/group-management/update-group-size', [App\Http\Controllers\GameController::class, 'updateSize'])->name('game.update');
+    
+Route::get('/group-management/{game_id}/update-size', function ($game_id){
+    return view('user.update_size', ['gameId' => $game_id]);
+});

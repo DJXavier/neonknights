@@ -27,14 +27,17 @@
             <label class="card-header">Group Management: {{$game->name}}</label>
             <div class="card-body">
                 <div class="row">
-                    
                     <div class="col-md-2">
                         <h3>Size</h3>
-                        <div class>
-                            <label for="update_size">Update Size:</label>
-                            <input id="update_size" type="number" class="form-control" min="4" max="12" value='{{$game->noPlayers}}'/>
-                        </div>
-                        <a class="btn btn-primary mt-3" type="button" href="#">Update Size</a>
+                        <form action="{{ route('game.update') }}" method="POST">
+                            <div>
+                            @csrf
+                                <label for="size_label">Update Size:</label>
+                                <input id="gameId" name="gameId" type="hidden" value = "{{$gameId}}"/>
+                                <input id="size" name="size" type="number" class="form-control" min="4" max="12" value="{{$game->noPlayers}}"/>
+                            </div>  
+                            <button class="btn btn-primary mt-3" type="submit">Update Size</button>
+                        </form>
                     </div>
                     <div class="col-md-4">
                         <h3>Send Invite</h3>

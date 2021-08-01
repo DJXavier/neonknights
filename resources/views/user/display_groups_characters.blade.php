@@ -69,7 +69,13 @@
                     <td>{{$game->resetDate}}</th>
                     <td><a class="btn btn-sm btn-secondary my-0" type="button" href="/insert-weekly-actions">Placeholder Link</a></td>
                     <td><a class="btn btn-sm btn-secondary my-0" type="button" href="#">Placeholder Link</a></td>
-                    <td><a class="btn btn-sm btn-secondary my-0" type="button" href="group-management/{{$game->id}}">Manage Group</a></td>
+                    <td>
+                        <form action="group-management/{{$game->id}}" method="GET">
+                        <input name="userId" type="hidden" value = "{{Auth::user()->_id}}"/>
+                        <input name="gameMasterId" type="hidden" value = "{{$game->gameMaster}}"/>
+                        <button class="btn btn-sm btn-secondary my-0" type="submit">Manage Group</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </table>
