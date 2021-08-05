@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cebc5cc840fd9f8dd3a6bf88fda7f409",
+    "content-hash": "1186b95ed0137e591e3b6829cf8f4523",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -190,46 +190,6 @@
                 }
             ],
             "time": "2021-05-24T07:46:03+00:00"
-        },
-        {
-            "name": "devdojo/chatter",
-            "version": "0.2.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thedevdojo/chatter.git",
-                "reference": "ca1b4d6e76dacbd77867d046f9bdcca0b6a75f61"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thedevdojo/chatter/zipball/ca1b4d6e76dacbd77867d046f9bdcca0b6a75f61",
-                "reference": "ca1b4d6e76dacbd77867d046f9bdcca0b6a75f61",
-                "shasum": ""
-            },
-            "require-dev": {
-                "illuminate/cache": "~5.1.20|5.2.*|5.3.*",
-                "illuminate/console": "~5.1.20|5.2.*|5.3.*",
-                "mockery/mockery": "^0.9.5",
-                "phpunit/phpunit": "~5.7.14"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DevDojo\\Chatter\\": "/src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Tony Lea",
-                    "email": "tony@devdojo.com"
-                }
-            ],
-            "description": "A simple forum package for your laravel app",
-            "support": {
-                "issues": "https://github.com/thedevdojo/chatter/issues",
-                "source": "https://github.com/thedevdojo/chatter/tree/master"
-            },
-            "time": "2017-03-12T21:13:57+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -7775,5 +7735,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

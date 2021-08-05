@@ -166,7 +166,6 @@ return [
          * Package Service Providers...
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
-        DevDojo\Chatter\ChatterServiceProvider::class,
 
         /*
          * Application Service Providers...
