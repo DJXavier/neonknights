@@ -54,6 +54,12 @@ Route::get('/invite-successful', function () {
     return view('user.invite_successful');
 });
 
+//route for weekly action ui page 
+Route::get('/weeklyaction/newweek', function () {
+    return view('weeklyaction.weeklyaction');
+});
+
+
 Route::post('/game', [App\Http\Controllers\GameController::class, 'store'])->name('game.store');
 Route::post('/invite/{game_id}',[App\Http\Controllers\InviteController::class, 'update'])->name('invite.update');
 
@@ -64,3 +70,6 @@ Route::get('/password/change', [App\Http\Controllers\ChangePasswordController::c
 Route::get('/changePasswordSuccessfully', function(){
     return view('auth.changePasswordSuccessfully');
 });
+
+//route for weekly action controller, not implemented yet
+//Route::post('/weeklyaction/{game_id}/{user_id}',[App\Http\Controllers\WeeklyActionController::class, 'update'])->name('weeklyaction.update');
