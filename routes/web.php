@@ -64,3 +64,7 @@ Route::get('/password/change', [App\Http\Controllers\ChangePasswordController::c
 Route::get('/changePasswordSuccessfully', function(){
     return view('auth.changePasswordSuccessfully');
 });
+
+Route::get('/forumsareavailable', function() {
+    return redirect()->route('forum.index');
+});
