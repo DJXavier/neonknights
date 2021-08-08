@@ -39,7 +39,7 @@ Route::get('/insert-weekly-actions', function () {
     return view('knights.insert_weekly_actions');
 });
 
-Route::get('/group-management/{game_id}', function ($game_id) {
+Route::post('/group-management/{game_id}', function ($game_id) {
     return view('knights.group_management', ['gameId' => $game_id]);
 })->middleware('auth.gameMaster');
 Route::get('/character/create/{gameId}', function ($gameId) {
@@ -51,12 +51,6 @@ Route::get('/character/create/{gameId}', function ($gameId) {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::post('/group-management/update-group-size', [App\Http\Controllers\GameController::class, 'updateSize'])->name('game.update');
-    
-Route::get('/group-management/{game_id}/update-size', function ($game_id){
-    return view('knights.update_size', ['gameId' => $game_id]);
-});
 
 Route::post('/knight', [App\Http\Controllers\KnightController::class, 'store'])->name('knight.store');
 
@@ -84,10 +78,19 @@ Route::get('/group-management/{game_id}/invite-single-user', function ($game_id)
     return view('knights.invite_single_user', ['gameId' => $game_id]);
 });
 
+Route::post('group-management/remove', [App\Http\Controllers\InviteController::class, 'removeSingle'])->name('invite.removeSingle');
+Route::get('/group-management/{game_id}/remove-single-user', function ($game_id){
+    return view('knights.remove_single_user', ['gameId' => $game_id]);
+});
+
 Route::post('/changepassword', [App\Http\Controllers\ChangePasswordController::class, 'store'])->name('password.improve');
 
 Route::get('/password/change', [App\Http\Controllers\ChangePasswordController::class, 'changePassword'])->name('password.change');
 
 Route::get('/changePasswordSuccessfully', function(){
     return view('auth.changePasswordSuccessfully');
+});
+
+Route::get('/access-denied', function () {
+    return view('access_denied');
 });

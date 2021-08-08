@@ -60,7 +60,7 @@ class InviteController extends Controller
     public function updateSingle(Request $request)
     {
         $maxGroupSize = 12;
-        $game = \App\Models\Game::FindOrFail($request['thisId']);
+        $game = \App\Models\Game::FindOrFail($request['gameId']);
 
         if ($request['email'] == '' || $request['email'] == null) {
             $updateMessage = "Invalid input. Must enter an email.";
@@ -86,5 +86,56 @@ class InviteController extends Controller
         }
 
         return redirect('group-management/'.$game->id.'/invite-single-user')->with('updateMessage', $updateMessage);
+    }
+
+    public function removeSingle(Request $request)
+    {
+        $game = \App\Models\Game::FindOrFail($request['gameId']);
+
+        if ($request['userId'] == '' || $request['userId'] == null) {
+            $invited = $game->invited;
+            
+            if (($key = array_search($request['email'], $invited)) !== false) {
+                unset($invited[$key]);
+            }
+
+            $game->invited = $invited;
+            $game->decrement('noPlayers');
+            $game->save();
+        }
+
+        else {
+            $users = \App\Models\User::All();
+            $player = $users->where('_id', $request['userId'])->first();
+            $game_ids = $player->game_ids;
+            
+            if (($key = array_search($request['gameId'], $game_ids)) !== false) {
+                unset($game_ids[$key]);
+            }
+            
+            $player->game_ids = $game_ids;
+            $player->save();
+
+            $user_ids = $game->user_ids;
+            
+            if (($key = array_search($request['userId'], $user_ids)) !== false) {
+                unset($user_ids[$key]);
+            }
+
+            $game->user_ids = $user_ids;
+            $game->decrement('noPlayers');
+            $game->save();
+
+            $matchUserAndGame = ['game_id' => $request['gameId'], 'user_id' => $request['userId']];
+            $removeKnight = \App\Models\Knight::where($matchUserAndGame)->get()->first();
+            if ($removeKnight != null)
+            {
+                \App\Models\Knight::where($matchUserAndGame)->delete();
+            }
+        }
+
+        $removeMessage = "Invite disabled for " . $request['email'] . "<br>User has been removed from the group.";
+
+        return redirect('group-management/'.$game->id.'/remove-single-user')->with('removeMessage', $removeMessage);
     }
 }

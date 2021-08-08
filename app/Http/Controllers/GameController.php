@@ -110,24 +110,6 @@ class GameController extends Controller
         //
     }
 
-    public function updateSize(Request $request)
-    {
-
-        $game = \App\Models\Game::FindOrFail($request['gameId']);
-
-        if ($request['size'] >= (sizeof($game->invited) + sizeof($game->user_ids))) {
-            $game->noPlayers=intval($request['size']);
-            $game->save();
-            $updateMessage = "Group size updated to " . $game->noPlayers. " players.";
-        }
-        else
-        {
-            $updateMessage = "Group size cannot be updated. Invalid input.";
-        }
-
-        return redirect('group-management/'.$game->id.'/update-size')->with('updateMessage', $updateMessage);
-    }
-
     /**
      * Remove the specified resource from storage.
      *

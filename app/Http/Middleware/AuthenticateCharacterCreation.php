@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AuthenticateGameMaster
+class AuthenticateCharacterCreation
 {
     /**
      * 
@@ -15,12 +15,14 @@ class AuthenticateGameMaster
      */
     public function handle ($request, Closure $next)
     {
-        if ($request->userId == \App\Models\Game::Find($request->gameId)->gameMaster) {
+        $users = \App\Models\User::All();
+        $player = $users->where('_id', $request['userId'])->first();
+
+        if ($player != null) {
             return $next($request);
         }
         else {
-            $accessDeniedMessage = "Only the game master can manage the group.";
-            return redirect('/access-denied')->with('accessDeniedMessage', $accessDeniedMessage);
+            return redirect('/access-denied');
         }
     }
 }

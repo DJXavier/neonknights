@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<?php
+?>
+
 <script>
 function rollStrength() {
     var roll1 = Math.floor(Math.random() * 6) + 1;
