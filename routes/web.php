@@ -73,3 +73,8 @@ Route::get('/changePasswordSuccessfully', function(){
 
 //route for weekly action controller, not implemented yet
 //Route::post('/weeklyaction/{game_id}/{user_id}',[App\Http\Controllers\WeeklyActionController::class, 'update'])->name('weeklyaction.update');
+
+//Temporoary Route
+Route::get('/actions', function() {
+    return view('weeklyaction.create');
+});
