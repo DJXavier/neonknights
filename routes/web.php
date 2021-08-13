@@ -33,14 +33,14 @@ Route::get('/character/create/{gameId}', function ($gameId) {
 
 
 
-Auth::routes();
+Auth::routes(["verify" => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['verified']);
 Route::post('/knight', [App\Http\Controllers\KnightController::class, 'store'])->name('knight.store');
 
 Route::get('/display-groups-characters', function () {
     return view('user.display_groups_characters');
-});
+})->middleware(['verified']);
 
 Route::get('/create-group', function () {
     return view('user.create_group');
