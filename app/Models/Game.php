@@ -15,6 +15,13 @@ class Game extends Model
         }
     } */
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'type', 'noPlayers', 'currentRound', 'resetDay', 'invited', 'gameMaster'];
+
     public function users() {
         return $this->belongsToMany(User::class);
     }

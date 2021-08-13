@@ -1965,8 +1965,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '../1.png'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1990,7 +1989,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-
+ //import dice from "../1.png";
 
 
 
@@ -2009,11 +2008,11 @@ var Test = /*#__PURE__*/function (_Component) {
   _createClass(Test, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h1", {
           children: "Cool, it's working"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-          src: Object(function webpackMissingModule() { var e = new Error("Cannot find module '../1.png'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+          src: dice
         })]
       });
     }
@@ -2026,7 +2025,7 @@ var Test = /*#__PURE__*/function (_Component) {
 // of "example"; otherwise, we will see an error in our console
 
 if (document.getElementById("test")) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Test, {}), document.getElementById("test"));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Test, {}), document.getElementById("test"));
 }
 
 /***/ }),
@@ -34576,10 +34575,75 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
+/***/ "./resources/sass/youplay-shooter.scss":
+/*!*********************************************!*\
+  !*** ./resources/sass/youplay-shooter.scss ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
   \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/youplay.scss":
+/*!*************************************!*\
+  !*** ./resources/sass/youplay.scss ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/youplay-anime.scss":
+/*!*******************************************!*\
+  !*** ./resources/sass/youplay-anime.scss ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/youplay-light.scss":
+/*!*******************************************!*\
+  !*** ./resources/sass/youplay-light.scss ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/youplay-rtl.scss":
+/*!*****************************************!*\
+  !*** ./resources/sass/youplay-rtl.scss ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -68604,7 +68668,12 @@ if (false) {} else {
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
-/******/ 			"css/app": 0
+/******/ 			"css/app": 0,
+/******/ 			"css/youplay-rtl": 0,
+/******/ 			"css/youplay-light": 0,
+/******/ 			"css/youplay-anime": 0,
+/******/ 			"css/youplay": 0,
+/******/ 			"css/youplay-shooter": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -68652,8 +68721,13 @@ if (false) {} else {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/youplay-rtl","css/youplay-light","css/youplay-anime","css/youplay","css/youplay-shooter"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/youplay-rtl","css/youplay-light","css/youplay-anime","css/youplay","css/youplay-shooter"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/youplay-rtl","css/youplay-light","css/youplay-anime","css/youplay","css/youplay-shooter"], () => (__webpack_require__("./resources/sass/youplay.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/youplay-rtl","css/youplay-light","css/youplay-anime","css/youplay","css/youplay-shooter"], () => (__webpack_require__("./resources/sass/youplay-anime.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/youplay-rtl","css/youplay-light","css/youplay-anime","css/youplay","css/youplay-shooter"], () => (__webpack_require__("./resources/sass/youplay-light.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/youplay-rtl","css/youplay-light","css/youplay-anime","css/youplay","css/youplay-shooter"], () => (__webpack_require__("./resources/sass/youplay-rtl.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/youplay-rtl","css/youplay-light","css/youplay-anime","css/youplay","css/youplay-shooter"], () => (__webpack_require__("./resources/sass/youplay-shooter.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

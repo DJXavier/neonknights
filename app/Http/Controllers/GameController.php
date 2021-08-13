@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 class GameController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -34,7 +44,36 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|Min:5|Max:20|',
+            'type'=> 'required',
+            'noPlayers' => 'required'
+        ],
+        [
+            'name.required' => 'Game Name is required. (At least 5 letters and no more than 20 letters)',
+            'type.required' => 'You need to select Game type.',
+            'noPlayers.required' => 'You need to select Number of players.'
+        ]);
+
+        $userId = auth()->user()->id;
+        
+        $test = auth()->user()->games()->create([
+            'name' => $request['name'],
+            'type' => $request['type'],
+            'noPlayers' => $request['noPlayers'],
+            'currentRound' => 1,
+            'resetDay' => "Thursday",
+            'invited' => array(),
+            'gameMaster' => $userId,
+        ])->id;
+
+        session([
+            'gameName' => $request['name'],
+            'noPlayers' => $request['noPlayers'],
+            'id' => $test,
+        ]);
+
+        return redirect()->route('invite.create');
     }
 
     /**
