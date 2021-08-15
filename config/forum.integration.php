@@ -13,7 +13,7 @@ return [
     */
 
     'policies' => [
-        'forum' => TeamTeaTime\Forum\Policies\ForumPolicy::class,
+        'forum' => App\Policies\UserForumPolicy::class,
         'model' => [
             TeamTeaTime\Forum\Models\Category::class => TeamTeaTime\Forum\Policies\CategoryPolicy::class,
             TeamTeaTime\Forum\Models\Thread::class => TeamTeaTime\Forum\Policies\ThreadPolicy::class,
