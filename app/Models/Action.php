@@ -9,12 +9,32 @@ class Action extends Model
 {
     use HasFactory;
 
-    //Need one relationship for knight taking action, and one for knight to joust against.
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'target_bot' => null,
+        'target_knight' => null,
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['type', 'quest_code', 'reject'];
+
     public function knight() {
-        return $this->embedsOne(Knight::class);
+        return $this->embedsOne(Knight::class, 'knight');
     }
 
     public function noblebot() {
-        return $this->embedsOne(Noblebot::class);
+        return $this->embedsOne(Noblebot::class, 'target_bot');
     }
+
+    public function targetknight() {
+        return $this->embedsOne(Knight::class, 'target_knight');
+    } 
 }

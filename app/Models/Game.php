@@ -29,4 +29,8 @@ class Game extends Model
     public function knights() {
         return $this->hasMany(Knight::class);
     }
+
+    public function weeks() {
+        return $this->hasMany(Week::class);
+    }
 }
