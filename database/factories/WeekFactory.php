@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\GameRound;
+use App\Models\Week;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class GameRoundFactory extends Factory
+class WeekFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = GameRound::class;
+    protected $model = Week::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +22,7 @@ class GameRoundFactory extends Factory
     public function definition()
     {
         return [
-            'gameWeek' => $this->faker->numberBetween(1, 5),
-            'weekQuest' => null,
+            'quest' => $this->faker->company(),
         ];
     }
 }

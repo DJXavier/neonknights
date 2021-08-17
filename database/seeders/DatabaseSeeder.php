@@ -68,5 +68,18 @@ class DatabaseSeeder extends Seeder
                 };
             });
         });
+
+        \App\Models\Game::all()->each(function ($game) {
+            $gameWeeks = \App\Models\Week::factory($game->currentRound)->create();
+            $curWeek = 1;
+            foreach($gameWeeks as $title => $week) {
+                $week->week_no = $curWeek;
+                $curWeek++;
+            }
+            $gameWeeks->each(function ($week) use ($game) {
+                $week->game()->associate($game);
+                $week->save();
+            });
+        });
     }
 }

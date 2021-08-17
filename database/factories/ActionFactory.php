@@ -22,12 +22,9 @@ class ActionFactory extends Factory
     public function definition()
     {
         return [
-            'actionType' => $this->faker->numberBetween(1, 7),
-            'targetKnight' => null,
-            'targetBot' => null,
-            'quest' => null,
+            'type' => $this->faker->numberBetween(1, 7),
             'questCode' => null,
-            'joustReject' => $this->faker->randomElement([true, false]),
+            'reject' => $this->faker->randomElement([true, false]),
         ];
     }
 }
