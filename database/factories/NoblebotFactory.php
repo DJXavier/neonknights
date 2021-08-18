@@ -25,8 +25,7 @@ class NoblebotFactory extends Factory
             'name' => $this->faker->name(),
             'level' => $this->faker->numberBetween(1, 6),
             'gender' => $this->faker->numberBetween(1, 3),
-            'genderFluid' => $this->faker->randomeElement([true, false]),
-            'roller' => null,
+            'genderFluid' => $this->faker->randomElement([true, false]),
         ];
     }
 }

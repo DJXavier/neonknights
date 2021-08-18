@@ -30,6 +30,10 @@ class Game extends Model
         return $this->hasMany(Knight::class);
     }
 
+    public function noblebots() {
+        return $this->hasMany(Noblebot::class);
+    }
+
     public function weeks() {
         return $this->hasMany(Week::class);
     }

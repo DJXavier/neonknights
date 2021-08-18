@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             array_splice($inv, 0, ($game->users()->count()));
             $game->invited = $inv;
 
+            $game->noblebots()->saveMany(\App\Models\Noblebot::factory($game->noPlayers)->create());
+
             $game->save();
         });
 
@@ -110,10 +112,13 @@ class DatabaseSeeder extends Seeder
                             $action->targetknight()->associate(
                                 $otherKnights->random(1)->first()
                             );
-                        
+                        else if($action->type == \App\Models\Action::$flirtType)
+                            $action->noblebot()->associate(
+                                $game->noblebots()->get()->random(1)->first()
+                            );
+
                         $action->save();
                     });
-                    //$week->actions()->save();
                 });
             });
         });
