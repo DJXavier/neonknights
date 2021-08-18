@@ -80,27 +80,41 @@ class DatabaseSeeder extends Seeder
                 $week->game()->associate($game);
                 $week->save();
 
-                foreach($game->knights()->get() as $title => $knight) {
-                    //$actions = \App\Models\Action::factory(rand(1, 4))->create();
-                    $actions = $week->actions()->saveMany(\App\Models\Action::factory(rand(1, 4))->make());
+                $game->knights()->get()->each(function ($knight) use ($week, $game) {
+                    $actions = $week->actions()->saveMany(\App\Models\Action::factory(rand(1, 3))->make());
 
                     switch($actions->count()) {
                         case 1:
                             $actions->first()->type = \App\Models\Action::$questType;
                             break;
-                        /*case 2:
-                            $actions->first()->type = Action::$poemType;
-                            $actions = $actions->reversed();
-                            $actions->first()->type = rand(1, 6);
+                        case 2:
+                            $actions->first()->type = \App\Models\Action::$poemType;
+                            $actions = $actions->reverse();
+                            $actions->first()->type = rand(1, 5);
                             break;
                         case 3:
                             $actions->each(function ($action) {
-                                $action->type = rand(1, 6);
+                                $action->type = rand(1, 5);
                             });
-                            break; */
+                            break;
                     }
+
+                    $actions->each(function ($action) use ($knight, $game) {
+                        $action->knight()->associate($knight);
+
+                        $otherKnights = $game->knights()->get()->filter(function ($value, $key) use ($knight) {
+                            return $value->_id != $knight->_id;
+                        });
+
+                        if (($action->type == \App\Models\Action::$joustType) && ($otherKnights->count() != 0))
+                            $action->targetknight()->associate(
+                                $otherKnights->random(1)->first()
+                            );
+                        
+                        $action->save();
+                    });
                     //$week->actions()->save();
-                }
+                });
             });
         });
     }
