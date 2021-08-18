@@ -27,40 +27,40 @@ Route::get('/handbook', function () {
     return view('homepage.handbook');
 });
 
-Route::get('/character/create/{gameId}', function ($gameId) {
-    return view('knights.character', ['id' => $gameId]);
+Route::middleware(['verified'])->group(function () {
+    Route::get('/character/create/{gameId}', function ($gameId) {
+        return view('knights.character', ['id' => $gameId]);
+    });
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::post('/knight', [App\Http\Controllers\KnightController::class, 'store'])->name('knight.store');
+
+    Route::get('/display-groups-characters', function () {
+        return view('user.display_groups_characters');
+    });
+
+    Route::get('/create-group', function () {
+        return view('user.create_group');
+    });
+    
+    Route::get('/invite/create', function () {
+        return view('user.invite_user');
+    })->name('invite.create');
+    
+    Route::get('/invite-successful', function () {
+        return view('user.invite_successful');
+    });
+    
+    Route::post('/game', [App\Http\Controllers\GameController::class, 'store'])->name('game.store');
+    Route::post('/invite/{game_id}',[App\Http\Controllers\InviteController::class, 'update'])->name('invite.update');
+    
+    Route::post('/changepassword', [App\Http\Controllers\ChangePasswordController::class, 'store'])->name('password.improve');
+    
+    Route::get('/password/change', [App\Http\Controllers\ChangePasswordController::class, 'changePassword'])->name('password.change');
+    
+    Route::get('/changePasswordSuccessfully', function(){
+        return view('auth.changePasswordSuccessfully');
+    });
 });
-
-
 
 Auth::routes(["verify" => true]);
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['verified']);
-Route::post('/knight', [App\Http\Controllers\KnightController::class, 'store'])->name('knight.store');
-
-Route::get('/display-groups-characters', function () {
-    return view('user.display_groups_characters');
-})->middleware(['verified']);
-
-Route::get('/create-group', function () {
-    return view('user.create_group');
-});
-
-Route::get('/invite/create', function () {
-    return view('user.invite_user');
-})->name('invite.create');
-
-Route::get('/invite-successful', function () {
-    return view('user.invite_successful');
-});
-
-Route::post('/game', [App\Http\Controllers\GameController::class, 'store'])->name('game.store');
-Route::post('/invite/{game_id}',[App\Http\Controllers\InviteController::class, 'update'])->name('invite.update');
-
-Route::post('/changepassword', [App\Http\Controllers\ChangePasswordController::class, 'store'])->name('password.improve');
-
-Route::get('/password/change', [App\Http\Controllers\ChangePasswordController::class, 'changePassword'])->name('password.change');
-
-Route::get('/changePasswordSuccessfully', function(){
-    return view('auth.changePasswordSuccessfully');
-});
