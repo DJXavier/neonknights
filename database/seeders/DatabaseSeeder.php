@@ -52,14 +52,14 @@ class DatabaseSeeder extends Seeder
             };
 
             $user->knights()->each(function ($knight) use ($user) {
-                $uGames  = $user->games;
+                $uGames  = $user->games()->get();
                 //Get games with no knight.
                 $filteredGames = $uGames->filter(function ($value, $key) use ($user) {
                     //Get the knights in the game.
                     //See if any knight is connected to the current user.
-                    $knightsNotIn = $user->knights->diff($value->knights()->get());
+                    $knightsNotIn = $user->knights()->get()->diff($value->knights()->get());
                     //If there isn't, add the game to the list.
-                    return $knightsNotIn->count() == $user->knights->count();
+                    return $knightsNotIn->count() == $user->knights()->get()->count();
                 });
                 //If games exist, save to random.
                 if ($filteredGames->count() > 0) {
@@ -79,6 +79,28 @@ class DatabaseSeeder extends Seeder
             $gameWeeks->each(function ($week) use ($game) {
                 $week->game()->associate($game);
                 $week->save();
+
+                foreach($game->knights()->get() as $title => $knight) {
+                    //$actions = \App\Models\Action::factory(rand(1, 4))->create();
+                    $actions = $week->actions()->saveMany(\App\Models\Action::factory(rand(1, 4))->make());
+
+                    switch($actions->count()) {
+                        case 1:
+                            $actions->first()->type = \App\Models\Action::$questType;
+                            break;
+                        /*case 2:
+                            $actions->first()->type = Action::$poemType;
+                            $actions = $actions->reversed();
+                            $actions->first()->type = rand(1, 6);
+                            break;
+                        case 3:
+                            $actions->each(function ($action) {
+                                $action->type = rand(1, 6);
+                            });
+                            break; */
+                    }
+                    //$week->actions()->save();
+                }
             });
         });
     }

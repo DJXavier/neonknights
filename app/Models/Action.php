@@ -9,6 +9,14 @@ class Action extends Model
 {
     use HasFactory;
 
+    public static $slackType = 1;
+    public static $trainType = 2;
+    public static $flirtType = 3;
+    public static $tavernType = 4;
+    public static $joustType = 5;
+    public static $questType = 6;
+    public static $poemType = 7;
+
     /**
      * The model's default values for attributes.
      *

@@ -22,7 +22,6 @@ class ActionFactory extends Factory
     public function definition()
     {
         return [
-            'type' => $this->faker->numberBetween(1, 7),
             'questCode' => null,
             'reject' => $this->faker->randomElement([true, false]),
         ];
