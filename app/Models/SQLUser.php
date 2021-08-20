@@ -19,7 +19,7 @@ class SQLUser extends Model
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'mongo_id',
     ];
 
     /**
@@ -28,7 +28,7 @@ class SQLUser extends Model
      * @var array
      */
     protected $hidden = [
-        'password',
+        'mongo_id',
         'remember_token',
     ];
 

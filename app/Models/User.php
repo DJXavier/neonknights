@@ -50,4 +50,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function knights() {
         return $this->hasMany(Knight::class);
     }
+
+    public function getKey() {
+        $sqlkey = SQLUser::all()->filter(function ($value, $key) {
+            return $value->mongo_id == parent::getKey();
+        })->first()->getKey();
+
+        return $sqlkey;
+    }
 }
