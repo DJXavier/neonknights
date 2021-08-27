@@ -16,7 +16,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Create Group') }}</div>
                 <div class="card-body">
-                    <form action="{{ route('game.store') }}" method="POST">
+                    <form action="{{ route('game.store') }}" method="POST" id='game-form'>
 
                         @csrf 
     

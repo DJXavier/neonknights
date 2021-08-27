@@ -1857,6 +1857,8 @@ __webpack_require__(/*! ./components/Example */ "./resources/js/components/Examp
 
 __webpack_require__(/*! ./components/Test */ "./resources/js/components/Test.js");
 
+__webpack_require__(/*! ./components/FormSubmitter */ "./resources/js/components/FormSubmitter.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -1948,6 +1950,44 @@ function Example() {
 
 if (document.getElementById('example')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Example, {}), document.getElementById('example'));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/FormSubmitter.js":
+/*!**************************************************!*\
+  !*** ./resources/js/components/FormSubmitter.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+
+
+
+
+function GameForm(event) {
+  event.preventDefault();
+  var form = event.target;
+  alert(form.elements['name'].value);
+  axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/game/store', {
+    name: form.elements['name'].value,
+    type: form.elements['type'].value,
+    noPlayers: form.elements['noPlayers'].value
+  }).then(function (respnse) {
+    alert('HELLO');
+  })["catch"](function (error) {
+    alert('BREAK');
+  });
+}
+
+if (document.getElementById('game-form')) {
+  var gameForm = document.getElementById('game-form');
+  gameForm.addEventListener('submit', GameForm);
 }
 
 /***/ }),
@@ -68607,6 +68647,18 @@ if (false) {} else {
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	
