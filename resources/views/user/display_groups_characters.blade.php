@@ -28,6 +28,7 @@
 @section('content')
 
     <div class="pageContent">
+       
         <h1>
             Running Games
         </h1>
@@ -43,22 +44,34 @@
                 <th>(Re)Select Weekly Actions</th>
                 <th>Group Forum</th>
             </tr>
-
-            @foreach ($games as $game)
-                <tr>
-                    <td>
-                        <div class="actions-entered"><input class="actions-entered" type="checkbox" value="" id="actionsEntered" disabled></div>
-                    </td>
-                    <td>{{$game->name}}</th>
-                    <td>{{$knights->where('game_id', $game->_id)->pluck('name')->first()}}</th>
-                    <td>{{$game->currentRound}}</th>
-                    <td>{{$game->type}}</th>
-                    <td>{{$game->noPlayers}}</th>
-                    <td>{{$game->resetDate}}</th>
-                    <th><a href="#">Placeholder Link</a></th>
-                    <th><a href="#">Placeholder Link</a></th>
-                </tr>
-            @endforeach
+            
+                
+                @foreach ($games as $game)
+                    <tr>
+                        <td>
+                            <div class="actions-entered"><input class="actions-entered" type="checkbox" value="" id="actionsEntered" disabled></div>
+                        </td>
+                        <td>{{$game->name}}</th>
+                        <td>{{$knights->where('game_id', $game->_id)->pluck('name')->first()}}</th>
+                        <td>{{$game->currentRound}}</th>
+                        <td>{{$game->type}}</th>
+                        <td>{{$game->noPlayers}}</th>
+                        <td>{{$game->resetDate}}</th>
+                        <form action="{{ route('selectGroup.next') }}" method="POST">
+                            @csrf 
+                            @foreach ($errors->all() as $error)
+                                <p class="text-danger">{{ $error }}</p>   
+                            @endforeach 
+                            <?php 
+                                $thisId = $game->_id ;
+                                echo '<input value ="' . $thisId . '"' . 'type="hidden" name="thisId" id="thisId">';
+                            ?>
+                            <th><input type="submit" id="button" name="button">Action Now!</input></th>
+                        </form>   
+                        <th><a href="#">Placeholder Link</a></th>
+                    </tr>
+                @endforeach
+            
         </table>
 
         <a class="btn btn-primary" type="button" href="/create-group">{{ __('Create Group') }}</a>
@@ -95,6 +108,7 @@
         </table>
 
         <a class="btn btn-primary" type="button" href="#">{{ __('Create Character') }}</a>
+       
     </div>
 
 @endsection
