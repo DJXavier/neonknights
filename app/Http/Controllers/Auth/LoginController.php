@@ -41,29 +41,26 @@ class LoginController extends Controller
     }
 
     public function authenticated(Request $request, $user) {
-        if (!$user->verified) {
-            $sqlinstance = SQLUser::all()->filter(function ($value, $key) use ($user) {
-                return $value->mongo_id == $user->_id;
-            })->first();
+        $sqlinstance = SQLUser::all()->filter(function ($value, $key) use ($user) {
+            return $value->mongo_id == $user->_id;
+        })->first();
+        
+        if($sqlinstance == null) {
+            SQLUser::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'mongo_id' => $user->_id,
+            ]);
+        } else {
+            if ($sqlinstance->name != $user->name)
+                $sqlinstance->name = $user->name;
+            if ($sqlinstance->email != $user->email)
+                $sqlinstance->email = $user->email;
+            if ($sqlinstance->mongo_id != $user->_id)
+                $sqlinstance->mongo_id = $user->_id;
             
-            if($sqlinstance == null) {
-                SQLUser::create([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'mongo_id' => $user->_id,
-                ]);
-            } else {
-                if ($sqlinstance->name != $user->name)
-                    $sqlinstance->name = $user->name;
-                if ($sqlinstance->email != $user->email)
-                    $sqlinstance->email = $user->email;
-                if ($sqlinstance->mongo_id != $user->_id)
-                    $sqlinstance->mongo_id = $user->_id;
-                
-                if ($sqlinstance->isDirty())
-                    $sqlinstance->save();
-
-            }
+            if ($sqlinstance->isDirty())
+                $sqlinstance->save();
         }
     }
 }

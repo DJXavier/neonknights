@@ -52,10 +52,20 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function getKey() {
-        $sqlkey = SQLUser::all()->filter(function ($value, $key) {
+        $sqlentry = SQLUser::all()->filter(function ($value, $key) {
             return $value->mongo_id == parent::getKey();
-        })->first()->getKey();
+        })->first();
 
-        return $sqlkey;
+        $key = null;
+
+        if ($sqlentry == null) {
+            $key = parent::getKey();
+        } else if ($sqlentry->email_verified_at == null) {
+            $key = parent::getKey();
+        } else {
+            $key = $sqlentry->getKey();
+        }
+
+        return $key;
     }
 }
