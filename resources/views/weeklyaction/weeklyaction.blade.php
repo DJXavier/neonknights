@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
-                                        <input  value="add" id="myQuestButton" name="myQuestButton" type="button" class="btn btn-primary" onclick="questClick()">
+                                        <input  value="add" id="quest" name="quest" type="button" class="btn btn-primary" onclick="AddActionClickListener('quest','questButton',3)">
                                         </input>  
                                         <input value="" type="hidden" id="questButton" name="questButton">
 
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
-                                        <input value="add" id="myPartyButton" name="myPartyButton" type="button" class="btn btn-primary" onclick="partyClick()">
+                                        <input value="add" id="party" name="party" type="button" class="btn btn-primary" onclick="AddActionClickListener('party','partyButton',1)">
                                         </input>
 
                                         <input value="" type="hidden" id="partyButton" name="partyButton">
@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
-                                        <input value="add" id="myTrainButton" name="myTrainButton" type="button" class="btn btn-primary" onclick="trainClick();">
+                                        <input value="add" id="train" name="train" type="button" class="btn btn-primary" onclick="AddActionClickListener('train','trainButton',1);">
                                         </input>
 
                                         <input value="" type="hidden" id="trainButton" name="trainButton">
@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
-                                        <input value="add" id="mySlackOffButton" name="mySlackOffButton" type="button" class="btn btn-primary" onclick="slackOffClick();">
+                                        <input value="add" id="slackOff" name="slackOff" type="button" class="btn btn-primary" onclick="AddActionClickListener('slackOff','slackOffButton',1);">
                                         </input>
 
                                         <input value="" type="hidden" id="slackOffButton" name="slackOffButton">
@@ -132,7 +132,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-12 " style="text-align:center">
-                                <input value="add" id="myPoemButton" name="myPoemButton" type="button" class="btn btn-primary" onclick="poemClick();">
+                                <input value="add" id="poem" name="poem" type="button" class="btn btn-primary" onclick="AddActionClickListener('poem','poemButton',2);">
                                 </input>
 
                                 <input value="" type="hidden" id="poemButton" name="poemButton">
@@ -217,7 +217,7 @@
                             </table>
                             <div class="form-group row mb-0">
                                 <div class="col-md-12 " style="text-align:center">
-                                    <input value="add" id="myFlirtButton" name="myFlirtButton" type="button" class="btn btn-primary" onclick="flirtClick();">
+                                    <input value="add" id="flirt" name="flirt" type="button" class="btn btn-primary" onclick="AddActionClickListener('flirt','flirtButton',1);">
                                     </input>
 
                                     <input value="" type="hidden" id="flirtButton" name="flirtButton">
@@ -295,7 +295,7 @@
                             </table>
                             <div class="form-group row mb-0">
                                 <div class="col-md-12 " style="text-align:center">
-                                    <input value="add" id="myJoustButton" name="myJoustButton" type="button" class="btn btn-primary" onclick="joustClick();">
+                                    <input value="add" id="joust" name="joust" type="button" class="btn btn-primary" onclick="AddActionClickListener('joust','joustButton',1);">
                                     </input>
 
                                     <input value="" type="hidden" id="joustButton" name="joustButton">
@@ -330,6 +330,19 @@
                     </div>
                 </div>
             </table>
+            <table class="col-md-12">
+                <div class="card">
+                    <div class="card-header" style="text-align: center; font-weight: bold">
+                        {{ __('Currently Selected Actions') }}
+                    </div>
+                    <div class="card-body ">
+                        <div id="displayPanel" class="form-group" style="text-align: center">
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </table>
            
                 <?php 
                     $thisId = session('id');
@@ -347,9 +360,9 @@
                         </button>
                     </div>
                     <div class="col-md-6 " style="text-align:left">
-                        <button type="reset" class="btn btn-primary">
-                            {{ __('Reset') }}
-                        </button>
+                        <input value="Reset" type="button" class="btn btn-primary" onClick="window.location.reload();">
+                            
+                        </input>
                     </div>
                 </div>
             </form>
@@ -357,96 +370,70 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    $slotMax = 3;
+    $currentSlot = 0;
+
+    var slotId = [false,false,false];
     
-    function questClick(){
-        if(document.getElementById('myQuestButton').style.backgroundColor!='red')
-        {
-            document.getElementById('myQuestButton').style.backgroundColor='red';
-            document.getElementById('myQuestButton').value='chosen'; 
-            document.getElementById('questButton').value='chosen';  
-        } 
-        else{
-            document.getElementById('myQuestButton').style.backgroundColor = '3490dc';
-            document.getElementById('myQuestButton').value ='add';
-            document.getElementById('questButton').value='nope';
-        } 
+    function checkAvailability($neededSlot){
+        if($neededSlot + $currentSlot > $slotMax){
+            alert("Hi, one week can only get maximum of three slots arranged, so please remove one or more actions.");
+            return false;
+        }else{
+            $currentSlot += $neededSlot;
+            return true;
+        }
+        
     }
-    function partyClick(){
-        if(document.getElementById('myPartyButton').style.backgroundColor!='red')
+
+    function AddActionClickListener($buttonName, $hiddenInputName,$neededSlot){
+        
+        if(document.getElementById($buttonName).style.backgroundColor!='red')
         {
-            document.getElementById('myPartyButton').style.backgroundColor='red';
-            document.getElementById('myPartyButton').value='chosen'; 
-            document.getElementById('partyButton').value='chosen'; 
-        } 
-        else{
-            document.getElementById('myPartyButton').style.backgroundColor = '3490dc';
-            document.getElementById('myPartyButton').value ='add';
-            document.getElementById('partyButton').value='nope'; 
-        } 
-    }
-    function trainClick(){
-        if(document.getElementById('myTrainButton').style.backgroundColor!='red')
-        {
-            document.getElementById('myTrainButton').style.backgroundColor='red';
-            document.getElementById('myTrainButton').value='chosen'; 
-            document.getElementById('trainButton').value='chosen'; 
-        } 
-        else{
-            document.getElementById('myTrainButton').style.backgroundColor = '3490dc';
-            document.getElementById('myTrainButton').value ='add';
-            document.getElementById('trainButton').value='nope'; 
-        } 
-    }
-    function slackOffClick(){
-        if(document.getElementById('mySlackOffButton').style.backgroundColor!='red')
-        {
-            document.getElementById('mySlackOffButton').style.backgroundColor='red';
-            document.getElementById('mySlackOffButton').value='chosen'; 
-            document.getElementById('slackOffButton').value='chosen'; 
-        } 
-        else{
-            document.getElementById('mySlackOffButton').style.backgroundColor = '3490dc';
-            document.getElementById('mySlackOffButton').value ='add';
-            document.getElementById('slackOffButton').value='nope'; 
-        } 
-    }
-    function poemClick(){
-        if(document.getElementById('myPoemButton').style.backgroundColor!='red')
-        {
-            document.getElementById('myPoemButton').style.backgroundColor='red';
-            document.getElementById('myPoemButton').value='chosen'; 
-            document.getElementById('poemButton').value='chosen'; 
-        } 
-        else{
-            document.getElementById('myPoemButton').style.backgroundColor = '3490dc';
-            document.getElementById('myPoemButton').value ='add';
-            document.getElementById('poemButton').value='nope'; 
-        } 
-    }
-    function flirtClick(){
-        if(document.getElementById('myFlirtButton').style.backgroundColor!='red')
-        {
-            document.getElementById('myFlirtButton').style.backgroundColor='red';
-            document.getElementById('myFlirtButton').value='chosen'; 
-            document.getElementById('flirtButton').value='chosen'; 
-        } 
-        else{
-            document.getElementById('myFlirtButton').style.backgroundColor = '3490dc';
-            document.getElementById('myFlirtButton').value ='add';
-            document.getElementById('flirtButton').value='nope'; 
-        } 
-    }
-    function joustClick(){
-        if(document.getElementById('myJoustButton').style.backgroundColor!='red')
-        {
-            document.getElementById('myJoustButton').style.backgroundColor='red';
-            document.getElementById('myJoustButton').value='chosen'; 
-            document.getElementById('joustButton').value='chosen'; 
-        } 
-        else{
-            document.getElementById('myJoustButton').style.backgroundColor = '3490dc';
-            document.getElementById('myJoustButton').value ='add';
-            document.getElementById('joustButton').value='nope'; 
+            for(var i = 0; i< 3;i++){
+                if(slotId[i]==false){
+                    if(checkAvailability($neededSlot)){
+                        var input = document.createElement("input");
+                        input.name="action"+i;
+                        input.id="action"+i;
+                        input.value=$buttonName;
+                        input.class="form-control-plaintext text-md";
+                        input.style="pointer-events:none";
+
+                        var divRowStart = document.createElement("div");
+                        divRowStart.class = "form-group row";
+                        divRowStart.id="div"+i;
+                        divRowStart.name="div"+i;
+
+                        var deleteButton = document.createElement("input");
+                        deleteButton.type="button"; 
+                        deleteButton.class="btn btn-primary";
+                        deleteButton.value="remove";
+                        deleteButton.id="deleteButton"+i;
+                        deleteButton.onclick=function ($neededSlot) {
+                            var actionToDelete = document.getElementById('action'+i.toString());
+                            var divToDelete = document.getElementById('div'+i.toString());
+                            var buttonToDelete = document.getElementById('deleteButton'+i.toString());
+                            actionToDelete.remove();
+                            divToDelete.remove();
+                            buttonToDelete.remove();
+                            $currentSlot -= $neededSlot;
+                            slotId[i] = false;
+
+                        };
+                        slotId[i] = true;
+                        console.log(input.id);
+                        document.getElementById('displayPanel').appendChild(divRowStart);
+                        document.getElementById('displayPanel').appendChild(input);
+                        document.getElementById('displayPanel').appendChild(deleteButton);
+
+                        break;
+                    }
+
+                    
+                }
+            } 
         } 
     }
 
@@ -456,6 +443,8 @@
     function toggleOffJoust(){
         document.getElementById('joustAcceptButton').value='no'; 
     }
+
+    
     
     
 </script>

@@ -57,6 +57,8 @@ Route::middleware(['verified'])->group(function () {
     Route::get('/submittedweeklyaction', function () {
         return view('weeklyaction.submittedweeklyaction');
     });
+
+    
     
     Route::post('/game', [App\Http\Controllers\GameController::class, 'store'])->name('game.store');
     Route::post('/submittedweeklyaction/{game_id}', [App\Http\Controllers\WeeklyActionController::class, 'update'])->name('weeklyaction.update');

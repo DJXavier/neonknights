@@ -66,7 +66,7 @@
                                 $thisId = $game->_id ;
                                 echo '<input value ="' . $thisId . '"' . 'type="hidden" name="thisId" id="thisId">';
                             ?>
-                            <th><input type="submit" id="button" name="button">Action Now!</input></th>
+                            <th><input type="submit" id="button" name="button" value="Action Now!"></input></th>
                         </form>   
                         <th><a href="#">Placeholder Link</a></th>
                     </tr>
