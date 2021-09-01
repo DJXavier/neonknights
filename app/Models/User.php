@@ -58,9 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $key = null;
 
-        if ($sqlentry == null) {
-            $key = parent::getKey();
-        } else if ($sqlentry->email_verified_at == null) {
+        if (!str_contains(request()->path(), 'forum')) {
             $key = parent::getKey();
         } else {
             $key = $sqlentry->getKey();
