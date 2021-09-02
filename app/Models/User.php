@@ -51,4 +51,32 @@ class User extends Authenticatable implements MustVerifyEmail
     public function knights() {
         return $this->hasMany(Knight::class);
     }
+
+    public function getKey() {
+        $sqlentry = \App\Models\SQLUser::all()->filter(function ($value, $key) {
+            return $value->mongo_id == parent::getKey();
+        })->first();
+
+        $key = null;
+
+        //IF API request
+        //IF Forum API reuest
+        $path = request()->path();
+        if (str_contains($path, 'api')) {
+            if (str_contains($path, 'forum')) {
+                $key = $sqlentry->getKey();
+            } else {
+                $key = parent::getKey();
+            }
+        } else if (!str_contains(request()->path(), 'forum') && !request()->session()->exists('token')) {
+            $key = parent::getKey();
+        } else {
+            if (request()->session()->exists('token')) {
+                request()->session()->pull('token');
+            }
+            $key = $sqlentry->getKey();
+        }
+
+        return $key;
+    }
 }

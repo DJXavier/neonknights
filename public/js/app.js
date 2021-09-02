@@ -1888,7 +1888,11 @@ try {
 
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+window.axios.defaults.headers.common = {
+  'X-CRSF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+  'X-Requested-With': 'XMLHttpRequest'
+};
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -1973,16 +1977,13 @@ __webpack_require__.r(__webpack_exports__);
 function GameForm(event) {
   event.preventDefault();
   var form = event.target;
-  alert(form.elements['name'].value);
   axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/game/store', {
     name: form.elements['name'].value,
     type: form.elements['type'].value,
     noPlayers: form.elements['noPlayers'].value
   }).then(function (respnse) {
     alert('HELLO');
-  })["catch"](function (error) {
-    alert('BREAK');
-  });
+  })["catch"](function (error) {});
 }
 
 if (document.getElementById('game-form')) {
@@ -68643,7 +68644,8 @@ if (false) {} else {
 /******/ 				}
 /******/ 				if(fulfilled) {
 /******/ 					deferred.splice(i--, 1)
-/******/ 					result = fn();
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
 /******/ 				}
 /******/ 			}
 /******/ 			return result;

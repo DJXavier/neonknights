@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/game/store', [App\Http\Controllers\GameController::class, 'store']);
+Route::middleware('auth:api')->post('/game/store', [App\Http\Controllers\GameController::class, 'store']);

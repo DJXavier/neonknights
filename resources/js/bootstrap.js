@@ -21,7 +21,12 @@ try {
 
 window.axios = require('axios');
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+window.axios.defaults.headers.common = {
+    'X-CRSF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    'X-Requested-With': 'XMLHttpRequest',
+};
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

@@ -40,8 +40,31 @@ class LoginController extends Controller
     }
 
     public function authenticated(Request $request, $user) {
+        $sqlinstance = \App\Models\SQLUser::all()->filter(function ($value, $key) use ($user) {
+            return $value->mongo_id == $user->_id;
+        })->first();
+        
+        if($sqlinstance == null) {
+            \App\Models\SQLUser::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'mongo_id' => $user->_id,
+            ]);
+        } else {
+            if ($sqlinstance->name != $user->name)
+                $sqlinstance->name = $user->name;
+            if ($sqlinstance->email != $user->email)
+                $sqlinstance->email = $user->email;
+            if ($sqlinstance->mongo_id != $user->_id)
+                $sqlinstance->mongo_id = $user->_id;
+            
+            if ($sqlinstance->isDirty())
+                $sqlinstance->save();
+        }
+
+        session(['token' => 'Token being made']);
+
         auth()->user()->createToken("API Token")->accessToken;
-        dd(auth()->user()->token);
 
         if (!$user->verified) {
             //auth()->logout();
