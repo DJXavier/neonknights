@@ -1,0 +1,59 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "NeonKnight API Docs",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/game/store": {
+            "post": {
+                "summary": "Store a new game",
+                "description": "Create game with Title, Game Type, and Number of Players",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "noPlayers"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Adventures of the Braves"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "format": "Game Type",
+                                        "example": "Campaign"
+                                    },
+                                    "noPlayers": {
+                                        "type": "integer",
+                                        "example": "7"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "422": {
+                        "description": "Validation Fail"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

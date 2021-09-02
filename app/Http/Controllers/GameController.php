@@ -37,6 +37,40 @@ class GameController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *      path="/api/game/store",
+     *      summary="Store a new game",
+     *      description="Create game with Title, Game Type, and Number of Players",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"name", "type", "noPlayers"},
+     *              @OA\Property(
+     *                  property="name", type="string", example="Adventures of the Braves"
+     *              ),
+     *              @OA\Property(
+     *                  property="type", type="string", format="Game Type", example="Campaign"
+     *              ),
+     *              @OA\Property(
+     *                  property="noPlayers", type="integer", example="7"
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Validation Fail"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      )
+     * )
+     */
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -73,7 +107,7 @@ class GameController extends Controller
             'id' => $test,
         ]);
 
-        return response()->json(['success' => 'Game Made', 'route' => route('invite.create', null, false)], 200);
+        return response()->json(['success' => 'Game Made', 'route' => route('invite.create', null, false)], 201);
     }
 
     /**
