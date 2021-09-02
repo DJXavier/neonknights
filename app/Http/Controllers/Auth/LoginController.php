@@ -40,6 +40,9 @@ class LoginController extends Controller
     }
 
     public function authenticated(Request $request, $user) {
+        auth()->user()->createToken("API Token")->accessToken;
+        dd(auth()->user()->token);
+
         if (!$user->verified) {
             //auth()->logout();
         }

@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...
