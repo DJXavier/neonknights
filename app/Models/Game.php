@@ -8,6 +8,8 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Game extends Model
 {
     use HasFactory;
+    
+    protected $connection = 'mongodb';
 
     /* public function getAttribute($key) {
         if (array_key_exists($key, $this->attributes)) {

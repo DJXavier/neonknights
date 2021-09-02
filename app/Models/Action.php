@@ -8,6 +8,8 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Action extends Model
 {
     use HasFactory;
+    
+    protected $connection = 'mongodb';
 
     public static $slackType = 1;
     public static $trainType = 2;

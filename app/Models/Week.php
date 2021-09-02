@@ -8,6 +8,8 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Week extends Model
 {
     use HasFactory;
+    
+    protected $connection = 'mongodb';
 
     /**
      * The attributes that are mass assignable.

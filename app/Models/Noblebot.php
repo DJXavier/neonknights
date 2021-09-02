@@ -8,4 +8,6 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Noblebot extends Model
 {
     use HasFactory;
+    
+    protected $connection = 'mongodb';
 }
