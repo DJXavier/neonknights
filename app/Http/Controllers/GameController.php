@@ -73,7 +73,7 @@ class GameController extends Controller
             'id' => $test,
         ]);
 
-        return redirect()->route('invite.create');
+        return response()->json(['success' => 'Game Made', 'route' => route('invite.create', null, false)], 200);
     }
 
     /**

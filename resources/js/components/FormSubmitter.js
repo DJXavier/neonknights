@@ -11,8 +11,10 @@ function GameForm(event) {
         type: form.elements['type'].value,
         noPlayers: form.elements['noPlayers'].value
     })
-    .then(function (respnse) {
+    .then(function (response) {
         alert('HELLO');
+        console.log(response.data['route']);
+        window.location.href = response.data['route'];
     }).catch(function (error) {
         
     });

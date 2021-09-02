@@ -1888,7 +1888,6 @@ try {
 
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 window.axios.defaults.headers.common = {
   'X-CRSF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
   'X-Requested-With': 'XMLHttpRequest'
@@ -1981,8 +1980,10 @@ function GameForm(event) {
     name: form.elements['name'].value,
     type: form.elements['type'].value,
     noPlayers: form.elements['noPlayers'].value
-  }).then(function (respnse) {
+  }).then(function (response) {
     alert('HELLO');
+    console.log(response.data['route']);
+    window.location.href = response.data['route'];
   })["catch"](function (error) {});
 }
 
