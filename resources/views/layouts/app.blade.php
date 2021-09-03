@@ -9,12 +9,12 @@
     footer {
         background-color: #100a2b;
         color: white;
-        padding: 10px;
         position: absolute;
         bottom: 0;
+        width: 100%;
     }
 
-    .lock-footer {
+    .page-length {
         position: relative;
         min-height: 100vh;
     }
@@ -39,7 +39,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app" class="lock-footer">
+    <div id="app" class="page-length">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -127,7 +127,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main id="content-holder">
             @if (!str_contains(Request::path(), 'forum'))
                 @yield('content')
             @else
@@ -144,5 +144,16 @@
             <p></p>
         </footer>
     </div>
+    <script>
+        function footerAdjustment() {
+            let footerHeight = document.getElementsByTagName('footer').item(0).offsetHeight;
+            let pageContent = document.getElementById('content-holder');
+            pageContent.style.paddingBottom = footerHeight;
+        }
+
+        footerAdjustment();
+        window.onresize = footerAdjustment;
+
+    </script>
 </body>
 </html>
