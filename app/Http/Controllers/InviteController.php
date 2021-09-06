@@ -76,7 +76,7 @@ class InviteController extends Controller
                 $game->users()->save($player);
             } else {
                 $invited = $game->invited;
-                array_push($invited, $email);
+                array_push($invited, $request['email']);
                 $game->invited = $invited;
                 $game->save();
             }
@@ -134,8 +134,34 @@ class InviteController extends Controller
             }
         }
 
-        $removeMessage = "Invite disabled for " . $request['email'] . "<br>User has been removed from the group.";
+        return redirect('group-management/'.$game->id.'/remove-single-user')->with('email', $request['email']);
+    }
 
-        return redirect('group-management/'.$game->id.'/remove-single-user')->with('removeMessage', $removeMessage);
+    public function deleteGroup(Request $request)
+    {
+        $game = \App\Models\Game::FindOrFail($request['gameId']);
+
+        foreach ($game->user_ids as $user) {
+            $users = \App\Models\User::All();
+            $player = $users->where('_id', $user)->first();
+            $game_ids = $player->game_ids;
+            
+            $key = array_search($request['gameId'], $game_ids);
+            unset($game_ids[$key]);
+            
+            $player->game_ids = $game_ids;
+            $player->save();
+            $matchUserAndGame = ['game_id' => $request['gameId'], 'user_id' => $user];
+            $removeKnight = \App\Models\Knight::where($matchUserAndGame)->get()->first();
+
+            if ($removeKnight != null)
+            {
+                \App\Models\Knight::where($matchUserAndGame)->delete();
+            }
+        }
+
+        \App\Models\Game::where('_id', $request['gameId'])->delete();
+
+        return redirect('/group-management/delete-group');
     }
 }

@@ -10,8 +10,14 @@
         <div class="card">
             <label class="card-header">Group Management - Remove User: {{$game->name}}</label>
             <div class="card-body">
-                <p>{{session('removeMessage')}}</p>
-                <a class="btn btn-sm btn-secondary" type="button" href="/group-management/{{$game->id}}">Manage Group</a>
+                <p>
+                    Invite disabled for {{session('email')}}
+                    <br>User has been removed from the group.
+                </p>
+                <form action="/group-management/{{$game->id}}" method="GET">
+                    <input name="gameId" type="hidden" value ="{{$gameId}}"/>
+                    <button class="btn btn-sm btn-secondary" type="submit">Manage Group</a>
+                </form>
             </div>
         </div>
     </div>

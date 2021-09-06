@@ -11,7 +11,10 @@
             <label class="card-header">Group Management - Invite User: {{$game->name}}</label>
             <div class="card-body">
                 <p>{{session('updateMessage')}}</p>
-                <a class="btn btn-sm btn-secondary" type="button" href="/group-management/{{$game->id}}">Manage Group</a>
+                <form action="/group-management/{{$game->id}}" method="GET">
+                    <input name="gameId" type="hidden" value ="{{$gameId}}"/>
+                    <button class="btn btn-sm btn-secondary" type="submit">Manage Group</a>
+                </form>
             </div>
         </div>
     </div>

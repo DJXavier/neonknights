@@ -31,7 +31,7 @@
             ?>
                 <div class="row">
                     <div class="col-md-4">
-                        <h3>Send Invite</h3>
+                        <h1>Send Invite</h1>
                         <form action="{{ route('invite.updateSingle') }}" method="POST">
                             <div>
                             @csrf
@@ -41,6 +41,16 @@
                             </div>
                             <button class="btn btn-primary mt-3" type="submit">Send Invitation</button>
                         </form>
+                        <div class="row mt-5">
+                            <div class="col-md-12">
+                                <a class="btn btn-success btn-lg float-left mt-2" type="button" href="#">Start Game</a>
+                                <form action="{{ route('invite.deleteGroup') }}" method="POST">
+                                    @csrf
+                                    <input name="gameId" type="hidden" value ="{{$gameId}}"/>
+                                    <button class="btn btn-danger btn-lg float-right mt-2" type="submit">Delete Group</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <div class="float-left">
@@ -56,10 +66,24 @@
                                 <th class="wd-125">Remove Invite</th>
                             </tr>
 
+                            <?php
+                                $matchUserAndGame = ['game_id' => $gameId, 'user_id' => Auth::user()->id];
+                                $knightExistsQuery = \App\Models\Knight::where($matchUserAndGame)->get()->first();
+                                
+                                if ($knightExistsQuery == null)
+                                {
+                                    $status = "No Character";
+                                }
+                                else
+                                {
+                                    $status = "Ready";
+                                }
+                            ?>
+
                             <tr>
                                 <td>{{$game->users()->where('_id', $game->gameMaster)->pluck('email')->first()}}</td>
+                                <td class="bg-dark text-white">{{$status}}</td>
                                 <td class="bg-dark text-white">Game Master</td>
-                                <td class="bg-dark"></td>
                             </tr>
 
                             @foreach ($game->user_ids as $user)
@@ -67,13 +91,11 @@
                                 $matchUserAndGame = ['game_id' => $gameId, 'user_id' => $user];
                                 $knightExistsQuery = \App\Models\Knight::where($matchUserAndGame)->get()->first();
                                 
-                                if ($knightExistsQuery == null)
-                                {
+                                if ($knightExistsQuery == null) {
                                     $status = "Pending";
                                 }
-                                else
-                                {
-                                    $status = "Accepted";
+                                else {
+                                    $status = "Ready";
                                 }
                                 
                                 if ($user != $game->gameMaster)
@@ -113,11 +135,6 @@
                                 </tr>
                             @endforeach
                         </table>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <a class="btn btn-success btn-lg mt-2" type="button" href="#">Start Game</a>
                     </div>
                 </div>
             </div>

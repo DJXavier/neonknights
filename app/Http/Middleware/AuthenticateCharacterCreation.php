@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware;//
 
 use Closure;
 use Illuminate\Http\Request;
@@ -15,14 +15,15 @@ class AuthenticateCharacterCreation
      */
     public function handle ($request, Closure $next)
     {
-        $users = \App\Models\User::All();
-        $player = $users->where('_id', $request['userId'])->first();
+        $game = \App\Models\Game::Find($request->route('gameId'));
+        $user = \Auth::user();
+        $accessDeniedMessage = "You must be logged in to join a group.";
 
-        if ($player != null) {
+        if ($user) {
             return $next($request);
         }
         else {
-            return redirect('/access-denied');
+            return redirect('/access-denied')->with('accessDeniedMessage', $accessDeniedMessage);
         }
     }
 }

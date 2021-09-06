@@ -73,9 +73,7 @@
                                 <td><a class="btn btn-sm btn-secondary" type="button" href="/insert-weekly-actions">Placeholder Link</a></td>
                                 <td><a class="btn btn-sm btn-secondary" type="button" href="#">Placeholder Link</a></td>
                                 <td>
-                                    <form action="group-management/{{$game->id}}" method="POST">
-                                        @csrf
-                                        <input name="userId" type="hidden" value = "{{Auth::user()->_id}}"/>
+                                    <form action="/group-management/{{$game->id}}" method="GET">
                                         <input name="gameId" type="hidden" value = "{{$game->id}}"/>
                                         <button class="btn btn-sm btn-secondary" type="submit">Manage Group</button>
                                     </form>
