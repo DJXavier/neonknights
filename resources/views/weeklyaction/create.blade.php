@@ -15,7 +15,7 @@
 <div class="container-xl">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <form action="/submittedweeklyaction/{{session('id')}}" method="POST">
+            <form action="/submittedweeklyaction/{{ $id }}" method="POST">
             @csrf 
 
             @foreach ($errors->all() as $error)
