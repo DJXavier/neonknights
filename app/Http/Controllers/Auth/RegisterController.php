@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\IsValidPassword;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -72,5 +73,18 @@ class RegisterController extends Controller
         ]);
 
         return $user;
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user) {
+        if (!$user->verified) {
+            //auth()->logout();
+        }
     }
 }
