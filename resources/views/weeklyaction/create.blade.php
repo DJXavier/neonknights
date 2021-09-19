@@ -15,7 +15,7 @@
 <div class="container-xl">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <form action="/submittedweeklyaction/{{ $id }}" method="POST" onsubmit="event.preventDefault(); FormSubmit();">
+            <form action="/submittedweeklyaction/{{ $id }}" method="POST" onsubmit="event.preventDefault(); FormSubmit(event);">
             @csrf 
 
             @foreach ($errors->all() as $error)
@@ -387,19 +387,20 @@
         
     }
 
-    function FormSubmit() {
+    function FormSubmit($event) {
         if ($currentSlot != 3) {
             alert('You have not selected enough actions for the week.');
+        } else {
+            $event.target.submit();
         }
     }
 
     function AddActionClickListener($buttonName, $hiddenInputName,$neededSlot){
-        
         if(document.getElementById($buttonName).style.backgroundColor!='red')
         {
             for(var i = 0; i< 3;i++){
                 if(slotId[i]==false){
-                    if(checkAvailability($neededSlot)){
+                    if(CheckAvailability($neededSlot)){
                         var input = document.createElement("input");
                         input.name="action"+i;
                         input.id="action"+i;
@@ -436,8 +437,6 @@
 
                         break;
                     }
-
-                    
                 }
             } 
         } 
