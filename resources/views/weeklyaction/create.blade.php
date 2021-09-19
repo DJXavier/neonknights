@@ -14,6 +14,12 @@
 @section('content')
 <div class="container-xl">
     <div class="row justify-content-center">
+        <?php
+            $game = \App\Models\Game::Find($id);
+        ?>
+        @if ($game != null)
+            <div class="col-md-12"><h2>Action Entry for: {{ $game->name }}<h2></div>
+        @endif
         <div class="col-md-12">
             <form action="/submittedweeklyaction/{{ $id }}" method="POST" onsubmit="event.preventDefault(); FormSubmit(event);">
             @csrf 
