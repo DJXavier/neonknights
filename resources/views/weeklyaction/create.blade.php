@@ -10,12 +10,12 @@
                   
 
                 
-<title>Invite Players</title>
+<title>Select Actions</title>
 @section('content')
 <div class="container-xl">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <form action="/submittedweeklyaction/{{ $id }}" method="POST">
+            <form action="/submittedweeklyaction/{{ $id }}" method="POST" onsubmit="event.preventDefault(); FormSubmit();">
             @csrf 
 
             @foreach ($errors->all() as $error)
@@ -376,7 +376,7 @@
 
     var slotId = [false,false,false];
     
-    function checkAvailability($neededSlot){
+    function CheckAvailability($neededSlot){
         if($neededSlot + $currentSlot > $slotMax){
             alert("Hi, one week can only get maximum of three slots arranged, so please remove one or more actions.");
             return false;
@@ -385,6 +385,12 @@
             return true;
         }
         
+    }
+
+    function FormSubmit() {
+        if ($currentSlot != 3) {
+            alert('You have not selected enough actions for the week.');
+        }
     }
 
     function AddActionClickListener($buttonName, $hiddenInputName,$neededSlot){

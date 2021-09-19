@@ -40,11 +40,21 @@ class WeeklyActionController extends Controller
             $currentWeek = new \App\Models\Week;
             $currentWeek->quest = "";
             $currentWeek->week_no= $game->currentRound;
-            $currentWeek->game_id= session('id');
+            $currentWeek->game_id= $id;
             $currentWeek->actions = array();
             //necessary to set a solved flag for each request,
             // to record which has been solved and pused in as an object
         }
+
+        $knightId = $game->knights()->where('user_id', auth()->user()->id)->get()->first()->id;
+        $takenActions = $currentWeek->actions()->get()->filter(function ($action, $key) use ($knightId) {
+            return $action->knight()->get()->id == $knightId;
+        });
+
+        $takenActions->each(function ($action, $key) use ($currentWeek) {
+            $currentWeek->actions()->dissociate($action);
+        });
+        $currentWeek->save();
 
         //this means we found the week for the game, only need to update action information for the week
         //change below and...input action object into array below
