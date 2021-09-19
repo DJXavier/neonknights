@@ -70,12 +70,10 @@
                                 $matchUserAndGame = ['game_id' => $gameId, 'user_id' => Auth::user()->id];
                                 $knightExistsQuery = \App\Models\Knight::where($matchUserAndGame)->get()->first();
                                 
-                                if ($knightExistsQuery == null)
-                                {
+                                if ($knightExistsQuery == null) {
                                     $status = "No Character";
                                 }
-                                else
-                                {
+                                else {
                                     $status = "Ready";
                                 }
                             ?>

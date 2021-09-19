@@ -1,10 +1,6 @@
 @extends('layouts.app')
 <title>Delete Group</title>
 
-<?php
-    $game = \App\Models\Game::Find($gameId);
-?>
-
 @section('content')
     <div class="container">
         <div class="card">

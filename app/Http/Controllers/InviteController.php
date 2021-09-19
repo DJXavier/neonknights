@@ -160,8 +160,9 @@ class InviteController extends Controller
             }
         }
 
+        $gameId = $request['gameId'];
         \App\Models\Game::where('_id', $request['gameId'])->delete();
 
-        return redirect('/group-management/delete-group');
+        return redirect('group-management/delete-group/'.$gameId);
     }
 }

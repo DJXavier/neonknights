@@ -62,7 +62,7 @@
                                         <input name="actionId" type="hidden" value = "{{$action->id}}"/>
                                         <input name="gameId" type="hidden" value = "{{$game->id}}"/>
                                         <input name="weekNo" type="hidden" value = "{{$week->week_no}}"/>
-                                        <button class="btn btn-sm btn-secondary" type="submit">View Week</button>
+                                        <button class="btn btn-sm btn-secondary" type="submit">View Actions</button>
                                     </form>
                                 </td>
                             </tr>

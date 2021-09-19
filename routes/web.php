@@ -87,9 +87,9 @@ Route::get('/group-management/{game_id}/remove-single-user', function ($game_id)
 });
 
 Route::post('/group-management/delete', [App\Http\Controllers\InviteController::class, 'deleteGroup'])->name('invite.deleteGroup');
-Route::get('/group-management/delete-group', function (){
-    return view('knights.delete_group');
-})->withoutMiddleware(AuthenticateGameMaster::class);
+Route::get('/group-management/delete-group/{game_id}', function ($game_id){
+    return view('knights.delete_group', ['gameId' => $game_id]);
+});
 
 Route::post('/changepassword', [App\Http\Controllers\ChangePasswordController::class, 'store'])->name('password.improve');
 
@@ -107,16 +107,16 @@ Route::get('/access-denied', function () {
 
 Route::get('/director-management', function () {
     return view('directors.director_management');
-});
+})->middleware('auth.gameDirector');
 
 Route::get('/director-management/{game_id}', function ($game_id) {
     return view('directors.display_group', ['gameId' => $game_id]);
-});
+})->middleware('auth.gameDirector');
 
 Route::get('/director-management/{game_id}/{week_no}', function ($game_id, $week_no) {
     return view('directors.display_week', ['gameId' => $game_id], ['weekNo' => $week_no]);
-});
+})->middleware('auth.gameDirector');
 
 Route::get('/director-management/{game_id}/{week_no}/{action_id}', function ($game_id, $week_no, $action_id) {
     return view('directors.display_user_actions', ['gameId' => $game_id], ['weekNo' => $week_no], ['actionId' => $action_id]);
-});
+})->middleware('auth.gameDirector');
