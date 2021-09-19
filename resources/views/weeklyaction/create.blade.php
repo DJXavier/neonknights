@@ -320,10 +320,10 @@
                             <input type="radio" id="joustAccept" name="joustAccept" class= "col-md-1" style="text-align:left" onclick="toggleOnJoust()">
                                 Agree
                             </input>
-                            <input type="radio" id="joustAccept" name="joustAccept" class= "col-md-1" style="text-align:right" onclick="toggleOffJoust()">
+                            <input type="radio" id="joustAccept" name="joustAccept" class= "col-md-1" style="text-align:right" onclick="toggleOffJoust()" checked>
                                 Decline                 
                             </input>
-                            <input value="" type="hidden" id="joustAcceptButton" name="joustAcceptButton">
+                            <input value="no" type="hidden" id="joustAcceptButton" name="joustAcceptButton">
                                 
                             </input>
                         </div>

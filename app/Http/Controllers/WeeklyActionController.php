@@ -46,9 +46,10 @@ class WeeklyActionController extends Controller
             // to record which has been solved and pused in as an object
         }
 
-        $knightId = $game->knights()->where('user_id', auth()->user()->id)->get()->first()->id;
-        $takenActions = $currentWeek->actions()->get()->filter(function ($action, $key) use ($knightId) {
-            return $action->knight()->get()->id == $knightId;
+        $knight = $game->knights()->where('user_id', auth()->user()->id)->get()->first();
+        
+        $takenActions = $currentWeek->actions()->get()->filter(function ($action, $key) use ($knight) {
+            return $action->knight()->get()->id == $knight->id;
         });
 
         $takenActions->each(function ($action, $key) use ($currentWeek) {
@@ -65,106 +66,49 @@ class WeeklyActionController extends Controller
             $attributeName = 'action'.$i;
             
             if($request->$attributeName != null){
-                if($request->$attributeName == 'quest'){
-                    $actionObject = new \App\Models\Action;            
-                    $actionObject->quest_code = null;
+                $actionObject = $currentWeek->actions()->create();  
+                $actionObject->knight()->associate($knight);
+                $actionObject->quest_code = null;
 
-                    if($request['joustAcceptButton']=='yes'){
-                        $actionObject->reject = false;
-                    }
-                    else if($request['joustAcceptButton']=='no'){
-                        $actionObject->reject = true;
-                    }
+                if($request['joustAcceptButton']=='yes'){
+                    $actionObject->reject = false;
+                }
+                else if($request['joustAcceptButton']=='no'){
+                    $actionObject->reject = true;
+                }
 
-                    $actionObject->type = 6;
-                    //push in actions object as array form into array.
-                    $questSolved = true;
-                    $currentWeek->actions = $currentWeek->actions->push($actionObject->toArray())->toArray();
+                switch ($request->$attributeName) {
+                    case 'quest':
+                        $actionObject->type = 6;
+                        $questSolved = true;
+                        break;
+                    case 'party':
+                        $actionObject->type = 4;
+                        $partySolved = true;
+                        break;
+                    case 'train':
+                        $actionObject->type = 2;
+                        $trainSolved = true;
+                        break;
+                    case 'slackOff':
+                        $actionObject->type = 1;
+                        $slackOffSolved = true;
+                        break;
+                    case 'poem':
+                        $actionObject->type = 7;
+                        $poemSolved = true;
+                        break;
+                    case 'flirt':
+                        $actionObject->type = 3;
+                        $flirtSolved = true;
+                        break;
+                    case 'joust':
+                        $actionObject->type = 5;
+                        $joustSolved = true;
+                        break;
                 }
-                else if($request->$attributeName == 'party'){
-                    $actionObject = new \App\Models\Action;            
-                    $actionObject->quest_code =null;
-                    if($request['joustAcceptButton']=='yes'){
-                        $actionObject->reject = false;
-                    }
-                    else if($request['joustAcceptButton']=='no'){
-                        $actionObject->reject = true;
-                    }
-                    $actionObject->type = 4;
-                    //push in actions object as array form into array.
-                    $partySolved = true;
-                    $currentWeek->actions = $currentWeek->actions->push($actionObject->toArray())->toArray();
-                }
-                else if($request->$attributeName == 'train'){
-                    $actionObject = new \App\Models\Action;            
-                    $actionObject->quest_code = null;
-                    if($request['joustAcceptButton']=='yes'){
-                        $actionObject->reject = false;
-                    }
-                    else if($request['joustAcceptButton']=='no'){
-                        $actionObject->reject = true;
-                    }
-                    $actionObject->type = 2;
-                    //push in actions object as array form into array.
-                    $trainSolved = true;
-                    $currentWeek->actions = $currentWeek->actions->push($actionObject->toArray())->toArray();
-                }
-                else if($request->$attributeName == 'slackOff'){
-                    $actionObject = new \App\Models\Action;            
-                    $actionObject->quest_code = null;
-                    if($request['joustAcceptButton']=='yes'){
-                        $actionObject->reject = false;
-                    }
-                    else if($request['joustAcceptButton']=='no'){
-                        $actionObject->reject = true;
-                    }
-                    $actionObject->type = 1;
-                    //push in actions object as array form into array.
-                    $slackOffSolved = true;
-                    $currentWeek->actions = $currentWeek->actions->push($actionObject->toArray())->toArray();
-                }
-                else if($request->$attributeName == 'poem'){
-                    $actionObject = new \App\Models\Action;            
-                    $actionObject->quest_code = null;
-                    if($request['joustAcceptButton']=='yes'){
-                        $actionObject->reject = false;
-                    }
-                    else if($request['joustAcceptButton']=='no'){
-                        $actionObject->reject = true;
-                    }
-                    $actionObject->type = 7;
-                    //push in actions object as array form into array.
-                    $poemSolved = true;
-                    $currentWeek->actions = $currentWeek->actions->push($actionObject->toArray())->toArray();
-                }
-                else if($request->$attributeName == 'flirt'){
-                    $actionObject = new \App\Models\Action;            
-                    $actionObject->quest_code = null;
-                    if($request['joustAcceptButton']=='yes'){
-                        $actionObject->reject = false;
-                    }
-                    else if($request['joustAcceptButton']=='no'){
-                        $actionObject->reject = true;
-                    }
-                    $actionObject->type = 3;
-                    //push in actions object as array form into array.
-                    $flirtSolved = true;
-                    $currentWeek->actions = $currentWeek->actions->push($actionObject->toArray())->toArray();
-                }
-                else if($request->$attributeName == 'joust'){
-                    $actionObject = new \App\Models\Action;            
-                    $actionObject->quest_code = null;
-                    if($request['joustAcceptButton']=='yes'){
-                        $actionObject->reject = false;
-                    }
-                    else if($request['joustAcceptButton']=='no'){
-                        $actionObject->reject = true;
-                    }
-                    $actionObject->type = 5;
-                    //push in actions object as array form into array.
-                    $joustSolved = true;
-                    $currentWeek->actions = $currentWeek->actions->push($actionObject->toArray())->toArray();
-                }
+                $actionObject->save();
+                $currentWeek->save();
 
             }
 
