@@ -302,6 +302,7 @@
         </div>
     </div>
 </div>
+<!--
 <script type="text/javascript">
 
     $slotMax = 3;
@@ -386,4 +387,5 @@
     
     
 </script>
+-->
 @endsection

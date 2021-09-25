@@ -1,7 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SimpleAction from './ActionCards/SimpleAction';
 
 class ActionPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            actions: [],
+            pointsUsed: 0
+        }
+        this.actionPoints = 3;
+        this.handleAction = this.handleAction.bind(this);
+    }
+
+    handleAction(type, secret, value) {
+        if ((this.state.pointsUsed + value) <= this.actionPoints) {
+            let newAction = {
+                questName: type,
+            };
+
+            let actions = this.state.actions;
+            actions.push(newAction);
+
+            let newPointsUsed = this.state.pointsUsed + value;
+            this.setState({
+                actions: actions,
+                pointsUsed: newPointsUsed
+            }, () => console.log(this.state.actions));
+            //Add elements
+        } else {
+            alert("Fail");
+        }
+    }
+
     render() {
         return (
             <div className="container-xl">
@@ -14,95 +45,10 @@ class ActionPage extends React.Component {
                         <table className="col-md-12">
                             <tbody>
                                 <tr>
-                                    <td className="col-md-3" style={{padding: "0px"}}>
-                                        <div className="card">
-                                            <div className="card-header" style={{textAlign: "center", fontWeight: "bold"}}>
-                                                Quest
-                                            </div>
-                                            <div className="card-body">
-                                                <div className="form-group row">    
-                                                    <label htmlFor="type" className="form-control-plaintext text-md" style={{textAlign: "center"}}>takes 3 time slots</label>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <div className="col-md-6 offset-md-4">
-                                                        <input  value="add" id="quest" name="quest" type="button" className="btn btn-primary" onClick={() => AddActionClickListener('quest','questButton',3)}>
-                                                        </input>  
-                                                        <input value="" type="hidden" id="questButton" name="questButton">
-
-                                                        </input>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>    
-                                    <td className="col-md-3"  style={{padding: "0px"}}>
-                                        <div className="card">
-                                            <div className="card-header" style={{textAlign: "center", fontWeight: "bold"}}>
-                                                Party
-
-                                            </div>
-                                            <div className="card-body">
-                                                <div className="form-group row">    
-                                                    <label htmlFor="type" className="form-control-plaintext text-md" style={{textAlign: "center"}} >takes 1 time slots</label>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <div className="col-md-6 offset-md-4">
-                                                        <input value="add" id="party" name="party" type="button" className="btn btn-primary" onClick={() => AddActionClickListener('party','partyButton',1)}>
-                                                        </input>
-
-                                                        <input value="" type="hidden" id="partyButton" name="partyButton">
-                                                    
-                                                        </input>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>  
-                                    <td className="col-md-3"  style={{padding: "0px"}}>
-                                        <div className="card">
-                                            <div className="card-header" style={{textAlign: "center", fontWeight: "bold"}}>
-                                                Train
-                                            </div>
-                                            <div className="card-body">
-                                                <div className="form-group row">    
-                                                    <label htmlFor="type" className="form-control-plaintext text-md" style={{textAlign: "center"}} >takes 1 time slots</label>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <div className="col-md-6 offset-md-4">
-                                                        <input value="add" id="train" name="train" type="button" className="btn btn-primary" onClick={() => AddActionClickListener('train','trainButton',1)}>
-                                                        </input>
-
-                                                        <input value="" type="hidden" id="trainButton" name="trainButton">
-                                                    
-                                                        </input>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>  
-                                    <td className="col-md-3"  style={{padding: "0px"}}>
-                                        <div className="card">
-                                            <div className="card-header" style={{textAlign: "center", fontWeight: "bold"}}>
-                                                Slack off
-                                            </div>
-                                            <div className="card-body">
-                                                <div className="form-group row">    
-                                                    <label htmlFor="type" className="form-control-plaintext text-md" style={{textAlign: "center"}} >takes 1 time slots</label>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <div className="col-md-6 offset-md-4">
-                                                        <input value="add" id="slackOff" name="slackOff" type="button" className="btn btn-primary" onClick={() => AddActionClickListener('slackOff','slackOffButton',1)}>
-                                                        </input>
-
-                                                        <input value="" type="hidden" id="slackOffButton" name="slackOffButton">
-                                                    
-                                                        </input>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
+                                    {SimpleAction('Quest', 3, (type, secret, value) => this.handleAction(type, secret, value))}
+                                    {SimpleAction('Party', 1, (type, secret, value) => this.handleAction(type, secret, value))}
+                                    {SimpleAction('Train', 1, (type, secret, value) => this.handleAction(type, secret, value))}
+                                    {SimpleAction('Slack Off', 1, (type, secret, value) => this.handleAction(type, secret, value))}
                                 </tr>
                             </tbody>
                         </table>

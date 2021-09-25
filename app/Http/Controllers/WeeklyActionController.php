@@ -28,6 +28,7 @@ class WeeklyActionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request);
         $game = \App\Models\Game::FindOrFail($id);
         //can not find the weeks collection under auth()->user()->games() with specified game id for some reason
         //so, instead, I use   \App\Models\Week;

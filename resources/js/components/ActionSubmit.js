@@ -1,37 +1,37 @@
-$slotMax = 3;
-$currentSlot = 0;
+let slotMax = 3;
+let currentSlot = 0;
 
 var slotId = [false,false,false];
 
-function CheckAvailability($neededSlot){
-    if($neededSlot + $currentSlot > $slotMax){
+function CheckAvailability(neededSlot){
+    if(neededSlot + currentSlot > slotMax){
         alert("Hi, one week can only get maximum of three slots arranged, so please remove one or more actions.");
         return false;
     }else{
-        $currentSlot += $neededSlot;
+        currentSlot += neededSlot;
         return true;
     }
     
 }
 
-function FormSubmit($event) {
-    if ($currentSlot != 3) {
+function FormSubmit(event) {
+    if (currentSlot != 3) {
         alert('You have not selected enough actions for the week.');
     } else {
-        $event.target.submit();
+        event.target.submit();
     }
 }
 
-function AddActionClickListener($buttonName, $hiddenInputName,$neededSlot){
-    if(document.getElementById($buttonName).style.backgroundColor!='red')
+function addActionClickListener(buttonName, hiddenInputName, neededSlot){
+    if(document.getElementById(buttonName).style.backgroundColor!='red')
     {
         for(var i = 0; i< 3;i++){
             if(slotId[i]==false){
-                if(CheckAvailability($neededSlot)){
+                if(CheckAvailability(neededSlot)){
                     var input = document.createElement("input");
                     input.name="action"+i;
                     input.id="action"+i;
-                    input.value=$buttonName;
+                    input.value=buttonName;
                     input.class="form-control-plaintext text-md";
                     input.style="pointer-events:none";
 
@@ -52,7 +52,7 @@ function AddActionClickListener($buttonName, $hiddenInputName,$neededSlot){
                         actionToDelete.remove();
                         divToDelete.remove();
                         buttonToDelete.remove();
-                        $currentSlot -= $neededSlot;
+                        currentSlot -= neededSlot;
                         slotId[i] = false;
 
                     };
@@ -75,3 +75,5 @@ function toggleOnJoust(){
 function toggleOffJoust(){
     document.getElementById('joustAcceptButton').value='no'; 
 }
+
+export { addActionClickListener };
