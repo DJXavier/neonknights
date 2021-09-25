@@ -41,7 +41,6 @@ class WeeklyActionController extends Controller
             $currentWeek->quest = "";
             $currentWeek->week_no= $game->currentRound;
             $currentWeek->game_id= $id;
-            $currentWeek->actions = array();
             //necessary to set a solved flag for each request,
             // to record which has been solved and pused in as an object
         }
