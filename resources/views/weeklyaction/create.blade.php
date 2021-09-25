@@ -6,7 +6,6 @@
         text-align: right;
     }
 </style>
-
                   
 
                 
@@ -16,6 +15,7 @@
     <div class="row justify-content-center">
         <?php
             $game = \App\Models\Game::Find($id);
+            $knight = $game->knights()->where('user_id', auth()->user()->id)->get()->first();
         ?>
         @if ($game != null)
             <div class="col-md-12"><h2>Action Entry for: {{ $game->name }}<h2></div>
@@ -235,84 +235,10 @@
                         </div>
                     </div>
                 </td>
-                <td class="col-md-6" style="padding:0px">
-                    <div class="card">
-                        <div class="card-header" style="text-align: center; font-weight: bold">
-                            {{ __('Jousting') }}
-                        </div>
-                        <div class="card-body">
-                            
-                            <div class="form-group row">    
-                                <label for="type" class="form-control-plaintext text-md" style="text-align:center" >takes 1 time slot</label>
-                            </div>
-                
-                            <table class="table-bordered col-md-12">
-                                <thead>
-                                    <th>
-                                        Select
-                                    </th>
-                                    
-                                    <th>
-                                        Noblebots
-                                    </th>
-                                    <th>
-                                        Level
-                                    </th>
-                                    <tr>
-                                        <td>
-                                            <input type="radio" name="knightChoice">
-                                                
-                                            </input>
-                                        </td>
-                                        <td>
-                                            Knight 1
-                                        </td>
-                                        <td>
-                                            4
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="radio" name="knightChoice">
-                                                
-                                            </input>
-                                        </td>
-                                        <td>
-                                            Knight 2
-                                        </td>
-                                        <td>
-                                            3
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="radio" name="knightChoice">
-                                                
-                                            </input>
-                                        </td>
-                                        <td>
-                                            Knight 3
-                                        </td>
-                                        <td>
-                                            2
-                                        </td>
-                                    </tr>
-                                </thead>
-                            </table>
-                            <div class="form-group row mb-0">
-                                <div class="col-md-12 " style="text-align:center">
-                                    <input value="add" id="joust" name="joust" type="button" class="btn btn-primary" onclick="AddActionClickListener('joust','joustButton',1);">
-                                    </input>
-
-                                    <input value="" type="hidden" id="joustButton" name="joustButton">
-                                
-                                    </input>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
+                <td class="col-md-6" style="padding:0px" id="knight-joust">
                 </td>
+                <input type="hidden" id="game-id" value={{ $game->id }} />
+                <input type="hidden" id="knight-id" value={{ $knight->id }} />
                 
             </table>
                     

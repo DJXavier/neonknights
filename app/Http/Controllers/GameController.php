@@ -120,4 +120,17 @@ class GameController extends Controller
     {
         //
     }
+
+    public function getJoustingOpponents($gameId, $knightId)
+    {
+        $game = \App\Models\Game::FindOrFail($gameId);
+        
+        $joustable = $game->knights()->get()->filter(function ($knight, $key) use ($knightId) {
+            return $knight->id != $knightId;
+        });
+
+        return response()->json([
+            'knights' => $joustable,
+        ], 200);
+    }
 }
