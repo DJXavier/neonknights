@@ -11,6 +11,7 @@
                 
 <title>Select Actions</title>
 @section('content')
+<div id="action-page"></div>
 <div class="container-xl">
     <div class="row justify-content-center">
         <?php
