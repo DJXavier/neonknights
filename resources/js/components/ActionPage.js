@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SimpleAction from './ActionCards/SimpleAction';
+import SelectionTable from './SelectionTable';
 
 class ActionPage extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class ActionPage extends React.Component {
         }
         this.actionPoints = 3;
         this.handleAction = this.handleAction.bind(this);
+        this.handleSelectAction = this.handleSelectAction.bind(this);
     }
 
     handleAction(type, secret, value) {
@@ -28,6 +30,41 @@ class ActionPage extends React.Component {
                 pointsUsed: newPointsUsed
             }, () => console.log(this.state.actions));
             //Add elements
+        } else {
+            alert("Fail");
+        }
+    }
+
+    handleSelectAction(type, value, selectedItem) {
+        let action;
+        switch(type) {
+            case "jousting":
+                action = "joust";
+                break;
+            case "flirt":
+                action = "flirt"
+                break;
+            default:
+                action = "not available"
+                break;
+        }
+        
+        if (((this.state.pointsUsed + value) <= this.actionPoints)
+            && (action !== "not available")
+            && (selectedItem != false)) {
+            let newAction = {
+                questName: action,
+                targetId: selectedItem
+            };
+
+            let actions = this.state.actions;
+            actions.push(newAction);
+
+            let newPointsUsed = this.state.pointsUsed + value;
+            this.setState({
+                actions: actions,
+                pointsUsed: newPointsUsed
+            }, () => console.log(this.state.actions));
         } else {
             alert("Fail");
         }
@@ -90,92 +127,25 @@ class ActionPage extends React.Component {
                         <table className="col-md-12">
                             <tbody>
                                 <tr>
-                                    <td className="col-md-6" style={{padding: "0px"}}>
-                                        <div className="card ">
-                                            <div className="card-header" style={{textAlign: "center", fontWeight: "bold"}}>
-                                                Flirt
-                                            </div>
-                                                
-                                            <div className="card-body">
-                                                <div className="form-group row">    
-                                                    <label htmlFor="type" className="form-control-plaintext text-md" style={{textAlign: "center"}} >takes 1 time slot</label>
-                                                </div>
-                                    
-                                                <table className="table-bordered col-md-12">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>
-                                                                Select
-                                                                
-                                                            </th>
-                                                            
-                                                            <th>
-                                                                Noblebots
-                                                                
-                                                            </th>
-                                                            <th>
-                                                                Level
-                                                                
-                                                            </th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="radio" name="flirtChoice">
-                                                                    
-                                                                </input>
-                                                            </td>
-                                                            <td>
-                                                                Noblebots No.89757
-                                                            </td>
-                                                            <td>
-                                                                4
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="radio" name="flirtChoice">
-                                                                    
-                                                                </input>
-                                                            </td>
-                                                            <td>
-                                                                Noblebots No.101
-                                                            </td>
-                                                            <td>
-                                                                5
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="radio" name="flirtChoice">
-                                                                    
-                                                                </input>
-                                                            </td>
-                                                            <td>
-                                                                
-                                                                Noblebots No.7768
-                                                            </td>
-                                                            <td>
-                                                                3
-                                                            </td>
-                                                        </tr>
-                                                    </thead>
-                                                </table>
-                                                <div className="form-group row mb-0">
-                                                    <div className="col-md-12 " style={{textAlign: "center"}}>
-                                                        <input value="add" id="flirt" name="flirt" type="button" className="btn btn-primary" onClick={() => AddActionClickListener('flirt','flirtButton',1)}>
-                                                        </input>
-
-                                                        <input value="" type="hidden" id="flirtButton" name="flirtButton">
-                                                    
-                                                        </input>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
+                                    <td>
+                                        <SelectionTable
+                                            name={"Flirt"}
+                                            itemName={"Noblebot"}
+                                            length={1}
+                                            handleSelectAction={this.handleSelectAction}
+                                            getRoute={"/noblebot/" + this.props.gameId}
+                                        />
+                                    </td>
+                                    <td>
+                                        <SelectionTable
+                                            name={"Jousting"}
+                                            itemName={"Knight"}
+                                            length={1}
+                                            handleSelectAction={this.handleSelectAction}
+                                            getRoute={"/game/joust/" + this.props.gameId + "/" + this.props.knightId}
+                                        />
                                     </td>
                                 </tr>
-                                {/*Display Knights*/}
                             </tbody>
                         </table>
                                 
@@ -251,5 +221,7 @@ class ActionPage extends React.Component {
 export default ActionPage;
 
 if (document.getElementById('action-page')) {
-    ReactDOM.render(<ActionPage />, document.getElementById('action-page'));
+    let gameId = document.getElementById('game-id').value;
+    let knightId = document.getElementById('knight-id').value;
+    ReactDOM.render(<ActionPage gameId={gameId} knightId={knightId}/>, document.getElementById('action-page'));
 }
