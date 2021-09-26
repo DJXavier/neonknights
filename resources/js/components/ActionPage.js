@@ -23,6 +23,7 @@ class ActionPage extends React.Component {
                 joustAccepted: this.joustAcceptance(),
                 targetId: targetId,
                 entryData: entryData,
+                time: 'start',
             };
 
             let actions = this.state.actions;
@@ -88,15 +89,24 @@ class ActionPage extends React.Component {
 
     submitData() {
         if (this.state.pointsUsed === this.actionPoints) {
-            let submitForm = (
-                <form action={"/submittedweeklyaction/" + this.props.gameId} method="POST">
-                    <div id="actionOne">
-                        test
-                    </div>
-                </form>
-            );
+            for(let i = 0; i < this.state.actions.length; i++) {
+                let submitPrefix = (
+                    ((i+1) === 1) ? "one" : (
+                        ((i+1) === 2) ? "two" : "three"
+                    )
+                );
 
-            document.getElementById("form-submit-local").appendChild(submitForm);
+
+                let action = this.state.actions[i];
+                document.getElementById(submitPrefix + "-type").value = action.questName;
+                document.getElementById(submitPrefix + "-length").value = action.length;
+                document.getElementById(submitPrefix + "-joust-accept").value = action.joustAccepted;
+                document.getElementById(submitPrefix + "-target").value = action.targetId;
+                document.getElementById(submitPrefix + "-entry").value = action.entryData;
+                document.getElementById(submitPrefix + "-time").value = action.time;
+            }
+
+            document.getElementById("action-post").submit();
         } else {
             alert("Please eneter all actions for your week before submitting your actions.");
         }

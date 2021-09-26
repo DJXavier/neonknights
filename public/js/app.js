@@ -2051,7 +2051,8 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
           length: value,
           joustAccepted: this.joustAcceptance(),
           targetId: targetId,
-          entryData: entryData
+          entryData: entryData,
+          time: 'start'
         };
         var actions = this.state.actions;
         actions.push(newAction);
@@ -2126,16 +2127,18 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
     key: "submitData",
     value: function submitData() {
       if (this.state.pointsUsed === this.actionPoints) {
-        var submitForm = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("form", {
-          action: "/submittedweeklyaction/" + this.props.gameId,
-          method: "POST",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            id: "actionOne",
-            children: "test"
-          })
-        });
+        for (var i = 0; i < this.state.actions.length; i++) {
+          var submitPrefix = i + 1 === 1 ? "one" : i + 1 === 2 ? "two" : "three";
+          var action = this.state.actions[i];
+          document.getElementById(submitPrefix + "-type").value = action.questName;
+          document.getElementById(submitPrefix + "-length").value = action.length;
+          document.getElementById(submitPrefix + "-joust-accept").value = action.joustAccepted;
+          document.getElementById(submitPrefix + "-target").value = action.targetId;
+          document.getElementById(submitPrefix + "-entry").value = action.entryData;
+          document.getElementById(submitPrefix + "-time").value = action.time;
+        }
 
-        document.getElementById("form-submit-local").appendChild(submitForm);
+        document.getElementById("action-post").submit();
       } else {
         alert("Please eneter all actions for your week before submitting your actions.");
       }

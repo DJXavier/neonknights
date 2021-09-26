@@ -19,7 +19,7 @@
     <input type="hidden" id="game-id" value={{ $game->id }} />
     <input type="hidden" id="knight-id" value={{ $knight->id }} />
 </div>
-<form action="/submittedweeklyaction/ {{ $game->id }}" method="POST">
+<form action="/submittedweeklyaction/ {{ $game->id }}" method="POST" id="action-post">
     @csrf
     <div id="action-one">
         <input type="hidden" value="" id="one-type"/>
@@ -27,7 +27,7 @@
         <input type="hidden" value="" id="one-joust-accept"/>
         <input type="hidden" value="" id="one-target"/>
         <input type="hidden" value="" id="one-entry"/>
-        <input type="hidden" value="" id="one-time"/>]
+        <input type="hidden" value="" id="one-time"/>
     </div>
     <div id="action-two">
         <input type="hidden" value="" id="two-type"/>
@@ -35,7 +35,7 @@
         <input type="hidden" value="" id="two-joust-accept"/>
         <input type="hidden" value="" id="two-target"/>
         <input type="hidden" value="" id="two-entry"/>
-        <input type="hidden" value="" id="two-time"/>]
+        <input type="hidden" value="" id="two-time"/>
     </div>
     <div id="action-three">
         <input type="hidden" value="" id="three-type"/>
@@ -43,7 +43,7 @@
         <input type="hidden" value="" id="three-joust-accept"/>
         <input type="hidden" value="" id="three-target"/>
         <input type="hidden" value="" id="three-entry"/>
-        <input type="hidden" value="" id="three-time"/>]
+        <input type="hidden" value="" id="three-time"/>
     </div>
 </form>
 <!--
