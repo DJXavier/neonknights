@@ -7,43 +7,11 @@ class ActionDnD extends React.Component {
     constructor(props) {
         super(props);
         this.moveCard = this.moveCard.bind(this);
-        this.state = {
-            actions: [
-                {
-                    id: 1,
-                    questName: 'Write a cool JS library',
-                },
-                {
-                    id: 2,
-                    questName: 'Make it generic enough',
-                },
-                {
-                    id: 3,
-                    questName: 'Write README',
-                },
-                {
-                    id: 4,
-                    questName: 'Create some examples',
-                },
-                {
-                    id: 5,
-                    questName: 'Spam in Twitter and IRC to promote it (note that this element is taller than the others)',
-                },
-                {
-                    id: 6,
-                    questName: '???',
-                },
-                {
-                    id: 7,
-                    questName: 'PROFIT',
-                },
-            ],
-        }
     }
 
     moveCard(dragIndex, hoverIndex) {
-        const dragCard = this.state.actions[dragIndex];
-        let newArray = this.state.actions;
+        const dragCard = this.props.actions[dragIndex];
+        let newArray = this.props.actions;
         newArray.splice(dragIndex, 1)
         newArray.splice(hoverIndex, 0, dragCard);
         this.setState({actions: newArray})
@@ -54,8 +22,8 @@ class ActionDnD extends React.Component {
     }
 
     render() {
-        let toShow = ((this.state.actions != null)
-            ? <div>{this.state.actions.map((action, i) => this.renderAction(action, i))}</div>
+        let toShow = ((this.props.actions != null)
+            ? <div>{this.props.actions.map((action, i) => this.renderAction(action, i))}</div>
             : <div><h3>No actions have been selected yet.</h3></div>);
         return (
             <>

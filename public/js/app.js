@@ -2456,7 +2456,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -2638,38 +2638,14 @@ var ActionDnD = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.moveCard = _this.moveCard.bind(_assertThisInitialized(_this));
-    _this.state = {
-      actions: [{
-        id: 1,
-        questName: 'Write a cool JS library'
-      }, {
-        id: 2,
-        questName: 'Make it generic enough'
-      }, {
-        id: 3,
-        questName: 'Write README'
-      }, {
-        id: 4,
-        questName: 'Create some examples'
-      }, {
-        id: 5,
-        questName: 'Spam in Twitter and IRC to promote it (note that this element is taller than the others)'
-      }, {
-        id: 6,
-        questName: '???'
-      }, {
-        id: 7,
-        questName: 'PROFIT'
-      }]
-    };
     return _this;
   }
 
   _createClass(ActionDnD, [{
     key: "moveCard",
     value: function moveCard(dragIndex, hoverIndex) {
-      var dragCard = this.state.actions[dragIndex];
-      var newArray = this.state.actions;
+      var dragCard = this.props.actions[dragIndex];
+      var newArray = this.props.actions;
       newArray.splice(dragIndex, 1);
       newArray.splice(hoverIndex, 0, dragCard);
       this.setState({
@@ -2691,8 +2667,8 @@ var ActionDnD = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var toShow = this.state.actions != null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-        children: this.state.actions.map(function (action, i) {
+      var toShow = this.props.actions != null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: this.props.actions.map(function (action, i) {
           return _this2.renderAction(action, i);
         })
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -2866,6 +2842,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
     };
     _this.actionPoints = 3;
     _this.handleAction = _this.handleAction.bind(_assertThisInitialized(_this));
+    _this.handleTextAction = _this.handleTextAction.bind(_assertThisInitialized(_this));
     _this.handleSelectAction = _this.handleSelectAction.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -2894,8 +2871,10 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
         }, function () {
           return console.log(_this2.state.actions);
         });
+      } else if (this.state.pointsUsed === this.actionPoints) {
+        alert("You have used up all your action slots for the week. Please remove ones you don't want.");
       } else {
-        alert("You have used up your action slots for the week. Please remove ones you don't want.");
+        alert("You do not have enough available action slots for this action. Please remove ones you don't want.");
       }
     }
   }, {
@@ -2903,8 +2882,10 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
     value: function handleAction(type, value) {
       if (this.state.pointsUsed + value <= this.actionPoints) {
         this.actionEntry(type, value, null, null);
+      } else if (this.state.pointsUsed === this.actionPoints) {
+        alert("You have used up all your action slots for the week. Please remove ones you don't want.");
       } else {
-        alert("You have used up your action slots for the week. Please remove ones you don't want.");
+        alert("You do not have enough available action slots for this action. Please remove ones you don't want.");
       }
     }
   }, {
@@ -2924,7 +2905,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
       var action;
 
       switch (type) {
-        case "jousting":
+        case "joust":
           action = "joust";
           break;
 
@@ -2971,7 +2952,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
 
         document.getElementById("action-post").submit();
       } else {
-        alert("Please eneter all actions for your week before submitting your actions.");
+        alert("Please enter all actions for your week before submitting your actions.");
       }
     }
   }, {
@@ -3002,14 +2983,16 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                         fontWeight: "bold"
                       },
                       children: "Currently Selected Actions"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-                      className: "card-body ",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_dnd__WEBPACK_IMPORTED_MODULE_6__.DndProvider, {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+                      className: "card-body",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("h2", {
+                        children: ["Action Slots Used: ", this.state.pointsUsed, " / ", this.actionPoints]
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_dnd__WEBPACK_IMPORTED_MODULE_6__.DndProvider, {
                         backend: react_dnd_html5_backend__WEBPACK_IMPORTED_MODULE_7__.HTML5Backend,
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_ActionCards_ActionDnD__WEBPACK_IMPORTED_MODULE_2__.default, {
-                          action: this.state.actions
+                          actions: this.state.actions
                         })
-                      })
+                      })]
                     })]
                   })
                 })
@@ -3114,7 +3097,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                       })
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SelectionTable__WEBPACK_IMPORTED_MODULE_4__.default, {
-                        name: "Jousting",
+                        name: "Joust",
                         itemName: "Knight",
                         length: 1,
                         handleSelectAction: this.handleSelectAction,
@@ -76224,8 +76207,7 @@ if (false) {} else {
 /******/ 				}
 /******/ 				if(fulfilled) {
 /******/ 					deferred.splice(i--, 1)
-/******/ 					var r = fn();
-/******/ 					if (r !== undefined) result = r;
+/******/ 					result = fn();
 /******/ 				}
 /******/ 			}
 /******/ 			return result;

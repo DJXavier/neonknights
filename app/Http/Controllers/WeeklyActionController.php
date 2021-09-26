@@ -105,13 +105,11 @@ class WeeklyActionController extends Controller
                         break;
                     case 'flirt':
                         $actionObject->type = 3;
-                        $actionObject->noblebot()
-                            ->associate(\App\Models\Noblebot::Find($actionValues["target"]));
+                        $actionObject->noblebot()->associate(\App\Models\Noblebot::Find($actionValues["target"]));
                         break;
                     case 'joust':
                         $actionObject->type = 5;
-                        $actionObject->targetKnight()
-                            ->assosciate(\App\Models\Knights::Find($actionValues["target"]));
+                        $actionObject->targetKnight()->associate(\App\Models\Knight::Find($actionValues["target"]));
                         break;
                 }
                 $actionObject->save();

@@ -15,6 +15,7 @@ class ActionPage extends React.Component {
         }
         this.actionPoints = 3;
         this.handleAction = this.handleAction.bind(this);
+        this.handleTextAction = this.handleTextAction.bind(this);
         this.handleSelectAction = this.handleSelectAction.bind(this);
     }
 
@@ -38,16 +39,20 @@ class ActionPage extends React.Component {
                 actions: actions,
                 pointsUsed: newPointsUsed
             }, () => console.log(this.state.actions));
+        } else if (this.state.pointsUsed === this.actionPoints) {
+            alert("You have used up all your action slots for the week. Please remove ones you don't want.");
         } else {
-            alert("You have used up your action slots for the week. Please remove ones you don't want.");
+            alert("You do not have enough available action slots for this action. Please remove ones you don't want.");
         }
     }
 
     handleAction(type, value) {
         if ((this.state.pointsUsed + value) <= this.actionPoints) {
             this.actionEntry(type, value, null, null);
+        } else if (this.state.pointsUsed === this.actionPoints) {
+            alert("You have used up all your action slots for the week. Please remove ones you don't want.");
         } else {
-            alert("You have used up your action slots for the week. Please remove ones you don't want.");
+            alert("You do not have enough available action slots for this action. Please remove ones you don't want.");
         }
     }
 
@@ -64,7 +69,7 @@ class ActionPage extends React.Component {
     handleSelectAction(type, value, selectedItem) {
         let action;
         switch(type) {
-            case "jousting":
+            case "joust":
                 action = "joust";
                 break;
             case "flirt":
@@ -112,7 +117,7 @@ class ActionPage extends React.Component {
 
             document.getElementById("action-post").submit();
         } else {
-            alert("Please eneter all actions for your week before submitting your actions.");
+            alert("Please enter all actions for your week before submitting your actions.");
         }
     }
 
@@ -129,9 +134,10 @@ class ActionPage extends React.Component {
                                         <div className="card-header" style={{textAlign: "center", fontWeight: "bold"}}>
                                             Currently Selected Actions
                                         </div>
-                                        <div className="card-body ">
+                                        <div className="card-body">
+                                            <h2>Action Slots Used: {this.state.pointsUsed} / {this.actionPoints}</h2>
                                             <DndProvider backend={HTML5Backend}>
-                                                <ActionDnD action={this.state.actions}/>
+                                                <ActionDnD actions={this.state.actions}/>
                                             </DndProvider>
                                         </div>
                                     </div>
@@ -202,7 +208,7 @@ class ActionPage extends React.Component {
                                     </td>
                                     <td>
                                         <SelectionTable
-                                            name={"Jousting"}
+                                            name={"Joust"}
                                             itemName={"Knight"}
                                             length={1}
                                             handleSelectAction={this.handleSelectAction}
