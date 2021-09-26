@@ -11,13 +11,44 @@
                 
 <title>Select Actions</title>
 @section('content')
-<div id="action-page"></div>
+<?php
+    $game = \App\Models\Game::Find($id);
+    $knight = $game->knights()->where('user_id', auth()->user()->id)->get()->first();
+?>
+<div id="action-page">
+    <input type="hidden" id="game-id" value={{ $game->id }} />
+    <input type="hidden" id="knight-id" value={{ $knight->id }} />
+</div>
+<form action="/submittedweeklyaction/ {{ $game->id }}" method="POST">
+    @csrf
+    <div id="action-one">
+        <input type="hidden" value="" id="one-type"/>
+        <input type="hidden" value="" id="one-length"/>
+        <input type="hidden" value="" id="one-joust-accept"/>
+        <input type="hidden" value="" id="one-target"/>
+        <input type="hidden" value="" id="one-entry"/>
+        <input type="hidden" value="" id="one-time"/>]
+    </div>
+    <div id="action-two">
+        <input type="hidden" value="" id="two-type"/>
+        <input type="hidden" value="" id="two-length"/>
+        <input type="hidden" value="" id="two-joust-accept"/>
+        <input type="hidden" value="" id="two-target"/>
+        <input type="hidden" value="" id="two-entry"/>
+        <input type="hidden" value="" id="two-time"/>]
+    </div>
+    <div id="action-three">
+        <input type="hidden" value="" id="three-type"/>
+        <input type="hidden" value="" id="three-length"/>
+        <input type="hidden" value="" id="three-joust-accept"/>
+        <input type="hidden" value="" id="three-target"/>
+        <input type="hidden" value="" id="three-entry"/>
+        <input type="hidden" value="" id="three-time"/>]
+    </div>
+</form>
+<!--
 <div class="container-xl">
     <div class="row justify-content-center">
-        <?php
-            $game = \App\Models\Game::Find($id);
-            $knight = $game->knights()->where('user_id', auth()->user()->id)->get()->first();
-        ?>
         @if ($game != null)
             <div class="col-md-12"><h2>Action Entry for: {{ $game->name }}<h2></div>
         @endif
@@ -238,8 +269,6 @@
                 </td>
                 <td class="col-md-6" style="padding:0px" id="knight-joust">
                 </td>
-                <input type="hidden" id="game-id" value={{ $game->id }} />
-                <input type="hidden" id="knight-id" value={{ $knight->id }} />
                 
             </table>
                     
@@ -277,13 +306,13 @@
                 </div>
             </table>
            
-                <?php 
+                <?php /*
                     $thisId = session('id');
                     $slotTotal =session('slots');
                     echo '<input value ="' . $thisId . '"' . 'type="hidden" name="thisId" id="thisId">';
                     echo '<input value ="' . session('noPlayers') . '"' . 'type="hidden" name="players" id="players">';
                     echo '<input value ="' . $slotTotal . '"' . 'type="hidden" name="slotTotal" id="slotTotal">';
-
+*/
                 ?>
                 
                 <div class="form-group row mb-0">
@@ -302,6 +331,7 @@
         </div>
     </div>
 </div>
+-->
 <!--
 <script type="text/javascript">
 

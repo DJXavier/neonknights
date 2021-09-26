@@ -11,8 +11,7 @@ function SimpleAction(name, length, handleAction) {
                     </div>
                     <div className="form-group row mb-0">
                         <div className="col-md-6 offset-md-4">
-                            <input  value="add" id="quest" name="quest" type="button" className="btn btn-primary" onClick={() => handleAction(name.toLowerCase(), name.toLowerCase() + 'Button', length)}></input>  
-                            <input value="" type="hidden" id="questButton" name="questButton"></input>
+                            <input  value="add" id="quest" name="quest" type="button" className="btn btn-primary" onClick={() => handleAction(name.toLowerCase(), length)}></input>
                         </div>
                     </div>
                 </div>

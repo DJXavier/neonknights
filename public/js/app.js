@@ -1951,23 +1951,18 @@ function SimpleAction(name, length, handleAction) {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
           className: "form-group row mb-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             className: "col-md-6 offset-md-4",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
               value: "add",
               id: "quest",
               name: "quest",
               type: "button",
               className: "btn btn-primary",
               onClick: function onClick() {
-                return handleAction(name.toLowerCase(), name.toLowerCase() + 'Button', length);
+                return handleAction(name.toLowerCase(), length);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-              value: "",
-              type: "hidden",
-              id: "questButton",
-              name: "questButton"
-            })]
+            })
           })
         })]
       })]
@@ -2046,13 +2041,17 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(ActionPage, [{
-    key: "handleAction",
-    value: function handleAction(type, secret, value) {
+    key: "actionEntry",
+    value: function actionEntry(type, value, targetId, entryData) {
       var _this2 = this;
 
       if (this.state.pointsUsed + value <= this.actionPoints) {
         var newAction = {
-          questName: type
+          questName: type,
+          length: value,
+          joustAccepted: this.joustAcceptance(),
+          targetId: targetId,
+          entryData: entryData
         };
         var actions = this.state.actions;
         actions.push(newAction);
@@ -2062,16 +2061,34 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
           pointsUsed: newPointsUsed
         }, function () {
           return console.log(_this2.state.actions);
-        }); //Add elements
+        });
       } else {
-        alert("Fail");
+        alert("You have used up your action slots for the week. Please remove ones you don't want.");
+      }
+    }
+  }, {
+    key: "handleAction",
+    value: function handleAction(type, value) {
+      if (this.state.pointsUsed + value <= this.actionPoints) {
+        this.actionEntry(type, value, null, null);
+      } else {
+        alert("You have used up your action slots for the week. Please remove ones you don't want.");
+      }
+    }
+  }, {
+    key: "handleTextAction",
+    value: function handleTextAction(type, location, value) {
+      var textArea = document.getElementById(location);
+
+      if (textArea.value != null) {
+        this.actionEntry(type, value, null, textArea.value);
+      } else {
+        alert("Please enter the information into the textbox before adding the action to your week.");
       }
     }
   }, {
     key: "handleSelectAction",
     value: function handleSelectAction(type, value, selectedItem) {
-      var _this3 = this;
-
       var action;
 
       switch (type) {
@@ -2088,28 +2105,45 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
           break;
       }
 
-      if (this.state.pointsUsed + value <= this.actionPoints && action !== "not available" && selectedItem != false) {
-        var newAction = {
-          questName: action,
-          targetId: selectedItem
-        };
-        var actions = this.state.actions;
-        actions.push(newAction);
-        var newPointsUsed = this.state.pointsUsed + value;
-        this.setState({
-          actions: actions,
-          pointsUsed: newPointsUsed
-        }, function () {
-          return console.log(_this3.state.actions);
-        });
+      if (action !== "not available" && selectedItem != false) {
+        this.actionEntry(type, value, selectedItem, null);
       } else {
-        alert("Fail");
+        alert("Please select an item before adding the action to your week.");
+      }
+    }
+  }, {
+    key: "joustAcceptance",
+    value: function joustAcceptance() {
+      var acceptButton = document.getElementById('joust-accept');
+
+      if (acceptButton.checked) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "submitData",
+    value: function submitData() {
+      if (this.state.pointsUsed === this.actionPoints) {
+        var submitForm = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("form", {
+          action: "/submittedweeklyaction/" + this.props.gameId,
+          method: "POST",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            id: "actionOne",
+            children: "test"
+          })
+        });
+
+        document.getElementById("form-submit-local").appendChild(submitForm);
+      } else {
+        alert("Please eneter all actions for your week before submitting your actions.");
       }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "container-xl",
@@ -2118,24 +2152,23 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "col-md-12",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
-              action: "/submittedweeklyaction/{{ $id }}",
-              method: "POST",
               onSubmit: function onSubmit() {
                 event.preventDefault();
-                FormSubmit(event);
+
+                _this3.submitData();
               },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("table", {
                 className: "col-md-12",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
-                    children: [(0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_2__.default)('Quest', 3, function (type, secret, value) {
-                      return _this4.handleAction(type, secret, value);
-                    }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_2__.default)('Party', 1, function (type, secret, value) {
-                      return _this4.handleAction(type, secret, value);
-                    }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_2__.default)('Train', 1, function (type, secret, value) {
-                      return _this4.handleAction(type, secret, value);
-                    }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_2__.default)('Slack Off', 1, function (type, secret, value) {
-                      return _this4.handleAction(type, secret, value);
+                    children: [(0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_2__.default)('Quest', 3, function (type, value) {
+                      return _this3.handleAction(type, value);
+                    }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_2__.default)('Party', 1, function (type, value) {
+                      return _this3.handleAction(type, value);
+                    }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_2__.default)('Train', 1, function (type, value) {
+                      return _this3.handleAction(type, value);
+                    }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_2__.default)('Slack Off', 1, function (type, value) {
+                      return _this3.handleAction(type, value);
                     })]
                   })
                 })
@@ -2163,10 +2196,11 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                               style: {
                                 textAlign: "center"
                               },
-                              children: "takes 2 time slots"
+                              children: "Takes 2 time slots"
                             })
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("textarea", {
                             className: "form-control",
+                            id: "poem-area",
                             style: {
                               width: "100%"
                             },
@@ -2185,7 +2219,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                                 type: "button",
                                 className: "btn btn-primary",
                                 onClick: function onClick() {
-                                  return AddActionClickListener('poem', 'poemButton', 2);
+                                  return _this3.handleTextAction('poem', 'poem-area', 2);
                                 }
                               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                                 value: "",
@@ -2246,7 +2280,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                             },
                             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                               type: "radio",
-                              id: "joustAccept",
+                              id: "joust-accept",
                               name: "joustAccept",
                               className: "col-md-1",
                               style: {
@@ -2259,7 +2293,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                               children: "Agree"
                             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                               type: "radio",
-                              id: "joustAccept",
+                              id: "joust-decline",
                               name: "joustAccept",
                               className: "col-md-1",
                               style: {
@@ -2271,11 +2305,6 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                               defaultChecked: true
                             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
                               children: "Decline"
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
-                              value: "no",
-                              type: "hidden",
-                              id: "joustAcceptButton",
-                              name: "joustAcceptButton"
                             })]
                           })
                         })]
@@ -2680,7 +2709,6 @@ var SelectionTable = /*#__PURE__*/function (_React$Component) {
       }
 
       if (selectablePos < 0) {
-        alert("Please select a knight to joust before adding the action.");
         return false;
       } else {
         return this.state.selectable[selectablePos]._id;

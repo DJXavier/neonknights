@@ -15,10 +15,14 @@ class ActionPage extends React.Component {
         this.handleSelectAction = this.handleSelectAction.bind(this);
     }
 
-    handleAction(type, secret, value) {
+    actionEntry(type, value, targetId, entryData) {
         if ((this.state.pointsUsed + value) <= this.actionPoints) {
             let newAction = {
                 questName: type,
+                length: value,
+                joustAccepted: this.joustAcceptance(),
+                targetId: targetId,
+                entryData: entryData,
             };
 
             let actions = this.state.actions;
@@ -29,9 +33,26 @@ class ActionPage extends React.Component {
                 actions: actions,
                 pointsUsed: newPointsUsed
             }, () => console.log(this.state.actions));
-            //Add elements
         } else {
-            alert("Fail");
+            alert("You have used up your action slots for the week. Please remove ones you don't want.");
+        }
+    }
+
+    handleAction(type, value) {
+        if ((this.state.pointsUsed + value) <= this.actionPoints) {
+            this.actionEntry(type, value, null, null);
+        } else {
+            alert("You have used up your action slots for the week. Please remove ones you don't want.");
+        }
+    }
+
+    handleTextAction(type, location, value) {
+        let textArea = document.getElementById(location);
+
+        if (textArea.value != null) {
+            this.actionEntry(type, value, null, textArea.value);
+        } else {
+            alert("Please enter the information into the textbox before adding the action to your week.");
         }
     }
 
@@ -49,24 +70,35 @@ class ActionPage extends React.Component {
                 break;
         }
         
-        if (((this.state.pointsUsed + value) <= this.actionPoints)
-            && (action !== "not available")
-            && (selectedItem != false)) {
-            let newAction = {
-                questName: action,
-                targetId: selectedItem
-            };
-
-            let actions = this.state.actions;
-            actions.push(newAction);
-
-            let newPointsUsed = this.state.pointsUsed + value;
-            this.setState({
-                actions: actions,
-                pointsUsed: newPointsUsed
-            }, () => console.log(this.state.actions));
+        if ((action !== "not available") && (selectedItem != false)) {
+            this.actionEntry(type, value, selectedItem, null);
         } else {
-            alert("Fail");
+            alert("Please select an item before adding the action to your week.");
+        }
+    }
+
+    joustAcceptance() {
+        let acceptButton = document.getElementById('joust-accept');
+        if (acceptButton.checked) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    submitData() {
+        if (this.state.pointsUsed === this.actionPoints) {
+            let submitForm = (
+                <form action={"/submittedweeklyaction/" + this.props.gameId} method="POST">
+                    <div id="actionOne">
+                        test
+                    </div>
+                </form>
+            );
+
+            document.getElementById("form-submit-local").appendChild(submitForm);
+        } else {
+            alert("Please eneter all actions for your week before submitting your actions.");
         }
     }
 
@@ -76,16 +108,16 @@ class ActionPage extends React.Component {
                 <div className="row justify-content-center">
                     {/*Display game name*/}
                     <div className="col-md-12">
-                        <form action="/submittedweeklyaction/{{ $id }}" method="POST" onSubmit={() => { event.preventDefault(); FormSubmit(event) }}>
+                        <form onSubmit={() => { event.preventDefault(); this.submitData() }}>
                         {/*CSRF token required*/}
                         {/*Error display*/}
                         <table className="col-md-12">
                             <tbody>
                                 <tr>
-                                    {SimpleAction('Quest', 3, (type, secret, value) => this.handleAction(type, secret, value))}
-                                    {SimpleAction('Party', 1, (type, secret, value) => this.handleAction(type, secret, value))}
-                                    {SimpleAction('Train', 1, (type, secret, value) => this.handleAction(type, secret, value))}
-                                    {SimpleAction('Slack Off', 1, (type, secret, value) => this.handleAction(type, secret, value))}
+                                    {SimpleAction('Quest', 3, (type, value) => this.handleAction(type, value))}
+                                    {SimpleAction('Party', 1, (type, value) => this.handleAction(type, value))}
+                                    {SimpleAction('Train', 1, (type, value) => this.handleAction(type, value))}
+                                    {SimpleAction('Slack Off', 1, (type, value) => this.handleAction(type, value))}
                                 </tr>
                             </tbody>
                         </table>
@@ -101,14 +133,14 @@ class ActionPage extends React.Component {
                                             <div className="card-body">
                                                 
                                                 <div className="form-group row">    
-                                                    <label htmlFor="type" className="form-control-plaintext text-md" style={{textAlign: "center"}} >takes 2 time slots</label>
+                                                    <label htmlFor="type" className="form-control-plaintext text-md" style={{textAlign: "center"}} >Takes 2 time slots</label>
                                                 </div>
                                         
-                                                <textarea className="form-control" style={{width: "100%"}} rows = "4"></textarea>
+                                                <textarea className="form-control" id="poem-area" style={{width: "100%"}} rows = "4"></textarea>
 
                                                 <div className="form-group row mb-0">
                                                     <div className="col-md-12 " style={{textAlign: "center"}}>
-                                                        <input value="add" id="poem" name="poem" type="button" className="btn btn-primary" onClick={() => AddActionClickListener('poem','poemButton',2)}>
+                                                        <input value="add" id="poem" name="poem" type="button" className="btn btn-primary" onClick={() => this.handleTextAction('poem','poem-area', 2)}>
                                                         </input>
 
                                                         <input value="" type="hidden" id="poemButton" name="poemButton">
@@ -159,17 +191,11 @@ class ActionPage extends React.Component {
                                             </div>
                                             <div className="card-body ">
                                                 <div className="form-group" style={{textAlign: "center"}}>
-                                                    <input type="radio" id="joustAccept" name="joustAccept" className= "col-md-1" style={{textAlign: "left"}} onClick={() => toggleOnJoust()}>
-                                                        
-                                                    </input>
+                                                    <input type="radio" id="joust-accept" name="joustAccept" className= "col-md-1" style={{textAlign: "left"}} onClick={() => toggleOnJoust()}></input>
                                                     <label>Agree</label>
-                                                    <input type="radio" id="joustAccept" name="joustAccept" className= "col-md-1" style={{textAlign: "left"}} onClick={() => toggleOffJoust()} defaultChecked>
-                                                                        
-                                                    </input>
+
+                                                    <input type="radio" id="joust-decline" name="joustAccept" className= "col-md-1" style={{textAlign: "left"}} onClick={() => toggleOffJoust()} defaultChecked></input>
                                                     <label>Decline</label>
-                                                    <input value="no" type="hidden" id="joustAcceptButton" name="joustAcceptButton">
-                                                        
-                                                    </input>
                                                 </div>
                                             </div>
                                         </div>

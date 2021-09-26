@@ -38,7 +38,6 @@ class SelectionTable extends React.Component {
         }
 
         if (selectablePos < 0) {
-            alert("Please select a knight to joust before adding the action.");
             return false;
         } else {
             return this.state.selectable[selectablePos]._id;
