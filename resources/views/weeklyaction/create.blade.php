@@ -18,6 +18,7 @@
 <div id="action-page">
     <input type="hidden" id="game-id" value={{ $game->id }} />
     <input type="hidden" id="knight-id" value={{ $knight->id }} />
+    <input type="hidden" id="game-name" value={{ $game->name }} />
 </div>
 <form action="/submittedweeklyaction/{{ $game->id }}" method="POST" id="action-post">
     @csrf
@@ -46,6 +47,9 @@
         <input type="hidden" value="" id="three-time" name="three-time"/>
     </div>
 </form>
+<div id="knight-game">
+
+</div>
 <!--
 <div class="container-xl">
     <div class="row justify-content-center">

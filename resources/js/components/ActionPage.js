@@ -1,5 +1,8 @@
 import React from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import ReactDOM from 'react-dom';
+import ActionDnD from './ActionCards/ActionDnD';
 import SimpleAction from './ActionCards/SimpleAction';
 import SelectionTable from './SelectionTable';
 
@@ -18,6 +21,7 @@ class ActionPage extends React.Component {
     actionEntry(type, value, targetId, entryData) {
         if ((this.state.pointsUsed + value) <= this.actionPoints) {
             let newAction = {
+                id: (this.state.pointsUsed + 1),
                 questName: type,
                 length: value,
                 joustAccepted: this.joustAcceptance(),
@@ -116,7 +120,25 @@ class ActionPage extends React.Component {
         return (
             <div className="container-xl">
                 <div className="row justify-content-center">
-                    {/*Display game name*/}
+                    <div className="col-md-12"><h2>Action Entry for: {this.props.gameName}</h2></div>
+                    <table className="col-md-12">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div className="card">
+                                        <div className="card-header" style={{textAlign: "center", fontWeight: "bold"}}>
+                                            Currently Selected Actions
+                                        </div>
+                                        <div className="card-body ">
+                                            <DndProvider backend={HTML5Backend}>
+                                                <ActionDnD action={this.state.actions}/>
+                                            </DndProvider>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div className="col-md-12">
                         <form onSubmit={() => { event.preventDefault(); this.submitData() }}>
                         {/*CSRF token required*/}
@@ -213,26 +235,6 @@ class ActionPage extends React.Component {
                                 </tr>
                             </tbody>
                         </table>
-                        <table className="col-md-12">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div className="card">
-                                            <div className="card-header" style={{textAlign: "center", fontWeight: "bold"}}>
-                                                Currently Selected Actions
-                                            </div>
-                                            <div className="card-body ">
-                                                <div id="displayPanel" className="form-group" style={{textAlign: "center"}}>
-                                                    
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                            {/*Unknown php code*/}
                             
                             <div className="form-group row mb-0">
                                 <div className="col-md-6 " style={{textAlign: "right"}}>
@@ -259,5 +261,6 @@ export default ActionPage;
 if (document.getElementById('action-page')) {
     let gameId = document.getElementById('game-id').value;
     let knightId = document.getElementById('knight-id').value;
-    ReactDOM.render(<ActionPage gameId={gameId} knightId={knightId}/>, document.getElementById('action-page'));
+    let gameName = document.getElementById('game-name').value;
+    ReactDOM.render(<ActionPage gameId={gameId} gameName={gameName} knightId={knightId}/>, document.getElementById('action-page'));
 }
