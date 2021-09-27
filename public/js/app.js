@@ -2942,6 +2942,14 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "handleReset",
+    value: function handleReset() {
+      this.setState({
+        actions: [],
+        pointsUsed: 0
+      });
+    }
+  }, {
     key: "joustAcceptance",
     value: function joustAcceptance() {
       var acceptButton = document.getElementById('joust-accept');
@@ -3203,7 +3211,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                     type: "button",
                     className: "btn btn-primary",
                     onClick: function onClick() {
-                      return window.location.reload();
+                      return _this2.handleReset();
                     }
                   })
                 })]

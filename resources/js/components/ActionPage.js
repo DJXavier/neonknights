@@ -106,6 +106,13 @@ class ActionPage extends React.Component {
         }
     }
 
+    handleReset() {
+        this.setState({
+            actions: [],
+            pointsUsed: 0
+        });
+    }
+
     joustAcceptance() {
         let acceptButton = document.getElementById('joust-accept');
         if (acceptButton.checked) {
@@ -268,7 +275,7 @@ class ActionPage extends React.Component {
                                     </button>
                                 </div>
                                 <div className="col-md-6 " style={{textAlign: "left"}}>
-                                    <input value="Reset" type="button" className="btn btn-primary" onClick={() => window.location.reload()}>
+                                    <input value="Reset" type="button" className="btn btn-primary" onClick={() => this.handleReset()}>
                                         
                                     </input>
                                 </div>
