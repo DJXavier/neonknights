@@ -14,11 +14,11 @@ class ActionDnD extends React.Component {
         let newArray = this.props.actions;
         newArray.splice(dragIndex, 1)
         newArray.splice(hoverIndex, 0, dragCard);
-        this.setState({actions: newArray})
+        this.props.handleDnDTime(newArray);
     }
 
     renderAction(action, index) {
-        return <Action key={action.id} index={index} id={action.id} text={action.questName} moveCard={this.moveCard} />
+        return <Action key={action.id} index={index} id={action.id} text={action.questName} time={action.time} moveCard={this.moveCard} />
     }
 
     render() {

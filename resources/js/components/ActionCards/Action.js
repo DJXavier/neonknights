@@ -9,7 +9,7 @@ const style = {
     cursor: 'move',
 };
 
-function Action({ id, text, index, moveCard}) {
+function Action({ id, text, index, time, moveCard}) {
     const ref = useRef(null);
     const [{ handlerId }, drop] = useDrop({
         accept: ItemTypes.ACTION,
@@ -70,8 +70,13 @@ function Action({ id, text, index, moveCard}) {
     
     drag(drop(ref));
 
+    let placedText = (
+        time.charAt(0).toUpperCase() + time.slice(1) + " of the week: "
+        + text.charAt(0).toUpperCase() + text.slice(1)
+    );
+
     return (<div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
-			{text}
+            {placedText}
 		</div>);
 }
 

@@ -2476,6 +2476,7 @@ function Action(_ref) {
   var id = _ref.id,
       text = _ref.text,
       index = _ref.index,
+      time = _ref.time,
       moveCard = _ref.moveCard;
   var ref = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
 
@@ -2569,13 +2570,14 @@ function Action(_ref) {
 
   var opacity = isDragging ? 0.5 : 1;
   drag(drop(ref));
+  var placedText = time.charAt(0).toUpperCase() + time.slice(1) + " of the week: " + text.charAt(0).toUpperCase() + text.slice(1);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
     ref: ref,
     style: _objectSpread(_objectSpread({}, style), {}, {
       opacity: opacity
     }),
     "data-handler-id": handlerId,
-    children: text
+    children: placedText
   });
 }
 
@@ -2648,9 +2650,7 @@ var ActionDnD = /*#__PURE__*/function (_React$Component) {
       var newArray = this.props.actions;
       newArray.splice(dragIndex, 1);
       newArray.splice(hoverIndex, 0, dragCard);
-      this.setState({
-        actions: newArray
-      });
+      this.props.handleDnDTime(newArray);
     }
   }, {
     key: "renderAction",
@@ -2659,6 +2659,7 @@ var ActionDnD = /*#__PURE__*/function (_React$Component) {
         index: index,
         id: action.id,
         text: action.questName,
+        time: action.time,
         moveCard: this.moveCard
       }, action.id);
     }
@@ -2824,6 +2825,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+var weekValues = ["Start", "Middle", "End"];
 
 var ActionPage = /*#__PURE__*/function (_React$Component) {
   _inherits(ActionPage, _React$Component);
@@ -2844,38 +2846,53 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
     _this.handleAction = _this.handleAction.bind(_assertThisInitialized(_this));
     _this.handleTextAction = _this.handleTextAction.bind(_assertThisInitialized(_this));
     _this.handleSelectAction = _this.handleSelectAction.bind(_assertThisInitialized(_this));
+    _this.handleDnDTime = _this.handleDnDTime.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ActionPage, [{
     key: "actionEntry",
     value: function actionEntry(type, value, targetId, entryData) {
-      var _this2 = this;
+      var currentPoints = this.state.pointsUsed;
 
-      if (this.state.pointsUsed + value <= this.actionPoints) {
+      if (currentPoints + value <= this.actionPoints) {
+        var time = weekValues[currentPoints].toLowerCase();
         var newAction = {
-          id: this.state.pointsUsed + 1,
+          id: currentPoints + 1,
           questName: type,
           length: value,
           joustAccepted: this.joustAcceptance(),
           targetId: targetId,
           entryData: entryData,
-          time: 'start'
+          time: time
         };
         var actions = this.state.actions;
         actions.push(newAction);
-        var newPointsUsed = this.state.pointsUsed + value;
+        var newPointsUsed = currentPoints + value;
         this.setState({
           actions: actions,
           pointsUsed: newPointsUsed
-        }, function () {
-          return console.log(_this2.state.actions);
         });
-      } else if (this.state.pointsUsed === this.actionPoints) {
+      } else if (currentPoints === this.actionPoints) {
         alert("You have used up all your action slots for the week. Please remove ones you don't want.");
       } else {
         alert("You do not have enough available action slots for this action. Please remove ones you don't want.");
       }
+    }
+  }, {
+    key: "handleDnDTime",
+    value: function handleDnDTime(actions) {
+      var actionPoints = 0;
+
+      for (var i = 0; i < actions.length; i++) {
+        var time = weekValues[actionPoints].toLowerCase();
+        actions[i].time = time;
+        actionPoints += actions[i].length;
+      }
+
+      this.setState({
+        actions: actions
+      });
     }
   }, {
     key: "handleAction",
@@ -2958,7 +2975,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "container-xl",
@@ -2990,7 +3007,10 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_dnd__WEBPACK_IMPORTED_MODULE_6__.DndProvider, {
                         backend: react_dnd_html5_backend__WEBPACK_IMPORTED_MODULE_7__.HTML5Backend,
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_ActionCards_ActionDnD__WEBPACK_IMPORTED_MODULE_2__.default, {
-                          actions: this.state.actions
+                          actions: this.state.actions,
+                          handleDnDTime: function handleDnDTime(actions) {
+                            return _this2.handleDnDTime(actions);
+                          }
                         })
                       })]
                     })]
@@ -3004,20 +3024,20 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
               onSubmit: function onSubmit() {
                 event.preventDefault();
 
-                _this3.submitData();
+                _this2.submitData();
               },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("table", {
                 className: "col-md-12",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("tbody", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
                     children: [(0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_3__.default)('Quest', 3, function (type, value) {
-                      return _this3.handleAction(type, value);
+                      return _this2.handleAction(type, value);
                     }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_3__.default)('Party', 1, function (type, value) {
-                      return _this3.handleAction(type, value);
+                      return _this2.handleAction(type, value);
                     }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_3__.default)('Train', 1, function (type, value) {
-                      return _this3.handleAction(type, value);
+                      return _this2.handleAction(type, value);
                     }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_3__.default)('Slack Off', 1, function (type, value) {
-                      return _this3.handleAction(type, value);
+                      return _this2.handleAction(type, value);
                     })]
                   })
                 })
@@ -3068,7 +3088,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                                 type: "button",
                                 className: "btn btn-primary",
                                 onClick: function onClick() {
-                                  return _this3.handleTextAction('poem', 'poem-area', 2);
+                                  return _this2.handleTextAction('poem', 'poem-area', 2);
                                 }
                               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
                                 value: "",

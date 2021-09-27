@@ -6,6 +6,12 @@ import ActionDnD from './ActionCards/ActionDnD';
 import SimpleAction from './ActionCards/SimpleAction';
 import SelectionTable from './SelectionTable';
 
+const weekValues = [
+    "Start",
+    "Middle",
+    "End"
+]
+
 class ActionPage extends React.Component {
     constructor(props) {
         super(props);
@@ -17,33 +23,46 @@ class ActionPage extends React.Component {
         this.handleAction = this.handleAction.bind(this);
         this.handleTextAction = this.handleTextAction.bind(this);
         this.handleSelectAction = this.handleSelectAction.bind(this);
+        this.handleDnDTime = this.handleDnDTime.bind(this);
     }
 
     actionEntry(type, value, targetId, entryData) {
-        if ((this.state.pointsUsed + value) <= this.actionPoints) {
+        let currentPoints = this.state.pointsUsed;
+        if ((currentPoints + value) <= this.actionPoints) {
+            let time = weekValues[currentPoints].toLowerCase();
             let newAction = {
-                id: (this.state.pointsUsed + 1),
+                id: (currentPoints + 1),
                 questName: type,
                 length: value,
                 joustAccepted: this.joustAcceptance(),
                 targetId: targetId,
                 entryData: entryData,
-                time: 'start',
+                time: time,
             };
 
             let actions = this.state.actions;
             actions.push(newAction);
 
-            let newPointsUsed = this.state.pointsUsed + value;
+            let newPointsUsed = currentPoints + value;
             this.setState({
                 actions: actions,
                 pointsUsed: newPointsUsed
-            }, () => console.log(this.state.actions));
-        } else if (this.state.pointsUsed === this.actionPoints) {
+            });
+        } else if (currentPoints === this.actionPoints) {
             alert("You have used up all your action slots for the week. Please remove ones you don't want.");
         } else {
             alert("You do not have enough available action slots for this action. Please remove ones you don't want.");
         }
+    }
+
+    handleDnDTime(actions) {
+        let actionPoints = 0;
+        for (let i = 0; i < actions.length; i++) {
+            let time = weekValues[actionPoints].toLowerCase();
+            actions[i].time = time;
+            actionPoints += actions[i].length;
+        }
+        this.setState({actions: actions});
     }
 
     handleAction(type, value) {
@@ -137,7 +156,7 @@ class ActionPage extends React.Component {
                                         <div className="card-body">
                                             <h2>Action Slots Used: {this.state.pointsUsed} / {this.actionPoints}</h2>
                                             <DndProvider backend={HTML5Backend}>
-                                                <ActionDnD actions={this.state.actions}/>
+                                                <ActionDnD actions={this.state.actions} handleDnDTime={(actions) => this.handleDnDTime(actions)}/>
                                             </DndProvider>
                                         </div>
                                     </div>
