@@ -2464,6 +2464,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var style = {
   border: '1px dashed gray',
   padding: '0.5rem 1rem',
@@ -2477,7 +2478,8 @@ function Action(_ref) {
       text = _ref.text,
       index = _ref.index,
       time = _ref.time,
-      moveCard = _ref.moveCard;
+      moveCard = _ref.moveCard,
+      handleDelete = _ref.handleDelete;
   var ref = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
 
   var _useDrop = (0,react_dnd__WEBPACK_IMPORTED_MODULE_3__.useDrop)({
@@ -2571,13 +2573,28 @@ function Action(_ref) {
   var opacity = isDragging ? 0.5 : 1;
   drag(drop(ref));
   var placedText = time.charAt(0).toUpperCase() + time.slice(1) + " of the week: " + text.charAt(0).toUpperCase() + text.slice(1);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     ref: ref,
     style: _objectSpread(_objectSpread({}, style), {}, {
       opacity: opacity
     }),
+    className: "row justify-content-between",
     "data-handler-id": handlerId,
-    children: placedText
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "col-sm-4",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+        children: placedText
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "col-sm-4",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        className: "btn btn-danger float-right",
+        onClick: function onClick() {
+          return handleDelete(index);
+        },
+        children: "Delete"
+      })
+    })]
   });
 }
 
@@ -2660,7 +2677,8 @@ var ActionDnD = /*#__PURE__*/function (_React$Component) {
         id: action.id,
         text: action.questName,
         time: action.time,
-        moveCard: this.moveCard
+        moveCard: this.moveCard,
+        handleDelete: this.props.handleDelete
       }, action.id);
     }
   }, {
@@ -2847,6 +2865,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
     _this.handleTextAction = _this.handleTextAction.bind(_assertThisInitialized(_this));
     _this.handleSelectAction = _this.handleSelectAction.bind(_assertThisInitialized(_this));
     _this.handleDnDTime = _this.handleDnDTime.bind(_assertThisInitialized(_this));
+    _this.handleActionDelete = _this.handleActionDelete.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2882,16 +2901,12 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleDnDTime",
     value: function handleDnDTime(actions) {
-      var actionPoints = 0;
-
-      for (var i = 0; i < actions.length; i++) {
-        var time = weekValues[actionPoints].toLowerCase();
-        actions[i].time = time;
-        actionPoints += actions[i].length;
-      }
+      var _this2 = this;
 
       this.setState({
         actions: actions
+      }, function () {
+        return _this2.timeCheck();
       });
     }
   }, {
@@ -2950,6 +2965,38 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "handleActionDelete",
+    value: function handleActionDelete(actionPosition) {
+      var _this3 = this;
+
+      var actions = this.state.actions;
+      var currentPoints = this.state.pointsUsed;
+      var toDelete = actions.splice(actionPosition, 1);
+      currentPoints -= toDelete[0].length;
+      this.setState({
+        actions: actions,
+        pointsUsed: currentPoints
+      }, function () {
+        return _this3.timeCheck();
+      });
+    }
+  }, {
+    key: "timeCheck",
+    value: function timeCheck() {
+      var actionPoints = 0;
+      var actions = this.state.actions;
+
+      for (var i = 0; i < actions.length; i++) {
+        var time = weekValues[actionPoints].toLowerCase();
+        actions[i].time = time;
+        actionPoints += actions[i].length;
+      }
+
+      this.setState({
+        actions: actions
+      });
+    }
+  }, {
     key: "joustAcceptance",
     value: function joustAcceptance() {
       var acceptButton = document.getElementById('joust-accept');
@@ -2983,7 +3030,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this4 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "container-xl",
@@ -3017,7 +3064,10 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_ActionCards_ActionDnD__WEBPACK_IMPORTED_MODULE_2__.default, {
                           actions: this.state.actions,
                           handleDnDTime: function handleDnDTime(actions) {
-                            return _this2.handleDnDTime(actions);
+                            return _this4.handleDnDTime(actions);
+                          },
+                          handleDelete: function handleDelete(actionPosition) {
+                            return _this4.handleActionDelete(actionPosition);
                           }
                         })
                       })]
@@ -3032,20 +3082,20 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
               onSubmit: function onSubmit() {
                 event.preventDefault();
 
-                _this2.submitData();
+                _this4.submitData();
               },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("table", {
                 className: "col-md-12",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("tbody", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
                     children: [(0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_3__.default)('Quest', 3, function (type, value) {
-                      return _this2.handleAction(type, value);
+                      return _this4.handleAction(type, value);
                     }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_3__.default)('Party', 1, function (type, value) {
-                      return _this2.handleAction(type, value);
+                      return _this4.handleAction(type, value);
                     }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_3__.default)('Train', 1, function (type, value) {
-                      return _this2.handleAction(type, value);
+                      return _this4.handleAction(type, value);
                     }), (0,_ActionCards_SimpleAction__WEBPACK_IMPORTED_MODULE_3__.default)('Slack Off', 1, function (type, value) {
-                      return _this2.handleAction(type, value);
+                      return _this4.handleAction(type, value);
                     })]
                   })
                 })
@@ -3096,7 +3146,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                                 type: "button",
                                 className: "btn btn-primary",
                                 onClick: function onClick() {
-                                  return _this2.handleTextAction('poem', 'poem-area', 2);
+                                  return _this4.handleTextAction('poem', 'poem-area', 2);
                                 }
                               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
                                 value: "",
@@ -3211,7 +3261,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
                     type: "button",
                     className: "btn btn-primary",
                     onClick: function onClick() {
-                      return _this2.handleReset();
+                      return _this4.handleReset();
                     }
                   })
                 })]

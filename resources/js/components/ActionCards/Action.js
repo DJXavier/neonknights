@@ -9,7 +9,7 @@ const style = {
     cursor: 'move',
 };
 
-function Action({ id, text, index, time, moveCard}) {
+function Action({ id, text, index, time, moveCard, handleDelete}) {
     const ref = useRef(null);
     const [{ handlerId }, drop] = useDrop({
         accept: ItemTypes.ACTION,
@@ -75,8 +75,14 @@ function Action({ id, text, index, time, moveCard}) {
         + text.charAt(0).toUpperCase() + text.slice(1)
     );
 
-    return (<div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
-            {placedText}
+    return (<div ref={ref} style={{ ...style, opacity }} className="row justify-content-between" data-handler-id={handlerId}>
+            <div className="col-sm-4">
+                <p>{placedText}</p>
+            </div>
+            <div className="col-sm-4">
+                <button className="btn btn-danger float-right" onClick={() => handleDelete(index)}>Delete</button>
+            </div>
+            
 		</div>);
 }
 

@@ -18,7 +18,15 @@ class ActionDnD extends React.Component {
     }
 
     renderAction(action, index) {
-        return <Action key={action.id} index={index} id={action.id} text={action.questName} time={action.time} moveCard={this.moveCard} />
+        return <Action
+            key={action.id}
+            index={index}
+            id={action.id}
+            text={action.questName}
+            time={action.time}
+            moveCard={this.moveCard}
+            handleDelete={this.props.handleDelete}
+        />
     }
 
     render() {

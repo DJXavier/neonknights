@@ -24,6 +24,7 @@ class ActionPage extends React.Component {
         this.handleTextAction = this.handleTextAction.bind(this);
         this.handleSelectAction = this.handleSelectAction.bind(this);
         this.handleDnDTime = this.handleDnDTime.bind(this);
+        this.handleActionDelete= this.handleActionDelete.bind(this);
     }
 
     actionEntry(type, value, targetId, entryData) {
@@ -56,13 +57,7 @@ class ActionPage extends React.Component {
     }
 
     handleDnDTime(actions) {
-        let actionPoints = 0;
-        for (let i = 0; i < actions.length; i++) {
-            let time = weekValues[actionPoints].toLowerCase();
-            actions[i].time = time;
-            actionPoints += actions[i].length;
-        }
-        this.setState({actions: actions});
+        this.setState({actions: actions},() => this.timeCheck());
     }
 
     handleAction(type, value) {
@@ -111,6 +106,28 @@ class ActionPage extends React.Component {
             actions: [],
             pointsUsed: 0
         });
+    }
+
+    handleActionDelete(actionPosition) {
+        let actions = this.state.actions;
+        let currentPoints = this.state.pointsUsed;
+        let toDelete = actions.splice(actionPosition, 1);
+        currentPoints -= toDelete[0].length;
+        this.setState({
+            actions: actions,
+            pointsUsed: currentPoints,
+        }, () => this.timeCheck());
+    }
+
+    timeCheck() {
+        let actionPoints = 0;
+        let actions = this.state.actions;
+        for (let i = 0; i < actions.length; i++) {
+            let time = weekValues[actionPoints].toLowerCase();
+            actions[i].time = time;
+            actionPoints += actions[i].length;
+        }
+        this.setState({actions: actions});
     }
 
     joustAcceptance() {
@@ -163,7 +180,11 @@ class ActionPage extends React.Component {
                                         <div className="card-body">
                                             <h2>Action Slots Used: {this.state.pointsUsed} / {this.actionPoints}</h2>
                                             <DndProvider backend={HTML5Backend}>
-                                                <ActionDnD actions={this.state.actions} handleDnDTime={(actions) => this.handleDnDTime(actions)}/>
+                                                <ActionDnD
+                                                    actions={this.state.actions}
+                                                    handleDnDTime={(actions) => this.handleDnDTime(actions)}
+                                                    handleDelete={(actionPosition) => this.handleActionDelete(actionPosition)}
+                                                />
                                             </DndProvider>
                                         </div>
                                     </div>
