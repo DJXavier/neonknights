@@ -51,6 +51,16 @@ Route::middleware(['verified'])->group(function () {
         return view('user.invite_successful');
     });
     
+    Route::get('/weeklyaction/{gameId}', function ($gameId) {
+        return view('weeklyaction.create', ['id' => $gameId]);
+    })->name('weeklyaction.newWeek');
+
+    Route::get('/submittedweeklyaction', function () {
+        return view('weeklyaction.submitted');
+    });
+
+    Route::post('/submittedweeklyaction/{gameId}', [App\Http\Controllers\WeeklyActionController::class, 'update'])->name('weeklyaction.update');
+    
     Route::post('/game', [App\Http\Controllers\GameController::class, 'store'])->name('game.store');
     Route::post('/invite/{game_id}',[App\Http\Controllers\InviteController::class, 'update'])->name('invite.update');
     

@@ -55,7 +55,7 @@
                     <td>{{$game->type}}</th>
                     <td>{{$game->noPlayers}}</th>
                     <td>{{$game->resetDate}}</th>
-                    <th><a href="#">Placeholder Link</a></th>
+                    <th><a href="/weeklyaction/{{$game->id}}">Prepare Your Week</a></th>
                     <th><a href="#">Placeholder Link</a></th>
                 </tr>
             @endforeach

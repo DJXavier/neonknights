@@ -22,7 +22,7 @@ class ActionFactory extends Factory
     public function definition()
     {
         return [
-            'questCode' => null,
+            'quest_code' => null,
             'reject' => $this->faker->randomElement([true, false]),
         ];
     }
