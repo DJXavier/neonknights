@@ -73,12 +73,18 @@ class UserCategoryPolicy
             array_push($games, \App\Models\Game::Find($gameIds[$i]));
         }
 
+        $check = false;
         $diff = [];
         $categoryTitle = $category->title;
         for ($i = 0; $i < count($games); $i++) {
             $gameNameEx = explode(' ', $games[$i]->name);
             $categoryNameEx = explode(' ', $categoryTitle);
-            $diff = array_diff($gameNameEx, $categoryNameEx);
+            if (!$check) {
+                $diff = array_diff($gameNameEx, $categoryNameEx);
+            }
+            if (count(array_diff($diff, ['Forum', 'For'])) == 0) {
+                $check = true;
+            }
         }
 
         if (count(array_diff($diff, ['Forum', 'For'])) == 0) {
