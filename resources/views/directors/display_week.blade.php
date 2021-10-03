@@ -29,6 +29,7 @@
     $weeks = \App\Models\Week::where('game_id', $gameId)->get();
     $week = $weeks->where('week_no', $weekNo)->first();
     $actions = $week->actions;
+    $storeKnightIds = [];
 ?>
 
 @section('content')
@@ -47,8 +48,10 @@
                         </tr>
 
                         @foreach ($actions as $action)
+                            @if (!in_array($action->knight->user_id, $storeKnightIds))
                             <?php
-                                $user = \App\Models\User::Find($action->knight->user_id)->get()->first();
+                                array_push($storeKnightIds, $action->knight->user_id);
+                                $user = \App\Models\User::Find($action->knight->user_id);
                                 $userName = $user->name;
                                 $userEmail = $user->email;  
                             ?>
@@ -58,14 +61,15 @@
                                 <td>{{$userName}}</td>
                                 <td>{{$userEmail}}</td>
                                 <td>
-                                    <form action="/director-management/{{$game->id}}/{{$week->week_no}}/{{$action->id}}" method="GET">
-                                        <input name="actionId" type="hidden" value = "{{$action->id}}"/>
+                                    <form action="/director-management/{{$game->id}}/{{$week->week_no}}/{{$action->knight->id}}" method="GET">
                                         <input name="gameId" type="hidden" value = "{{$game->id}}"/>
                                         <input name="weekNo" type="hidden" value = "{{$week->week_no}}"/>
+                                        <input name="knightId" type="hidden" value = "{{$action->knight->id}}"/>
                                         <button class="btn btn-sm btn-secondary" type="submit">View Actions</button>
                                     </form>
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                         </table>
                     </div>
