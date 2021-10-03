@@ -65,7 +65,6 @@ class UserCategoryPolicy
 
     public function view($user, Category $category): bool
     {
-        //dd(Http::get(URL::to('/')));
         $gameIds = $user->game_ids;
         $user->games()->get();
         $games = [];
