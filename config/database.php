@@ -47,6 +47,10 @@ return [
             'driver' => 'mongodb',
             'dsn' => env('DB_DSN_MONGO'),
             'database' => env('DB_DATABASE_MONGO', 'homestead'),
+            'options' => [
+                'tls' => true,
+                'tlsInsecure' => true,
+            ],
         ],
 
         'mysql' => [
