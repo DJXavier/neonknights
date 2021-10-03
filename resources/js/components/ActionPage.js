@@ -24,6 +24,7 @@ class ActionPage extends React.Component {
         this.handleTextAction = this.handleTextAction.bind(this);
         this.handleSelectAction = this.handleSelectAction.bind(this);
         this.handleDnDTime = this.handleDnDTime.bind(this);
+        this.handleActionEdit = this.handleActionEdit.bind(this);
         this.handleActionDelete= this.handleActionDelete.bind(this);
     }
 
@@ -108,6 +109,24 @@ class ActionPage extends React.Component {
         });
     }
 
+    handleActionEdit(actionPosition, type, value) {
+        let actions = this.state.actions;
+
+        switch(type) {
+            case "poem":
+                actions[actionPosition].entryData = value;
+                break;
+            case "joust":
+            case "flirt":
+                actions[actionPosition].targetId = value;
+                break;
+        }
+        
+        this.setState({
+            actions: actions,
+        }, () => this.timeCheck());
+    }
+
     handleActionDelete(actionPosition) {
         let actions = this.state.actions;
         let currentPoints = this.state.pointsUsed;
@@ -148,7 +167,6 @@ class ActionPage extends React.Component {
                     )
                 );
 
-
                 let action = this.state.actions[i];
                 document.getElementById(submitPrefix + "-type").value = action.questName;
                 document.getElementById(submitPrefix + "-length").value = action.length;
@@ -182,7 +200,10 @@ class ActionPage extends React.Component {
                                             <DndProvider backend={HTML5Backend}>
                                                 <ActionDnD
                                                     actions={this.state.actions}
+                                                    gameId={this.props.gameId}
+                                                    knightId={this.props.knightId}
                                                     handleDnDTime={(actions) => this.handleDnDTime(actions)}
+                                                    handleEdit={(actionPosition, type, value) => this.handleActionEdit(actionPosition, type, value)}
                                                     handleDelete={(actionPosition) => this.handleActionDelete(actionPosition)}
                                                 />
                                             </DndProvider>

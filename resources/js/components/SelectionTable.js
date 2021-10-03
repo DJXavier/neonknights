@@ -8,11 +8,14 @@ class SelectionTable extends React.Component {
         this.idPrefix = this.props.itemName.toLowerCase();
         this.itemTitle = (this.props.itemName + "s");
         this.state = {
+            initialSelected: '',
             selectable: [],
         }
     }
 
     componentDidMount() {
+        this.setState({initialSelected: this.props.initialSelected});
+
         let getPath = (
             window.location.origin + '/api'
             + this.props.getRoute
@@ -31,6 +34,11 @@ class SelectionTable extends React.Component {
 
         for (let i = 0; i < selectableNumber; i++) {
             let idToCheck = (this.idPrefix + i);
+
+            if (typeof this.state.initialSelected !== 'undefined' && this.state.initialSelected !== null) {
+                idToCheck += "-edit";
+            }
+
             let radioToCheck = document.getElementById(idToCheck);
             if (radioToCheck.checked) {
                 selectablePos = i
@@ -44,6 +52,71 @@ class SelectionTable extends React.Component {
         }
     }
 
+    checkInitialSelected(index, inputId) {
+        if (typeof inputId !== 'undefined' || inputId !== null) {
+            let opponents = this.state.selectable;
+            if (opponents[index]._id === this.state.initialSelected) {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    setTableID(initialSelected)
+    {
+        let id = "joust-table";
+
+        if (typeof initialSelected !== 'undefined' && initialSelected !== null) {
+            id = "joust-table-edit";
+        }
+        
+        return id;
+    }
+
+    setButtonID(initialSelected, inputId)
+    {
+        let id = inputId;
+
+        if (typeof initialSelected !== 'undefined' && initialSelected !== null) {
+            id += "-edit";
+        }
+        
+        return id;
+    }
+
+    displayButton(initialSelected) {
+        if (typeof initialSelected === 'undefined' || initialSelected === null) {
+            return <div className="form-group row mb-0">
+                <div className="col-md-12 " style={{textAlign: "center"}}>
+                    <input value="add" id="joust" name="joust" type="button" className="btn btn-primary"
+                        onClick={() => this.props.handleSelectAction(
+                            this.props.name.toLowerCase(),
+                            this.props.length,
+                            this.findSelection()
+                            )}>
+                    </input>
+                </div>
+            </div>
+        }
+    }
+
+    displayButtonEdit(initialSelected) {
+        if (typeof initialSelected !== 'undefined' && initialSelected !== null) {
+            return <div className="form-group row mb-0">
+                <div className="col-md-12 " style={{textAlign: "center"}}>
+                    <input value="edit" id="joust" name="joust" type="button" className="btn btn-primary"
+                        onClick={() => this.props.handleEdit(
+                            this.props.index,
+                            this.props.name.toLowerCase(),
+                            this.findSelection()
+                            )}>
+                    </input>
+                </div>
+            </div>
+        }
+    }
+
     render() {
         let rows = [];
         let opponents = this.state.selectable;
@@ -51,7 +124,7 @@ class SelectionTable extends React.Component {
             let inputId = (this.idPrefix + i);
             rows.push(
                 <tr key={opponents[i].name}>
-                    <td><input type="radio" name={this.idPrefix + "Choice"} id={inputId}></input></td>
+                    <td><input type="radio" name={this.idPrefix + "Choice"} id={this.setButtonID(this.state.initialSelected, inputId)} defaultChecked={this.checkInitialSelected(i, inputId)}></input></td>
                     <td>
                         {opponents[i].name}
                     </td>
@@ -73,7 +146,7 @@ class SelectionTable extends React.Component {
                             <label htmlFor="type" className="form-control-plaintext text-md" style={{textAlign: "center"}}>Takes {this.props.length} time slot</label>
                         </div>
             
-                        <table id="joust-table" className="table-bordered col-md-12">
+                        <table id={this.setTableID(this.state.initialSelected)} className="table-bordered col-md-12">
                             <thead>
                                 <tr>
                                     <th>
@@ -92,20 +165,9 @@ class SelectionTable extends React.Component {
                                 {rows}
                             </tbody>
                         </table>
-                        <div className="form-group row mb-0">
-                            <div className="col-md-12 " style={{textAlign: "center"}}>
-                                <input value="add" id="joust" name="joust" type="button" className="btn btn-primary"
-                                    onClick={() => this.props.handleSelectAction(
-                                        this.props.name.toLowerCase(),
-                                        this.props.length,
-                                        this.findSelection()
-                                        )}>
-                                </input>
 
-                                <input value="" type="hidden" id="joustButton" name="joustButton">
-                                </input>
-                            </div>
-                        </div>
+                        {this.displayButton(this.state.initialSelected)}
+                        {this.displayButtonEdit(this.state.initialSelected)}
                     </div>
                 </div>
             </div>
