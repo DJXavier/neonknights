@@ -2985,11 +2985,16 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "checkTextExists",
+    value: function checkTextExists(text) {
+      return text != null && text !== '';
+    }
+  }, {
     key: "handleTextAction",
     value: function handleTextAction(type, location, value) {
       var textArea = document.getElementById(location);
 
-      if (textArea.value != null) {
+      if (this.checkTextExists(textArea.value)) {
         this.actionEntry(type, value, null, textArea.value);
       } else {
         alert("Please enter the information into the textbox before adding the action to your week.");
@@ -3037,7 +3042,7 @@ var ActionPage = /*#__PURE__*/function (_React$Component) {
 
       switch (type) {
         case "poem":
-          actions[actionPosition].entryData = value;
+          this.checkTextExists(value) ? actions[actionPosition].entryData = value : alert("Please enter the information into the textbox before adding the action to your week.");
           break;
 
         case "joust":

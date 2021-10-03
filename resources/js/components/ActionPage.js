@@ -71,10 +71,14 @@ class ActionPage extends React.Component {
         }
     }
 
+    checkTextExists(text) {
+        return ((text != null) && (text !== ''));
+    }
+
     handleTextAction(type, location, value) {
         let textArea = document.getElementById(location);
 
-        if (textArea.value != null) {
+        if (this.checkTextExists(textArea.value)) {
             this.actionEntry(type, value, null, textArea.value);
         } else {
             alert("Please enter the information into the textbox before adding the action to your week.");
@@ -114,7 +118,9 @@ class ActionPage extends React.Component {
 
         switch(type) {
             case "poem":
-                actions[actionPosition].entryData = value;
+                (this.checkTextExists(value)
+                    ? actions[actionPosition].entryData = value
+                    : alert("Please enter the information into the textbox before adding the action to your week."));
                 break;
             case "joust":
             case "flirt":
