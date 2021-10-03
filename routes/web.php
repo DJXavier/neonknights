@@ -109,11 +109,11 @@ Route::middleware(['verified'])->group(function () {
     })->middleware('auth.gameDirector');
     
     Route::get('/director-management/{game_id}/{week_no}', function ($game_id, $week_no) {
-        return view('directors.display_week', ['gameId' => $game_id], ['weekNo' => $week_no]);
+        return view('directors.display_week', ['gameId' => $game_id, 'weekNo' => $week_no]);
     })->middleware('auth.gameDirector');
     
     Route::get('/director-management/{game_id}/{week_no}/{knight_id}', function ($game_id, $week_no, $knight_id) {
-        return view('directors.display_user_actions', ['gameId' => $game_id], ['weekNo' => $week_no], ['knightId' => $knight_id]);
+        return view('directors.display_user_actions', ['gameId' => $game_id, 'weekNo' => $week_no, 'knightId' => $knight_id]);
     })->middleware('auth.gameDirector');
 });
 
