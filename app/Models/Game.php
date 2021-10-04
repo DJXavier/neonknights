@@ -11,18 +11,16 @@ class Game extends Model
 
     protected $connection = 'mongodb';
 
-    /* public function getAttribute($key) {
-        if (array_key_exists($key, $this->attributes)) {
-            return parent::getAttribute($key);
-        }
-    } */
+    protected $atributes = [
+        'resetDay' => 'Thursday',
+    ];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'type', 'noPlayers', 'currentRound', 'resetDay', 'invited', 'gameMaster'];
+    protected $fillable = ['name', 'type', 'noPlayers', 'currentRound', 'invited', 'gameMaster'];
 
     public function users() {
         return $this->belongsToMany(User::class);
