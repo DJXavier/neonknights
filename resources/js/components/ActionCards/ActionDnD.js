@@ -24,7 +24,12 @@ class ActionDnD extends React.Component {
             id={action.id}
             text={action.questName}
             time={action.time}
+            entryData={action.entryData}
+            targetId={action.targetId}
+            gameId={this.props.gameId}
+            knightId={this.props.knightId}
             moveCard={this.moveCard}
+            handleEdit={this.props.handleEdit}
             handleDelete={this.props.handleDelete}
         />
     }

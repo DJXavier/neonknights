@@ -24,6 +24,7 @@ class ActionPage extends React.Component {
         this.handleTextAction = this.handleTextAction.bind(this);
         this.handleSelectAction = this.handleSelectAction.bind(this);
         this.handleDnDTime = this.handleDnDTime.bind(this);
+        this.handleActionEdit = this.handleActionEdit.bind(this);
         this.handleActionDelete= this.handleActionDelete.bind(this);
     }
 
@@ -70,10 +71,14 @@ class ActionPage extends React.Component {
         }
     }
 
+    checkTextExists(text) {
+        return ((text != null) && (text !== ''));
+    }
+
     handleTextAction(type, location, value) {
         let textArea = document.getElementById(location);
 
-        if (textArea.value != null) {
+        if (this.checkTextExists(textArea.value)) {
             this.actionEntry(type, value, null, textArea.value);
         } else {
             alert("Please enter the information into the textbox before adding the action to your week.");
@@ -106,6 +111,26 @@ class ActionPage extends React.Component {
             actions: [],
             pointsUsed: 0
         });
+    }
+
+    handleActionEdit(actionPosition, type, value) {
+        let actions = this.state.actions;
+
+        switch(type) {
+            case "poem":
+                (this.checkTextExists(value)
+                    ? actions[actionPosition].entryData = value
+                    : alert("Please enter the information into the textbox before adding the action to your week."));
+                break;
+            case "joust":
+            case "flirt":
+                actions[actionPosition].targetId = value;
+                break;
+        }
+        
+        this.setState({
+            actions: actions,
+        }, () => this.timeCheck());
     }
 
     handleActionDelete(actionPosition) {
@@ -148,7 +173,6 @@ class ActionPage extends React.Component {
                     )
                 );
 
-
                 let action = this.state.actions[i];
                 document.getElementById(submitPrefix + "-type").value = action.questName;
                 document.getElementById(submitPrefix + "-length").value = action.length;
@@ -182,7 +206,10 @@ class ActionPage extends React.Component {
                                             <DndProvider backend={HTML5Backend}>
                                                 <ActionDnD
                                                     actions={this.state.actions}
+                                                    gameId={this.props.gameId}
+                                                    knightId={this.props.knightId}
                                                     handleDnDTime={(actions) => this.handleDnDTime(actions)}
+                                                    handleEdit={(actionPosition, type, value) => this.handleActionEdit(actionPosition, type, value)}
                                                     handleDelete={(actionPosition) => this.handleActionDelete(actionPosition)}
                                                 />
                                             </DndProvider>
