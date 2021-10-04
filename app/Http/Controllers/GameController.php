@@ -60,7 +60,7 @@ class GameController extends Controller
         $gameId = auth()->user()->games()->create([
             'name' => $request['name'],
             'type' => $request['type'],
-            'noPlayers' => $request['noPlayers'],
+            'noPlayers' => (int)$request['noPlayers'],
             'currentRound' => 1,
             'resetDay' => "Thursday",
             'invited' => array(),
@@ -78,7 +78,7 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(Game::Find($id));
     }
 
     /**
@@ -113,5 +113,16 @@ class GameController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getJoustingOpponents($gameId, $knightId)
+    {
+        $game = \App\Models\Game::FindOrFail($gameId);
+
+        $joustable = $game->knights()->where('_id', '!=', $knightId)->get();
+
+        return response()->json([
+            'knights' => $joustable,
+        ], 200);
     }
 }

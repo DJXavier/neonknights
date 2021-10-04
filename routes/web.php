@@ -27,9 +27,37 @@ Route::get('/handbook', function () {
     return view('homepage.handbook');
 });
 
+Route::get('/weeklyactiontemp', function () {
+    return view('weeklyaction.create');
+});
+
 Route::middleware(['verified'])->group(function () {
+    Route::get('/group-management/{game_id}', function ($game_id) {
+        return view('user.group_management', ['gameId' => $game_id]);
+    })->middleware('auth.gameMaster');  
+
+    Route::post('/group-management/invite', [App\Http\Controllers\InviteController::class, 'updateSingle'])->name('invite.updateSingle');
+    Route::get('/group-management/{game_id}/invite-single-user', function ($game_id){
+        return view('user.invite_single_user', ['gameId' => $game_id]);
+    });
+
+    Route::post('/group-management/remove', [App\Http\Controllers\InviteController::class, 'removeSingle'])->name('invite.removeSingle');
+    Route::get('/group-management/{game_id}/remove-single-user', function ($game_id){
+        return view('user.remove_single_user', ['gameId' => $game_id]);
+    });
+
+    Route::post('/group-management/delete', [App\Http\Controllers\InviteController::class, 'deleteGroup'])->name('invite.deleteGroup');
+    Route::get('/group-management/delete-group/{game_id}', function ($game_id){
+        return view('user.delete_group', ['gameId' => $game_id]);
+    });
+
+
     Route::get('/character/create/{gameId}', function ($gameId) {
         return view('knights.character', ['id' => $gameId]);
+    })->middleware('auth.characterCreation');
+
+    Route::get('/character_created/{gameId}', function ($gameId) {
+        return view('knights.character_created', ['gameId' => $gameId]);
     });
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -71,6 +99,26 @@ Route::middleware(['verified'])->group(function () {
     Route::get('/changePasswordSuccessfully', function(){
         return view('auth.changePasswordSuccessfully');
     });
+
+    Route::get('/access-denied', function () {
+        return view('access_denied');
+    });
+    
+    Route::get('/director-management', function () {
+        return view('directors.director_management');
+    })->middleware('auth.gameDirector');
+    
+    Route::get('/director-management/{game_id}', function ($game_id) {
+        return view('directors.display_group', ['gameId' => $game_id]);
+    })->middleware('auth.gameDirector');
+    
+    Route::get('/director-management/{game_id}/{week_no}', function ($game_id, $week_no) {
+        return view('directors.display_week', ['gameId' => $game_id, 'weekNo' => $week_no]);
+    })->middleware('auth.gameDirector');
+    
+    Route::get('/director-management/{game_id}/{week_no}/{knight_id}', function ($game_id, $week_no, $knight_id) {
+        return view('directors.display_user_actions', ['gameId' => $game_id, 'weekNo' => $week_no, 'knightId' => $knight_id]);
+    })->middleware('auth.gameDirector');
 });
 
 Auth::routes(["verify" => true]);

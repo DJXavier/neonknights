@@ -41,7 +41,6 @@ class WeeklyActionController extends Controller
             $currentWeek->quest = "";
             $currentWeek->week_no= $game->currentRound;
             $currentWeek->game_id= $id;
-            $currentWeek->actions = array();
             //necessary to set a solved flag for each request,
             // to record which has been solved and pused in as an object
         }
@@ -57,54 +56,60 @@ class WeeklyActionController extends Controller
         });
         $currentWeek->save();
 
+        $actionPrefixes = [
+            'one',
+            'two',
+            'three'
+        ];
+
         //this means we found the week for the game, only need to update action information for the week
         //change below and...input action object into array below
         for( $i = 0; $i < 3; $i++){
             //edit each action object information here
             //if user choose to play 3 actions which cost 1 slot each
             //we need to create an action object for each 
-            $attributeName = 'action'.$i;
+            $actionPre = $actionPrefixes[$i];
+            $actionValues = [
+                'type' => $request[($actionPre . "-type")],
+                'length' => $request[($actionPre . "-length")],
+                'joust' => $request[($actionPre . "-joust-accept")],
+                'target' => $request[($actionPre . "-target")],
+                'entry' => $request[($actionPre . "-entry")],
+                'time' => $request[($actionPre . "-time")],
+            ];
             
-            if($request->$attributeName != null){
+            if($actionValues["type"] != null){
+                
                 $actionObject = $currentWeek->actions()->create();  
                 $actionObject->knight()->associate($knight);
                 $actionObject->quest_code = null;
+                $actionObject->reject = $actionValues["joust"];
+                $actionObject->save();
 
-                if($request['joustAcceptButton']=='yes'){
-                    $actionObject->reject = false;
-                }
-                else if($request['joustAcceptButton']=='no'){
-                    $actionObject->reject = true;
-                }
-
-                switch ($request->$attributeName) {
+                switch ($actionValues["type"]) {
                     case 'quest':
                         $actionObject->type = 6;
-                        $questSolved = true;
                         break;
                     case 'party':
                         $actionObject->type = 4;
-                        $partySolved = true;
                         break;
                     case 'train':
                         $actionObject->type = 2;
-                        $trainSolved = true;
                         break;
                     case 'slackOff':
                         $actionObject->type = 1;
-                        $slackOffSolved = true;
                         break;
                     case 'poem':
                         $actionObject->type = 7;
-                        $poemSolved = true;
+                        $actionObject->poem = $actionValues["entry"];
                         break;
                     case 'flirt':
                         $actionObject->type = 3;
-                        $flirtSolved = true;
+                        $actionObject->noblebot()->associate(\App\Models\Noblebot::Find($actionValues["target"]));
                         break;
                     case 'joust':
                         $actionObject->type = 5;
-                        $joustSolved = true;
+                        $actionObject->targetKnight()->associate(\App\Models\Knight::Find($actionValues["target"]));
                         break;
                 }
                 $actionObject->save();

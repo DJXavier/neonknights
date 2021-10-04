@@ -15,3 +15,5 @@ require("./bootstrap");
 require("./components/Example");
 require("./components/Test");
 require("./components/GroupSubmit");
+require("./components/KnightJoust");
+require("./components/ActionPage");

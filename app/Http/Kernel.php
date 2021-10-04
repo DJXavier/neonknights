@@ -56,6 +56,9 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'auth.gameDirector' => \App\Http\Middleware\AuthenticateGameDirector::class,
+        'auth.gameMaster' => \App\Http\Middleware\AuthenticateGameMaster::class,
+        'auth.characterCreation' => \App\Http\Middleware\AuthenticateCharacterCreation::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,

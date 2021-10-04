@@ -20,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->post('/category/autogen', [App\Http\Controllers\UserCategoryController::class, 'store']);
 Route::middleware('auth:api')->post('/game', [App\Http\Controllers\GameController::class, 'store']);
+Route::get('/game/joust/{gameId}/{knightId}', [App\Http\Controllers\GameController::class, 'getJoustingOpponents'])
+    ->withoutMiddleware('auth');
+
+Route::get('/noblebot/{gameId}', [App\Http\Controllers\NoblebotController::class, 'getBots']);
