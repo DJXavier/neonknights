@@ -1,6 +1,7 @@
 import axios from "axios";
 
 function GroupSubmit(event) {
+    document.getElementById("group-submit-button").disabled = true
     event.preventDefault();
     let test = document.querySelector('#group-create-form');
     new FormData(test);
@@ -12,7 +13,6 @@ function GroupFormData(form) {
     for (var pair of data.entries()) {
         entry[pair[0]] = pair[1];
     }
-    console.log(entry);
 
     axios.post('api/game', {
         name: entry['name'],
@@ -20,7 +20,10 @@ function GroupFormData(form) {
         noPlayers: entry['noPlayers'],
     })
     .then((res) => createForum(res.data['redirectPath'], entry['name']))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+        document.getElementById("group-submit-button").disabled = true;
+        console.log(err)
+    });
 }
 
 function createForum(redirect, gameName) {
@@ -33,7 +36,10 @@ function createForum(redirect, gameName) {
         is_private: true,
     })
     .then((res) => window.location.href = redirect)
-    .catch((err) => console.log(err));
+    .catch((err) => {
+        document.getElementById("group-submit-button").disabled = true;
+        console.log(err)
+    });
 }
 
 export default GroupSubmit;
