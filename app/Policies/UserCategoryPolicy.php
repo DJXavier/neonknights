@@ -77,24 +77,13 @@ class UserCategoryPolicy
             }
 
             $check = false;
-            $diff = [];
-            $categoryTitle = $category->title;
             for ($i = 0; $i < count($games); $i++) {
-                $gameNameEx = explode(' ', $games[$i]->name);
-                $categoryNameEx = explode(' ', $categoryTitle);
-                if (!$check) {
-                    $diff = array_diff($gameNameEx, $categoryNameEx);
-                }
-                if (count(array_diff($diff, ['Forum', 'For'])) == 0) {
+                if($category->id == $games[$i]->forumId) {
                     $check = true;
                 }
             }
-
-            if (count(array_diff($diff, ['Forum', 'For'])) == 0) {
-                return true;
-            } else {
-                return false;
-            }
+            
+            return $check;
         } else {
             return false;
         }

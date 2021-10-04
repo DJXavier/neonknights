@@ -3491,25 +3491,26 @@ function GroupFormData(form) {
     type: entry['type'],
     noPlayers: entry['noPlayers']
   }).then(function (res) {
-    return createForum(res.data['redirectPath'], entry['name']);
+    return createForum(res.data['redirectPath'], res.data['gameId'], entry['name']);
   })["catch"](function (err) {
-    document.getElementById("group-submit-button").disabled = true;
+    document.getElementById("group-submit-button").disabled = false;
     console.log(err);
   });
 }
 
-function createForum(redirect, gameName) {
+function createForum(redirect, gameId, gameName) {
   var forumTitle = "Forum For " + gameName;
   axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/category/autogen', {
     title: forumTitle,
     description: 'Forum for your gaming group.',
     color: '#007bff',
     accepts_threads: true,
-    is_private: true
+    is_private: true,
+    game_id: gameId
   }).then(function (res) {
     return window.location.href = redirect;
   })["catch"](function (err) {
-    document.getElementById("group-submit-button").disabled = true;
+    document.getElementById("group-submit-button").disabled = false;
     console.log(err);
   });
 }

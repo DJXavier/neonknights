@@ -12,7 +12,7 @@ class Game extends Model
     protected $connection = 'mongodb';
 
     protected $atributes = [
-        'resetDay' => 'Thursday',
+        'resetDate' => 'Thursday',
         'start' => false,
     ];
 
@@ -21,7 +21,16 @@ class Game extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'type', 'noPlayers', 'currentRound', 'invited', 'gameMaster'];
+    protected $fillable = [
+        'name',
+        'type',
+        'noPlayers',
+        'currentRound',
+        'resetDate',
+        'start',
+        'invited',
+        'gameMaster'
+    ];
 
     public function users() {
         return $this->belongsToMany(User::class);

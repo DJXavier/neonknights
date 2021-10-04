@@ -62,15 +62,14 @@
                         @foreach ($games as $game)
                             <?php $actionsDisabled = ($knights->where('game_id', $game->_id)->pluck('name')->first() == null) ? "disabled='disabled'" : '';?>
                             <?php
-                                $name = ("Forum For ".$game->name);
-                                $forum = TeamTeaTime\Forum\Models\Category::where('title', '=', $name)->first();
+                                $forumId = $game->forumId;
+                                $forum = TeamTeaTime\Forum\Models\Category::Find($forumId);
                                 $linkPath = null;
                                 if ($forum != null) {
-                                    $id = $forum->id;
                                     $title = $forum->title;
                                     $title = strtolower($title);
                                     $title = preg_replace('/\s+/', '-', $title);
-                                    $linkPath = ('/forum/c/'.$id.'-'.$title);
+                                    $linkPath = ('/forum/c/'.$forumId.'-'.$title);
                                 }
                                 $manageDisable = (($game->start) ? 'disabled' : '');
                             ?>
@@ -93,7 +92,7 @@
                                 </td>
                                 <td>
                                     @if($linkPath != null)
-                                        <a href="{{$linkPath}}">Group Forum</a>
+                                        <a href="{{$linkPath}}" class="btn btn-sm btn-info">Group Forum</a>
                                     @endif
                                 </td>
                                 <td>

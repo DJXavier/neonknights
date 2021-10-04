@@ -19,14 +19,14 @@ function GroupFormData(form) {
         type: entry['type'],
         noPlayers: entry['noPlayers'],
     })
-    .then((res) => createForum(res.data['redirectPath'], entry['name']))
+    .then((res) => createForum(res.data['redirectPath'], res.data['gameId'], entry['name']))
     .catch((err) => {
-        document.getElementById("group-submit-button").disabled = true;
+        document.getElementById("group-submit-button").disabled = false;
         console.log(err)
     });
 }
 
-function createForum(redirect, gameName) {
+function createForum(redirect, gameId, gameName) {
     let forumTitle = ("Forum For " + gameName);
     axios.post('api/category/autogen', {
         title: forumTitle,
@@ -34,10 +34,11 @@ function createForum(redirect, gameName) {
         color: '#007bff',
         accepts_threads: true,
         is_private: true,
+        game_id: gameId,
     })
     .then((res) => window.location.href = redirect)
     .catch((err) => {
-        document.getElementById("group-submit-button").disabled = true;
+        document.getElementById("group-submit-button").disabled = false;
         console.log(err)
     });
 }

@@ -62,12 +62,15 @@ class GameController extends Controller
             'type' => $request['type'],
             'noPlayers' => (int)$request['noPlayers'],
             'currentRound' => 1,
-            'resetDay' => "Thursday",
+            'resetDate' => "Thursday",
             'invited' => array(),
             'gameMaster' => $userId,
         ])->id;
 
-        return response()->json(['redirectPath' => route('invite.create', ['gameId' => $gameId])], 200);
+        return response()->json([
+            'redirectPath' => route('invite.create', ['gameId' => $gameId]),
+            'gameId' => $gameId,
+        ], 200);
     }
 
     /**
