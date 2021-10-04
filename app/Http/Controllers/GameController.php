@@ -134,6 +134,12 @@ class GameController extends Controller
 
     public function advance() {
         $games = \App\Models\Game::All();
-        dd($games);
+
+        $games->each(function ($game, $key) {
+            $game->currentRound = ($game->currentRound + 1);
+            $game->save();
+        });
+
+        return redirect('/director-management');
     }
 }
