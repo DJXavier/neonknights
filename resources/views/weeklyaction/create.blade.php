@@ -16,9 +16,9 @@
     $knight = $game->knights()->where('user_id', auth()->user()->id)->get()->first();
 ?>
 <div id="action-page">
-    <input type="hidden" id="game-id" value={{ $game->id }} />
-    <input type="hidden" id="knight-id" value={{ $knight->id }} />
-    <input type="hidden" id="game-name" value={{ $game->name }} />
+    <input type="hidden" id="game-id" value="{{ $game->id }}" />
+    <input type="hidden" id="knight-id" value="{{ $knight->id }}" />
+    <input type="hidden" id="game-name" value="{{ $game->name }}" />
 </div>
 <form action="/submittedweeklyaction/{{ $game->id }}" method="POST" id="action-post">
     @csrf
