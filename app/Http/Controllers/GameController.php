@@ -58,7 +58,7 @@ class GameController extends Controller
         $userId = auth()->user()->id;
         $gameType = ucfirst($request['type']);
         
-        $gameId = auth()->user()->games()->create([
+        $game = auth()->user()->games()->create([
             'name' => $request['name'],
             'type' => $gameType,
             'noPlayers' => (int)$request['noPlayers'],
@@ -66,11 +66,13 @@ class GameController extends Controller
             'resetDate' => "Thursday",
             'invited' => array(),
             'gameMaster' => $userId,
-        ])->id;
+        ]);
+
+        $game->noblebots()->saveMany(\App\Models\Noblebot::factory($game->noPlayers)->create());
 
         return response()->json([
-            'redirectPath' => route('invite.create', ['gameId' => $gameId]),
-            'gameId' => $gameId,
+            'redirectPath' => route('invite.create', ['gameId' => $game->id]),
+            'gameId' => $game->id,
         ], 200);
     }
 
