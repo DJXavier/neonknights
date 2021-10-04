@@ -29,12 +29,12 @@ class UserCategoryPolicy
 
     public function deleteThreads($user, Category $category): bool
     {
-        return $this->view($user, $category);
+        return $this->isAdmin($user);
     }
 
     public function restoreThreads($user, Category $category): bool
     {
-        return $this->view($user, $category);
+        return $this->isAdmin($user);
     }
 
     public function enableThreads($user, Category $category): bool
@@ -64,30 +64,34 @@ class UserCategoryPolicy
 
     public function markThreadsAsRead($user, Category $category): bool
     {
-        return $this->view($user, $category);
+        return false;
     }
 
     public function view($user, Category $category): bool
     {
         if ($user != null) {
-            $gameIds = $user->game_ids;
-            $user->games()->get();
-            $games = [];
-            for($i = 0; $i < count($gameIds); $i++) {
-                $found = \App\Models\Game::Find($gameIds[$i]);
-                if ($found != null) {
-                    array_push($games, $found);
+            if ($this->isAdmin($user)) {
+                return true;
+            } else {
+                $gameIds = $user->game_ids;
+                $user->games()->get();
+                $games = [];
+                for($i = 0; $i < count($gameIds); $i++) {
+                    $found = \App\Models\Game::Find($gameIds[$i]);
+                    if ($found != null) {
+                        array_push($games, $found);
+                    }
                 }
-            }
 
-            $check = false;
-            for ($i = 0; $i < count($games); $i++) {
-                if($category->id == $games[$i]->forumId) {
-                    $check = true;
+                $check = false;
+                for ($i = 0; $i < count($games); $i++) {
+                    if($category->id == $games[$i]->forumId) {
+                        $check = true;
+                    }
                 }
+                
+                return $check;
             }
-            
-            return $check;
         } else {
             return false;
         }

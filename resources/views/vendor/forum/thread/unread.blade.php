@@ -26,8 +26,6 @@
                     <i data-feather="book"></i> {{ trans('forum::general.mark_read') }}
                 </button>
             </div>
-
-            @include ('forum::thread.modals.mark-as-read')
         @endcan
     @endif
 @stop
