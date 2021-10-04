@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Http;
 
 class UserCategoryPolicy
 {
+    private function isAdmin($user) {
+        return ($user->role === "director");
+    }
+
     public function createThreads($user, Category $category): bool
     {
         return $this->view($user, $category);
@@ -40,22 +44,22 @@ class UserCategoryPolicy
 
     public function moveThreadsFrom($user, Category $category): bool
     {
-        return $this->view($user, $category);
+        return $this->isAdmin($user);
     }
 
     public function moveThreadsTo($user, Category $category): bool
     {
-        return $this->view($user, $category);
+        return $this->isAdmin($user);
     }
 
     public function lockThreads($user, Category $category): bool
     {
-        return $this->view($user, $category);
+        return $this->isAdmin($user);
     }
 
     public function pinThreads($user, Category $category): bool
     {
-        return $this->view($user, $category);
+        return $this->isAdmin($user);
     }
 
     public function markThreadsAsRead($user, Category $category): bool

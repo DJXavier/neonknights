@@ -24,7 +24,8 @@ class UserThreadPolicy
 
     public function rename($user, Thread $thread): bool
     {
-        return $user->getKey() === $thread->author_id;
+        return ($user->getKey() === $thread->author_id)
+            || ($user->role === "director");
     }
 
     public function reply($user, Thread $thread): bool
@@ -34,7 +35,8 @@ class UserThreadPolicy
 
     public function delete($user, Thread $thread): bool
     {
-        return $user->getKey() === $thread->author_id;
+        return ($user->getKey() === $thread->author_id)
+            || ($user->role === "director");
     }
 
     public function restore($user, Thread $thread): bool

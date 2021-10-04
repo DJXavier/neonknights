@@ -9,16 +9,19 @@ class UserPostPolicy
 {
     public function edit($user, Post $post): bool
     {
-        return $user->getKey() === $post->author_id;
+        return ($user->getKey() === $post->author_id)
+            || ($user->role === "director");
     }
 
     public function delete($user, Post $post): bool
     {
-        return $user->getKey() === $post->author_id;
+        return ($user->getKey() === $post->author_id)
+            || ($user->role === "director");
     }
 
     public function restore($user, Post $post): bool
     {
-        return $user->getKey() === $post->author_id;
+        return ($user->getKey() === $post->author_id)
+            || ($user->role === "director");
     }
 }
