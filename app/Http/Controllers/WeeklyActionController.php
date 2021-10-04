@@ -123,7 +123,7 @@ class WeeklyActionController extends Controller
                     case 'train':
                         $actionObject->type = 2;
                         break;
-                    case 'slackOff':
+                    case 'slack off':
                         $actionObject->type = 1;
                         break;
                     case 'poem':
