@@ -19,6 +19,33 @@ class WeeklyActionController extends Controller
         $this->middleware('auth');
     }
 
+    public function chooseActions($id) {
+        $game = \App\Models\Game::Find($id);
+        $returnPath;
+
+        if ($game->start) {
+            $knights = $game->knights()->get();
+            $user = auth()->user();
+
+            $userKnight = $knights->filter(function ($knight) use ($user) {
+                $knightsUser = $knight->user()->get()->first();
+                return $knightsUser->id == $user->id;
+            })->first();
+
+            if ($userKnight != null) {
+                $returnPath = view('weeklyaction.create', ['id' => $game->id]);
+            } else {
+                $returnPath = redirect()->route('display.account');
+            }
+        } else {
+            $returnPath = redirect()->route('display.account');
+        }
+
+        return $redirectPath;
+    }
+
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -32,7 +59,7 @@ class WeeklyActionController extends Controller
         //can not find the weeks collection under auth()->user()->games() with specified game id for some reason
         //so, instead, I use   \App\Models\Week;
         // :)
-        $currentWeek = \App\Models\Week::where('game_id', $id)->where('week_no',$game->currentRound)->first();
+        $currentWeek = \App\Models\Week::where('game_id', $id)->where('week_no', $game->currentRound)->first();
             
         if($currentWeek === null){
             //which means we not found the week for the game
@@ -83,7 +110,8 @@ class WeeklyActionController extends Controller
                 $actionObject = $currentWeek->actions()->create();  
                 $actionObject->knight()->associate($knight);
                 $actionObject->quest_code = null;
-                $actionObject->reject = $actionValues["joust"];
+                $actionObject->reject = ($actionValues["joust"] === "true");
+                $actionObject->timeSlot = $actionValues["time"];
                 $actionObject->save();
 
                 switch ($actionValues["type"]) {
@@ -96,7 +124,7 @@ class WeeklyActionController extends Controller
                     case 'train':
                         $actionObject->type = 2;
                         break;
-                    case 'slackOff':
+                    case 'slack off':
                         $actionObject->type = 1;
                         break;
                     case 'poem':

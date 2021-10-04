@@ -113,13 +113,13 @@
                                     <a class="dropdown-item" href="/display-groups-characters"> 
                                         {{ __('Display Games & Characters') }}</a> 
                                     @endif
+                                    <a class="dropdown-item" href="{{ route('password.change') }}";>
+                                        {{ __('Change Password') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('password.change') }}";>
-                                        {{ __('Change Password') }}
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
@@ -132,7 +132,7 @@
             </div>
         </nav>
 
-        <main id="content-holder">
+        <main id="content-holder" class="pt-4">
             @if (!str_contains(Request::path(), 'forum'))
                 @yield('content')
             @else
@@ -151,9 +151,9 @@
     </div>
     <script>
         function footerAdjustment() {
-            let footerHeight = document.getElementsByTagName('footer').item(0).offsetHeight;
-            let pageContent = document.getElementById('content-holder');
-            pageContent.style.paddingBottom = footerHeight;
+             let footerHeight = document.getElementsByTagName('footer').item(0).offsetHeight;
+             let pageContent = document.getElementById('content-holder');
+             pageContent.style.paddingBottom = footerHeight + 'px';
         }
 
         footerAdjustment();

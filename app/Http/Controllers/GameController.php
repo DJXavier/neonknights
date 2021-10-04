@@ -56,18 +56,24 @@ class GameController extends Controller
         ]);
 
         $userId = auth()->user()->id;
+        $gameType = ucfirst($request['type']);
         
-        $gameId = auth()->user()->games()->create([
+        $game = auth()->user()->games()->create([
             'name' => $request['name'],
-            'type' => $request['type'],
+            'type' => $gameType,
             'noPlayers' => (int)$request['noPlayers'],
             'currentRound' => 1,
-            'resetDay' => "Thursday",
+            'resetDate' => "Thursday",
             'invited' => array(),
             'gameMaster' => $userId,
-        ])->id;
+        ]);
 
-        return response()->json(['redirectPath' => route('invite.create', ['gameId' => $gameId])], 200);
+        $game->noblebots()->saveMany(\App\Models\Noblebot::factory($game->noPlayers)->create());
+
+        return response()->json([
+            'redirectPath' => route('invite.create', ['gameId' => $game->id]),
+            'gameId' => $game->id,
+        ], 200);
     }
 
     /**
@@ -124,5 +130,16 @@ class GameController extends Controller
         return response()->json([
             'knights' => $joustable,
         ], 200);
+    }
+
+    public function advance() {
+        $games = \App\Models\Game::All();
+
+        $games->each(function ($game, $key) {
+            $game->currentRound = ($game->currentRound + 1);
+            $game->save();
+        });
+
+        return redirect('/director-management');
     }
 }

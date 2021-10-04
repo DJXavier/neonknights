@@ -36,7 +36,7 @@
             @if (! $threads->isEmpty())
                 {{ $threads->links() }}
 
-                @can('manageThreads', $category)
+                @if(Auth::user()->role === "director")
                     <form :action="actions[selectedAction]" method="POST">
                         @csrf
                         <input type="hidden" name="_method" :value="actionMethods[selectedAction]" />
@@ -49,7 +49,7 @@
                                 <input type="checkbox" value="" id="selectAllThreads" class="align-middle" @click="toggleAll" :checked="selectedThreads.length == threads.data.length">
                             </div>
                         </div>
-                @endcan
+                @endif
 
                 <div class="threads list-group my-3 shadow-sm">
                     @foreach ($threads as $thread)
@@ -139,18 +139,6 @@
             </div>
         @endif
     </div>
-
-    @if (! $threads->isEmpty())
-        @can ('markThreadsAsRead')
-            <div class="text-center">
-                <button class="btn btn-primary px-5" data-open-modal="mark-threads-as-read">
-                    <i data-feather="book"></i> {{ trans('forum::general.mark_read') }}
-                </button>
-            </div>
-
-            @include ('forum::category.modals.mark-threads-as-read')
-        @endcan
-    @endif
 
     @can('manageCategories')
         @include ('forum::category.modals.edit')

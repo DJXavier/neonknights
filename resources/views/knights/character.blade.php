@@ -1,8 +1,6 @@
 @extends('layouts.app')
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @section('content')
-<?php
-?>
 
 <script>
 function rollStrength() {
@@ -39,52 +37,27 @@ function rollConstitution() {
         background-color: #080325;
     }
 
-    /* p {
-        font-size: 22px;
-        font: sans-serif;
-    } */
-
     strong {
         font-size: 22px;
         font: sans-serif;
     }
-
-    /* h1 {
-        
-        font-size: 50px;
-        color: #ffffff;
-    }
-
-    h3 {
-        color: #ffffff;
-    }
-
-    div{
-        font-size: 22px;
-        color: #ffffff;
-    } */
-
 </style>
-<head>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center">
+<div class="container pb-2">
+    <div class="row justify-content-center">
         <div class="col-md-8">
-        <div class="card">
-                        @foreach ($errors->all() as $error)
-                            <p class="text-danger">{{ $error }}</p>
-                         @endforeach 
-            <div class="card-header">{{ __('Knight Creation')}}</div>
+            <div class="card">
+                @foreach ($errors->all() as $error)
+                    <p class="text-danger">{{ $error }}</p>
+                @endforeach 
+                <div class="card-header">{{ __('Knight Creation')}}</div>
                 <div class="card-body ">
-                
+
                     <br>
                     <form action="{{ route('knight.store') }}" method="POST">
                         @csrf
                         <input type="hidden" value="{{ $id }}" name="gameId" >
 
-                        <div class="form-group row text-white">
+                        <div class="form-group row">
                             <label for="knight" class="col-md-4 col-form-label text-md-right">{{ __('Knight Name') }} </label>
                             <div class="col-md-6"> 
                                 <input type="text" class="form-control " name="character" >
@@ -92,7 +65,7 @@ function rollConstitution() {
                         </div>  
 
                         
-                        <div class="form-group row text-white">
+                        <div class="form-group row">
                             <label class="col-4 text-md-right" >{{ __('Pronouns' )}} </label>
                             <div class="col-5 text-center"> 
                                 <div class="form-check form-check-inline">
@@ -154,8 +127,6 @@ function rollConstitution() {
                 </div>
             </div>
         </div>
-        </div>
-        </div>
     </div>
-</body>
+</div>
 @endsection

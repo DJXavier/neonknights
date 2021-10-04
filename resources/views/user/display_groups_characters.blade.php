@@ -62,16 +62,18 @@
                         @foreach ($games as $game)
                             <?php $actionsDisabled = ($knights->where('game_id', $game->_id)->pluck('name')->first() == null) ? "disabled='disabled'" : '';?>
                             <?php
-                                $name = ("Forum For ".$game->name);
-                                $forum = TeamTeaTime\Forum\Models\Category::where('title', '=', $name)->first();
+                                $forumId = $game->forumId;
+                                $forum = TeamTeaTime\Forum\Models\Category::Find($forumId);
                                 $linkPath = null;
                                 if ($forum != null) {
-                                    $id = $forum->id;
                                     $title = $forum->title;
                                     $title = strtolower($title);
                                     $title = preg_replace('/\s+/', '-', $title);
-                                    $linkPath = ('/forum/c/'.$id.'-'.$title);
+                                    $linkPath = ('/forum/c/'.$forumId.'-'.$title);
                                 }
+
+                                $manageDisable = (($game->start) ? 'disabled' : '');
+                                $manageStart = ((!$game->start) ? 'disabled' : '');
                             ?>
                             <tr>
                                 <td>
@@ -85,20 +87,21 @@
                                 <td>{{$game->resetDate}}</th>
                                 <td>
                                     @if ($knights->where('game_id', $game->_id)->pluck('name')->first() != null)
-                                        <a class="btn btn-sm btn-secondary" type="button" href="/weeklyaction/{{$game->id}}">Prepare Your Week</a>
+                                        <form action="/weeklyaction/{{$game->id}}" method="GET">
+                                            <button class="btn btn-sm btn-secondary" type="submit" {{$manageStart}}>Prepare Your Week</button>
+                                        </form>
                                     @else
                                         <a class="btn btn-sm btn-secondary disabled" type="button" href="#">Prepare Your Week</a>
                                     @endif
                                 </td>
                                 <td>
                                     @if($linkPath != null)
-                                        <a href="{{$linkPath}}">Group Forum</a>
+                                        <a href="{{$linkPath}}" class="btn btn-sm btn-info">Group Forum</a>
                                     @endif
                                 </td>
                                 <td>
                                     <form action="/group-management/{{$game->id}}" method="GET">
-                                        <input name="gameId" type="hidden" value = "{{$game->id}}"/>
-                                        <button class="btn btn-sm btn-secondary" type="submit">Manage Group</button>
+                                        <button class="btn btn-sm btn-secondary" type="submit" {{$manageDisable}}>Manage Group</button>
                                     </form>
                                 </td>
                             </tr>

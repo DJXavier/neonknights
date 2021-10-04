@@ -32,9 +32,7 @@ Route::get('/weeklyactiontemp', function () {
 });
 
 Route::middleware(['verified'])->group(function () {
-    Route::get('/group-management/{game_id}', function ($game_id) {
-        return view('user.group_management', ['gameId' => $game_id]);
-    })->middleware('auth.gameMaster');  
+    Route::get('/group-management/{game_id}', [App\Http\Controllers\InviteController::class, 'viewManage'])->middleware('auth.gameMaster'); 
 
     Route::post('/group-management/invite', [App\Http\Controllers\InviteController::class, 'updateSingle'])->name('invite.updateSingle');
     Route::get('/group-management/{game_id}/invite-single-user', function ($game_id){
@@ -51,10 +49,12 @@ Route::middleware(['verified'])->group(function () {
         return view('user.delete_group', ['gameId' => $game_id]);
     });
 
+    Route::post('/group-management/start', [App\Http\Controllers\InviteController::class, 'startGame'])->name('invite.start');
+
 
     Route::get('/character/create/{gameId}', function ($gameId) {
         return view('knights.character', ['id' => $gameId]);
-    })->middleware('auth.characterCreation');
+    })->middleware('auth.characterCreation')->name('knight.create');
 
     Route::get('/character_created/{gameId}', function ($gameId) {
         return view('knights.character_created', ['gameId' => $gameId]);
@@ -65,7 +65,7 @@ Route::middleware(['verified'])->group(function () {
 
     Route::get('/display-groups-characters', function () {
         return view('user.display_groups_characters');
-    });
+    })->name('display.account');
 
     Route::get('/create-group', function () {
         return view('user.create_group');
@@ -75,8 +75,8 @@ Route::middleware(['verified'])->group(function () {
         return view('user.invite_user', ['gameId' => $gameId]);
     })->name('invite.create');
     
-    Route::get('/invite-successful', function () {
-        return view('user.invite_successful');
+    Route::get('/invite-successful/{gameId}', function ($gameId) {
+        return view('user.invite_successful', ['gameId' => $gameId]);
     });
     
     Route::get('/weeklyaction/{gameId}', function ($gameId) {
@@ -119,6 +119,9 @@ Route::middleware(['verified'])->group(function () {
     Route::get('/director-management/{game_id}/{week_no}/{knight_id}', function ($game_id, $week_no, $knight_id) {
         return view('directors.display_user_actions', ['gameId' => $game_id, 'weekNo' => $week_no, 'knightId' => $knight_id]);
     })->middleware('auth.gameDirector');
+
+    Route::get('/game/advance', [App\Http\Controllers\GameController::class, 'advance'])
+        ->middleware('auth.gameDirector');
 });
 
 Auth::routes(["verify" => true]);

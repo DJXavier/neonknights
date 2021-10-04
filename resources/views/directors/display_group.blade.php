@@ -32,28 +32,25 @@
     <div class="container">
         <div class="card mb-4">
             <div class="card-header">Directing Group: {{$game->name}}</div>
-                <div class="card-body">
-                    <div class="scroll-table">
-                        <table>
-                        <tr>
-                            <th>Week Number</th>
-                            <th>View Week</th>
-                        </tr>
+            <div class="card-body">
+                <div class="scroll-table">
+                    <table>
+                    <tr>
+                        <th>Week Number</th>
+                        <th>View Week</th>
+                    </tr>
 
-                        @foreach ($weeks as $week)
-                            <tr>
-                                <td>{{$week->week_no}}</th>
-                                <td>
-                                    <form action="/director-management/{{$game->id}}/{{$week->week_no}}" method="GET">
-                                        <input name="gameId" type="hidden" value = "{{$game->id}}"/>
-                                        <input name="weekNo" type="hidden" value = "{{$week->week_no}}"/>
-                                        <button class="btn btn-sm btn-secondary" type="submit">View Week</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </table>
-                    </div>
+                    @foreach ($weeks as $week)
+                        <tr>
+                            <td>{{$week->week_no}}</th>
+                            <td>
+                                <a href="/director-management/{{$game->id}}/{{$week->week_no}}" class="btn btn-sm btn-secondary">
+                                    View Week
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </table>
                 </div>
             </div>
         </div>

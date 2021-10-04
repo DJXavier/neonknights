@@ -6,7 +6,7 @@
             <label class="card-header">Group Created</label>
             <div class="card-body">
                 <p>Emails have been sent successfully.</p>
-                <a class="btn btn-sm btn-secondary" type="button" href="/character/create/{{session('id')}}">Create Character</a>
+                <a class="btn btn-sm btn-secondary" type="button" href="/character/create/{{$gameId}}">Create Character</a>
             </div>
         </div>
     </div>
