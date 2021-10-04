@@ -87,7 +87,7 @@ class InviteController extends Controller
             Mail::to($email)->send(new \App\Mail\GameInvite($game));
         }
         
-        return redirect('/invite-successful');
+        return redirect('/invite-successful/'.$game->id);
     }
 
     public function updateSingle(Request $request)

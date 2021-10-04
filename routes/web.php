@@ -75,8 +75,8 @@ Route::middleware(['verified'])->group(function () {
         return view('user.invite_user', ['gameId' => $gameId]);
     })->name('invite.create');
     
-    Route::get('/invite-successful', function () {
-        return view('user.invite_successful');
+    Route::get('/invite-successful/{gameId}', function ($gameId) {
+        return view('user.invite_successful', ['gameId' => $gameId]);
     });
     
     Route::get('/weeklyaction/{gameId}', function ($gameId) {
