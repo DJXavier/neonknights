@@ -42,8 +42,12 @@
                             <button class="btn btn-primary mt-3" type="submit">Send Invitation</button>
                         </form>
                         <div class="row mt-5">
-                            <div class="col-md-12">
-                                <a class="btn btn-success btn-lg float-left mt-2" type="button" href="#">Start Game</a>
+                            <div class="col-md-12 justify-content-between row">
+                                <form action="/group-management/start" method="POST">
+                                    @csrf
+                                    <input name="gameId" type="hidden" value ="{{$gameId}}"/>
+                                    <button class="btn btn-success btn-lg float-left mt-2" type="submit">Start Game</button>
+                                </form>
                                 <form action="{{ route('invite.deleteGroup') }}" method="POST">
                                     @csrf
                                     <input name="gameId" type="hidden" value ="{{$gameId}}"/>

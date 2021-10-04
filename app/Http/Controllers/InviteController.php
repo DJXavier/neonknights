@@ -9,17 +9,35 @@ class InviteController extends Controller
 {
     public function viewManage($id) {
         $game = \App\Models\Game::find($id);
-        $knights = $game->knights()->get();
-        $user = auth()->user();
-        $userKnight = $knights->filter(function ($knight) use ($user) {
-            $knightsUser = $knight->user()->get()->first();
-            return $knightsUser->id == $user->id;
-        })->first();
-        if ($userKnight != null) {
-            return view('user.group_management', ['gameId' => $game->id]);
+        $returnPath;
+
+        if (!$game->start) {
+            $knights = $game->knights()->get();
+            $user = auth()->user();
+
+            $userKnight = $knights->filter(function ($knight) use ($user) {
+                $knightsUser = $knight->user()->get()->first();
+                return $knightsUser->id == $user->id;
+            })->first();
+
+            if ($userKnight != null) {
+                $returnPath = view('user.group_management', ['gameId' => $game->id]);
+            } else {
+                $returnPath = view('knights.character', ['id' => $game->id]);
+            }
         } else {
-            return view('knights.character', ['id' => $game->id]);
+            $returnPath = view('user.display_groups_characters');
         }
+
+        return $returnPath;
+    }
+
+    public function startGame(Request $request) {
+        $game = \App\Models\Game::find($request['gameId']);
+        $game->start = true;
+        $game->save();
+
+        return view('user.display_groups_characters');
     }
 
     /**

@@ -13,6 +13,7 @@ class Game extends Model
 
     protected $atributes = [
         'resetDay' => 'Thursday',
+        'start' => false,
     ];
 
     /**

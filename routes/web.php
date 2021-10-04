@@ -49,6 +49,8 @@ Route::middleware(['verified'])->group(function () {
         return view('user.delete_group', ['gameId' => $game_id]);
     });
 
+    Route::post('/group-management/start', [App\Http\Controllers\InviteController::class, 'startGame'])->name('invite.start');
+
 
     Route::get('/character/create/{gameId}', function ($gameId) {
         return view('knights.character', ['id' => $gameId]);
