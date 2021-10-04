@@ -2294,6 +2294,8 @@ __webpack_require__(/*! ./components/Example */ "./resources/js/components/Examp
 
 __webpack_require__(/*! ./components/Test */ "./resources/js/components/Test.js");
 
+__webpack_require__(/*! ./components/GroupSubmit */ "./resources/js/components/GroupSubmit.js");
+
 __webpack_require__(/*! ./components/KnightJoust */ "./resources/js/components/KnightJoust.js");
 
 __webpack_require__(/*! ./components/ActionPage */ "./resources/js/components/ActionPage.js");
@@ -3434,6 +3436,92 @@ function Example() {
 
 if (document.getElementById('example')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Example, {}), document.getElementById('example'));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/GroupSubmit.js":
+/*!************************************************!*\
+  !*** ./resources/js/components/GroupSubmit.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+function GroupSubmit(event) {
+  event.preventDefault();
+  var test = document.querySelector('#group-create-form');
+  new FormData(test);
+}
+
+function GroupFormData(form) {
+  var data = form.formData;
+  var entry = [];
+
+  var _iterator = _createForOfIteratorHelper(data.entries()),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var pair = _step.value;
+      entry[pair[0]] = pair[1];
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+
+  console.log(entry);
+  axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/game', {
+    name: entry['name'],
+    type: entry['type'],
+    noPlayers: entry['noPlayers']
+  }).then(function (res) {
+    return createForum(res.data['redirectPath'], entry['name']);
+  })["catch"](function (err) {
+    return console.log(err);
+  });
+}
+
+function createForum(redirect, gameName) {
+  var forumTitle = "Forum For " + gameName;
+  axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/category/autogen', {
+    title: forumTitle,
+    description: 'Forum for your gaming group.',
+    color: '#007bff',
+    accepts_threads: true,
+    is_private: true
+  }).then(function (res) {
+    return window.location.href = redirect;
+  })["catch"](function (err) {
+    return console.log(err);
+  });
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GroupSubmit);
+
+if (document.getElementById('group-create-form')) {
+  document.getElementById('group-create-form').addEventListener('submit', function (event) {
+    return GroupSubmit(event);
+  });
+
+  document.getElementById('group-create-form').onformdata = function (form) {
+    return GroupFormData(form);
+  };
 }
 
 /***/ }),
