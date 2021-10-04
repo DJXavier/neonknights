@@ -2,6 +2,7 @@
 
 <title>Display User Actions</title>
 
+@section('content')
 <?php
     $game = \App\Models\Game::Find($gameId);
     $weeks = \App\Models\Week::where('game_id', $gameId)->get();
@@ -15,8 +16,6 @@
         }
     }
 ?>
-
-@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
