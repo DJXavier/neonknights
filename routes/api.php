@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/game/joust/{gameId}/{knightId}', [App\Http\Controllers\GameController::class, 'getJoustingOpponents'])
+    ->withoutMiddleware('auth');
+
+Route::get('/noblebot/{gameId}', [App\Http\Controllers\NoblebotController::class, 'getBots']);

@@ -27,6 +27,10 @@ Route::get('/handbook', function () {
     return view('homepage.handbook');
 });
 
+Route::get('/weeklyactiontemp', function () {
+    return view('weeklyaction.create');
+});
+
 Route::middleware(['verified'])->group(function () {
     Route::get('/group-management/{game_id}', function ($game_id) {
         return view('user.group_management', ['gameId' => $game_id]);
