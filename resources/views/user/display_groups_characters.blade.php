@@ -60,6 +60,7 @@
                         </tr>
 
                         @foreach ($games as $game)
+                            <?php $actionsDisabled = ($knights->where('game_id', $game->_id)->pluck('name')->first() == null) ? "disabled='disabled'" : '';?>
                             <tr>
                                 <td>
                                     <input class="actions-entered" type="checkbox" value="" id="actionsEntered" disabled>
@@ -70,7 +71,13 @@
                                 <td>{{$game->type}}</th>
                                 <td>{{$game->noPlayers}}</th>
                                 <td>{{$game->resetDate}}</th>
-                                <td><a class="btn btn-sm btn-secondary" type="button" href="/weeklyaction/{{$game->id}}">Prepare Your Week</a></td>
+                                <td>
+                                    @if ($knights->where('game_id', $game->_id)->pluck('name')->first() != null)
+                                        <a class="btn btn-sm btn-secondary" type="button" href="/weeklyaction/{{$game->id}}">Prepare Your Week</a>
+                                    @else
+                                        <a class="btn btn-sm btn-secondary disabled" type="button" href="#">Prepare Your Week</a>
+                                    @endif
+                                </td>
                                 <td><a class="btn btn-sm btn-secondary" type="button" href="#">Placeholder Link</a></td>
                                 <td>
                                     <form action="/group-management/{{$game->id}}" method="GET">
