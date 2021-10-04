@@ -23,10 +23,10 @@ class InviteController extends Controller
             if ($userKnight != null) {
                 $returnPath = view('user.group_management', ['gameId' => $game->id]);
             } else {
-                $returnPath = view('knights.character', ['id' => $game->id]);
+                $returnPath = redirect()->route(view('knight.create', ['id' => $game->id]));
             }
         } else {
-            $returnPath = view('user.display_groups_characters');
+            $returnPath = redirect()->route('display.account');
         }
 
         return $returnPath;
@@ -37,7 +37,7 @@ class InviteController extends Controller
         $game->start = true;
         $game->save();
 
-        return view('user.display_groups_characters');
+        return redirect()->route('display.account');
     }
 
     /**

@@ -72,6 +72,7 @@
                                     $title = preg_replace('/\s+/', '-', $title);
                                     $linkPath = ('/forum/c/'.$id.'-'.$title);
                                 }
+                                $manageDisable = (($game->start) ? 'disabled' : '');
                             ?>
                             <tr>
                                 <td>
@@ -96,7 +97,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="/group-management/{{$game->id}}" class="btn btn-sm btn-secondary">Manage Group</a>
+                                    <form action="/group-management/{{$game->id}}" method="GET">
+                                        <button class="btn btn-sm btn-secondary" type="submit" {{$manageDisable}}>Manage Group</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

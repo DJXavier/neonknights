@@ -54,7 +54,7 @@ Route::middleware(['verified'])->group(function () {
 
     Route::get('/character/create/{gameId}', function ($gameId) {
         return view('knights.character', ['id' => $gameId]);
-    })->middleware('auth.characterCreation');
+    })->middleware('auth.characterCreation')->name('knight.create');
 
     Route::get('/character_created/{gameId}', function ($gameId) {
         return view('knights.character_created', ['gameId' => $gameId]);
@@ -65,7 +65,7 @@ Route::middleware(['verified'])->group(function () {
 
     Route::get('/display-groups-characters', function () {
         return view('user.display_groups_characters');
-    });
+    })->name('display.account');
 
     Route::get('/create-group', function () {
         return view('user.create_group');
