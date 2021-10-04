@@ -60,7 +60,7 @@ class GameController extends Controller
         $test = auth()->user()->games()->create([
             'name' => $request['name'],
             'type' => $request['type'],
-            'noPlayers' => $request['noPlayers'],
+            'noPlayers' => (int)$request['noPlayers'],
             'currentRound' => 1,
             'resetDay' => "Thursday",
             'invited' => array(),
@@ -84,7 +84,7 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(Game::Find($id));
     }
 
     /**

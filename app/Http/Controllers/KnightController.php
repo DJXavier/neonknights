@@ -51,35 +51,64 @@ class KnightController extends Controller
      */
     public function store(Request $request)
     {
-        $characterAtt = $request->validate([
-            'gameId' => 'required',
-            'character' => 'required',
-            'gender' => 'required',
-            'strength' => 'required|gte:3|lte:18',
-            'dexterity' => 'required|gte:3|lte:18',
-            'constitution' => 'required|gte:3|lte:18',
-        ]);
+        $email = \Auth::user()->email;
+        $userId = \Auth::user()->id;
+        $game = \App\Models\Game::Find($request['gameId']);
+        $invited = $game->invited;
+        $user_ids = $game->user_ids;
 
-        $endurance = $characterAtt['strength'] + $characterAtt['constitution'];
 
-        $knight = auth()->user()->knights()->create([
-            'name' => $characterAtt['character'],
-            'level' => 1,
-            'pronoun' => $this->pronouns[$characterAtt['gender']],
-            'chivalryPoints' => 0,
-            'strength' => $characterAtt['strength'],
-            'dexterity' => $characterAtt['dexterity'],
-            'trainingDexterity' => 0,
-            'constitution' => $characterAtt['constitution'],
-            'maxEndurance' => $endurance,
-            'currentEndurance' => $endurance,
-            'trainingPoints' => 0,
-        ]);
-
-        $game = \App\Models\Game::Find($characterAtt['gameId']);
-        $game->knights()->save($knight);
-
-        return redirect()->route('home');
+        $matchUserAndGame = ['game_id' => $game->id, 'user_id' => $userId];
+        $knightExistsQuery = \App\Models\Knight::where($matchUserAndGame)->get()->first();
+                                
+        if ($knightExistsQuery != null)
+        {
+            $accessDeniedMessage = "You cannot create a character, because you have already made one for this group.";
+            return redirect('/access-denied')->with('accessDeniedMessage', $accessDeniedMessage);
+        }
+        else if (in_array($email, $invited) || in_array($userId, $user_ids)) {
+            $characterAtt = $request->validate([
+                'gameId' => 'required',
+                'character' => 'required',
+                'gender' => 'required',
+                'strength' => 'required|gte:3|lte:18',
+                'dexterity' => 'required|gte:3|lte:18',
+                'constitution' => 'required|gte:3|lte:18',
+            ]);
+    
+            $endurance = $characterAtt['strength'] + $characterAtt['constitution'];
+    
+            $knight = auth()->user()->knights()->create([
+                'name' => $characterAtt['character'],
+                'level' => 1,
+                'pronoun' => $this->pronouns[$characterAtt['gender']],
+                'chivalryPoints' => 0,
+                'strength' => (int)$characterAtt['strength'],
+                'dexterity' => (int)$characterAtt['dexterity'],
+                'trainingDexterity' => 0,
+                'constitution' => (int)$characterAtt['constitution'],
+                'maxEndurance' => $endurance,
+                'currentEndurance' => $endurance,
+                'trainingPoints' => 0,
+            ]);
+    
+            $game = \App\Models\Game::Find($characterAtt['gameId']);
+            $game->knights()->save($knight);
+    
+            //If user creating character was in invited list, move them to existing users list
+            if (($key = array_search($email, $invited)) !== false) {
+                unset($invited[$key]);
+    
+                $player = \App\Models\User::All()->where('id', $userId)->first();
+                $game->users()->save($player);
+            }
+    
+            return redirect('character_created/'.$request['gameId']);
+        }
+        else {
+            $accessDeniedMessage = "You cannot create a character, because you have not been invited to the group.";
+            return redirect('/access-denied')->with('accessDeniedMessage', $accessDeniedMessage);
+        }
     }
 
     /**
