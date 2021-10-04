@@ -96,10 +96,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <form action="/group-management/{{$game->id}}" method="GET">
-                                        <input name="gameId" type="hidden" value = "{{$game->id}}"/>
-                                        <button class="btn btn-sm btn-secondary" type="submit">Manage Group</button>
-                                    </form>
+                                    <a href="/group-management/{{$game->id}}" class="btn btn-sm btn-secondary">Manage Group</a>
                                 </td>
                             </tr>
                         @endforeach

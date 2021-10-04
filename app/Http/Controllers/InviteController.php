@@ -7,6 +7,21 @@ use Illuminate\Support\Facades\Mail;
 
 class InviteController extends Controller
 {
+    public function viewManage($id) {
+        $game = \App\Models\Game::find($id);
+        $knights = $game->knights()->get();
+        $user = auth()->user();
+        $userKnight = $knights->filter(function ($knight) use ($user) {
+            $knightsUser = $knight->user()->get()->first();
+            return $knightsUser->id == $user->id;
+        })->first();
+        if ($userKnight != null) {
+            return view('user.group_management', ['gameId' => $game->id]);
+        } else {
+            return view('knights.character', ['id' => $game->id]);
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      *

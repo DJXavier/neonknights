@@ -32,9 +32,7 @@ Route::get('/weeklyactiontemp', function () {
 });
 
 Route::middleware(['verified'])->group(function () {
-    Route::get('/group-management/{game_id}', function ($game_id) {
-        return view('user.group_management', ['gameId' => $game_id]);
-    })->middleware('auth.gameMaster');  
+    Route::get('/group-management/{game_id}', [App\Http\Controllers\InviteController::class, 'viewManage'])->middleware('auth.gameMaster'); 
 
     Route::post('/group-management/invite', [App\Http\Controllers\InviteController::class, 'updateSingle'])->name('invite.updateSingle');
     Route::get('/group-management/{game_id}/invite-single-user', function ($game_id){
