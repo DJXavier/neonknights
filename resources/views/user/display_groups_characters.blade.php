@@ -45,6 +45,18 @@
             </tr>
 
             @foreach ($games as $game)
+                <?php
+                    $name = ("Forum For ".$game->name);
+                    $forum = TeamTeaTime\Forum\Models\Category::where('title', '=', $name)->first();
+                    $linkPath = null;
+                    if ($forum != null) {
+                        $id = $forum->id;
+                        $title = $forum->title;
+                        $title = strtolower($title);
+                        $title = preg_replace('/\s+/', '-', $title);
+                        $linkPath = ('/forum/c/'.$id.'-'.$title);
+                    }
+                ?>
                 <tr>
                     <td>
                         <div class="actions-entered"><input class="actions-entered" type="checkbox" value="" id="actionsEntered" disabled></div>
@@ -56,7 +68,11 @@
                     <td>{{$game->noPlayers}}</th>
                     <td>{{$game->resetDate}}</th>
                     <th><a href="/weeklyaction/{{$game->id}}">Prepare Your Week</a></th>
-                    <th><a href="#">Placeholder Link</a></th>
+                    <th>
+                        @if($linkPath != null)
+                            <a href="{{$linkPath}}">Group Forum</a>
+                        @endif
+                    </th>
                 </tr>
             @endforeach
         </table>
