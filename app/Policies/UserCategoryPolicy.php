@@ -69,7 +69,10 @@ class UserCategoryPolicy
         $user->games()->get();
         $games = [];
         for($i = 0; $i < count($gameIds); $i++) {
-            array_push($games, \App\Models\Game::Find($gameIds[$i]));
+            $found = \App\Models\Game::Find($gameIds[$i]);
+            if ($found != null) {
+                array_push($games, $found);
+            }
         }
 
         $check = false;

@@ -43,8 +43,8 @@ Route::middleware(['verified'])->group(function () {
         return view('user.create_group');
     });
     
-    Route::get('/invite/create', function () {
-        return view('user.invite_user');
+    Route::get('/invite/create/{gameId}', function ($gameId) {
+        return view('user.invite_user', ['gameId' => $gameId]);
     })->name('invite.create');
     
     Route::get('/invite-successful', function () {
