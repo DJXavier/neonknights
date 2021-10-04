@@ -131,4 +131,9 @@ class GameController extends Controller
             'knights' => $joustable,
         ], 200);
     }
+
+    public function advance() {
+        $games = \App\Models\Game::All();
+        dd($games);
+    }
 }

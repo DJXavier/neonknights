@@ -119,6 +119,9 @@ Route::middleware(['verified'])->group(function () {
     Route::get('/director-management/{game_id}/{week_no}/{knight_id}', function ($game_id, $week_no, $knight_id) {
         return view('directors.display_user_actions', ['gameId' => $game_id, 'weekNo' => $week_no, 'knightId' => $knight_id]);
     })->middleware('auth.gameDirector');
+
+    Route::get('/game/advance', [App\Http\Controllers\GameController::class, 'advance'])
+        ->middleware('auth.gameDirector');
 });
 
 Auth::routes(["verify" => true]);

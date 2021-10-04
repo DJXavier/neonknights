@@ -43,6 +43,12 @@
         <div class="card mb-4">
             <div class="card-header">{{ __('Directing Games') }}</div>
             <div class="card-body">
+                <div class="d-flex col-sm-8 align-items-center justify-content-between">
+                    <label>Move all games onto their next week: </label>
+                    <a href="/game/advance" class="btn btn-sm btn-warning">
+                        Advance Games
+                    </a>
+                </div>
                 <div class="scroll-table">
                     <table>
                     <tr>
@@ -77,10 +83,9 @@
                                 @endif
                             </td>
                             <td>
-                                <form action="director-management/{{$game->id}}/" method="GET">
-                                    <input name="gameId" type="hidden" value = "{{$game->id}}"/>
-                                    <button class="btn btn-sm btn-secondary" type="submit">View Group</button>
-                                </form>
+                                <a href="/director-management/{{$game->id}}" class="btn btn-sm btn-secondary">
+                                    View Group
+                                </a>
                             </td>
                         </tr>
                     @endforeach
