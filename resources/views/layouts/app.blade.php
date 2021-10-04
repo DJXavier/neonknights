@@ -132,7 +132,7 @@
             </div>
         </nav>
 
-        <main id="content-holder">
+        <main id="content-holder" class="pt-4">
             @if (!str_contains(Request::path(), 'forum'))
                 @yield('content')
             @else
@@ -151,9 +151,9 @@
     </div>
     <script>
         function footerAdjustment() {
-            let footerHeight = document.getElementsByTagName('footer').item(0).offsetHeight;
-            let pageContent = document.getElementById('content-holder');
-            pageContent.style.paddingBottom = footerHeight;
+             let footerHeight = document.getElementsByTagName('footer').item(0).offsetHeight;
+             let pageContent = document.getElementById('content-holder');
+             pageContent.style.paddingBottom = footerHeight + 'px';
         }
 
         footerAdjustment();
