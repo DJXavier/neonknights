@@ -65,32 +65,36 @@ class UserCategoryPolicy
 
     public function view($user, Category $category): bool
     {
-        $gameIds = $user->game_ids;
-        $user->games()->get();
-        $games = [];
-        for($i = 0; $i < count($gameIds); $i++) {
-            $found = \App\Models\Game::Find($gameIds[$i]);
-            if ($found != null) {
-                array_push($games, $found);
+        if ($user != null) {
+            $gameIds = $user->game_ids;
+            $user->games()->get();
+            $games = [];
+            for($i = 0; $i < count($gameIds); $i++) {
+                $found = \App\Models\Game::Find($gameIds[$i]);
+                if ($found != null) {
+                    array_push($games, $found);
+                }
             }
-        }
 
-        $check = false;
-        $diff = [];
-        $categoryTitle = $category->title;
-        for ($i = 0; $i < count($games); $i++) {
-            $gameNameEx = explode(' ', $games[$i]->name);
-            $categoryNameEx = explode(' ', $categoryTitle);
-            if (!$check) {
-                $diff = array_diff($gameNameEx, $categoryNameEx);
+            $check = false;
+            $diff = [];
+            $categoryTitle = $category->title;
+            for ($i = 0; $i < count($games); $i++) {
+                $gameNameEx = explode(' ', $games[$i]->name);
+                $categoryNameEx = explode(' ', $categoryTitle);
+                if (!$check) {
+                    $diff = array_diff($gameNameEx, $categoryNameEx);
+                }
+                if (count(array_diff($diff, ['Forum', 'For'])) == 0) {
+                    $check = true;
+                }
             }
+
             if (count(array_diff($diff, ['Forum', 'For'])) == 0) {
-                $check = true;
+                return true;
+            } else {
+                return false;
             }
-        }
-
-        if (count(array_diff($diff, ['Forum', 'For'])) == 0) {
-            return true;
         } else {
             return false;
         }
