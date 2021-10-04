@@ -56,10 +56,11 @@ class GameController extends Controller
         ]);
 
         $userId = auth()->user()->id;
+        $gameType = ucfirst($request['type']);
         
         $gameId = auth()->user()->games()->create([
             'name' => $request['name'],
-            'type' => $request['type'],
+            'type' => $gameType,
             'noPlayers' => (int)$request['noPlayers'],
             'currentRound' => 1,
             'resetDate' => "Thursday",
