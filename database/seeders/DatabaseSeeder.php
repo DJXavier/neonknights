@@ -88,15 +88,25 @@ class DatabaseSeeder extends Seeder
                     switch($actions->count()) {
                         case 1:
                             $actions->first()->type = \App\Models\Action::$questType;
+                            $actions->first()->timeSlot = "start";
                             break;
                         case 2:
                             $actions->first()->type = \App\Models\Action::$poemType;
+                            $actions->first()->timeSlot = "start";
                             $actions = $actions->reverse();
                             $actions->first()->type = rand(1, 5);
+                            $actions->first()->timeSlot = "end";
                             break;
                         case 3:
-                            $actions->each(function ($action) {
+                            $actions->each(function ($action, $key) {
                                 $action->type = rand(1, 5);
+                                $action->timeSlot = (
+                                    ($key == 0)
+                                        ? "start"
+                                        : (($key == 1)
+                                            ? "middle"
+                                            : "end")
+                                );
                             });
                             break;
                     }
