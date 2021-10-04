@@ -110,7 +110,8 @@ class WeeklyActionController extends Controller
                 $actionObject = $currentWeek->actions()->create();  
                 $actionObject->knight()->associate($knight);
                 $actionObject->quest_code = null;
-                $actionObject->reject = $actionValues["joust"];
+                $actionObject->reject = ($actionValues["joust"] === "true");
+                $actionObject->timeSlot = $actionValues["time"];
                 $actionObject->save();
 
                 switch ($actionValues["type"]) {
