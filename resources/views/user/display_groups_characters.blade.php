@@ -61,6 +61,18 @@
 
                         @foreach ($games as $game)
                             <?php $actionsDisabled = ($knights->where('game_id', $game->_id)->pluck('name')->first() == null) ? "disabled='disabled'" : '';?>
+                            <?php
+                                $name = ("Forum For ".$game->name);
+                                $forum = TeamTeaTime\Forum\Models\Category::where('title', '=', $name)->first();
+                                $linkPath = null;
+                                if ($forum != null) {
+                                    $id = $forum->id;
+                                    $title = $forum->title;
+                                    $title = strtolower($title);
+                                    $title = preg_replace('/\s+/', '-', $title);
+                                    $linkPath = ('/forum/c/'.$id.'-'.$title);
+                                }
+                            ?>
                             <tr>
                                 <td>
                                     <input class="actions-entered" type="checkbox" value="" id="actionsEntered" disabled>
@@ -78,7 +90,11 @@
                                         <a class="btn btn-sm btn-secondary disabled" type="button" href="#">Prepare Your Week</a>
                                     @endif
                                 </td>
-                                <td><a class="btn btn-sm btn-secondary" type="button" href="#">Placeholder Link</a></td>
+                                <td>
+                                    @if($linkPath != null)
+                                        <a href="{{$linkPath}}">Group Forum</a>
+                                    @endif
+                                </td>
                                 <td>
                                     <form action="/group-management/{{$game->id}}" method="GET">
                                         <input name="gameId" type="hidden" value = "{{$game->id}}"/>

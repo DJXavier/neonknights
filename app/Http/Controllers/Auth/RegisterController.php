@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\IsValidPassword;
 use Illuminate\Http\Request;
+use App\Models\SQLUser;
 
 class RegisterController extends Controller
 {
@@ -53,7 +54,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:App\Models\User'],
             'password' => ['required', 'string', 'confirmed', new IsValidPassword],
         ]);
     }
@@ -83,8 +84,16 @@ class RegisterController extends Controller
      * @return mixed
      */
     protected function registered(Request $request, $user) {
-        if (!$user->verified) {
-            //auth()->logout();
+        $sqlinstance = SQLUser::all()->filter(function ($value, $key) use ($user) {
+            return $value->mongo_id == $user->_id;
+        })->first();
+        
+        if($sqlinstance == null) {
+            SQLUser::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'mongo_id' => $user->_id,
+            ]);
         }
     }
 }

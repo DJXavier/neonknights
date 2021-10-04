@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:api')->post('/category/autogen', [App\Http\Controllers\UserCategoryController::class, 'store']);
+Route::middleware('auth:api')->post('/game', [App\Http\Controllers\GameController::class, 'store']);
 Route::get('/game/joust/{gameId}/{knightId}', [App\Http\Controllers\GameController::class, 'getJoustingOpponents'])
     ->withoutMiddleware('auth');
 

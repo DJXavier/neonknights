@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        TeamTeaTime\Forum\ForumServiceProvider::class,
 
         /*
          * Application Service Providers...

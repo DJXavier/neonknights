@@ -57,7 +57,7 @@ class GameController extends Controller
 
         $userId = auth()->user()->id;
         
-        $test = auth()->user()->games()->create([
+        $gameId = auth()->user()->games()->create([
             'name' => $request['name'],
             'type' => $request['type'],
             'noPlayers' => (int)$request['noPlayers'],
@@ -67,13 +67,7 @@ class GameController extends Controller
             'gameMaster' => $userId,
         ])->id;
 
-        session([
-            'gameName' => $request['name'],
-            'noPlayers' => $request['noPlayers'],
-            'id' => $test,
-        ]);
-
-        return redirect()->route('invite.create');
+        return response()->json(['redirectPath' => route('invite.create', ['gameId' => $gameId])], 200);
     }
 
     /**

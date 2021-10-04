@@ -9,7 +9,14 @@
     footer {
         background-color: #100a2b;
         color: white;
-        padding: 10px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .page-length {
+        position: relative;
+        min-height: 100vh;
     }
 </style>
 <head>
@@ -32,7 +39,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="page-length">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -43,6 +50,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    @if (!str_contains(Request::path(), 'forum'))
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
@@ -51,8 +59,30 @@
                         <li class="nav-item">
                             <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="/policy">{{ __('Privacy Policy') }}</a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="/forum">{{ __('Forums') }}</a>
+                        </li>
                     </ul>
+                    @else
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="{{ url(config('forum.web.router.prefix')) }}">{{ trans('forum::general.index') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="{{ route('forum.recent') }}">{{ trans('forum::threads.recent') }}</a>
+                        </li>
+                        @auth
+                            <li class="nav-item">
+                                <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="{{ route('forum.unread') }}">{{ trans('forum::threads.unread_updated') }}</a>
+                            </li>
+                        @endauth
+                        @can('moveCategories')
+                            <li class="nav-item">
+                                <a style="color:#00ffff; font-weight: bold; letter-spacing: 1px;" class="nav-link" href="{{ route('forum.category.manage') }}">{{ trans('forum::general.manage') }}</a>
+                            </li>
+                        @endcan
+                    </ul>
+                    @endif
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -102,18 +132,33 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
+        <main id="content-holder">
+            @if (!str_contains(Request::path(), 'forum'))
+                @yield('content')
+            @else
+                @yield('forum')
+            @endif
         </main>
-    </div>
 
-    <footer class="container-fluid text-center">
-        <p></p>
-        <p style="font-size:15px"><a href="mailto:neonknightsrpg@gmail.com" style="color: white;"><u>neonknightsrpg@gmail.com</u></a></p>
-        <p style="font-size:15px">2019 DRAWFOLIO S.L. <a href="/policy" style="color: white;"><u>Política de privacidad</u></a></p>
-        <p style="font-size:15px">Images from Knightriders (1981) Please George Romero, don't sue us!</p>
-        <p style="font-size:15px">Heavily inspired by Black Sabbath and El Señor de la Rueda (Gabriel Bermúdez Castillo, 1979)</p>
-        <p></p>
-    </footer>
+        <footer class="container-fluid text-center">
+            <p></p>
+            <p style="font-size:15px"><a href="mailto:neonknightsrpg@gmail.com" style="color: white;"><u>neonknightsrpg@gmail.com</u></a></p>
+            <p style="font-size:15px">2019 DRAWFOLIO S.L. <a href="/policy" style="color: white;"><u>Política de privacidad</u></a></p>
+            <p style="font-size:15px">Images from Knightriders (1981) Please George Romero, don't sue us!</p>
+            <p style="font-size:15px">Heavily inspired by Black Sabbath and El Señor de la Rueda (Gabriel Bermúdez Castillo, 1979)</p>
+            <p></p>
+        </footer>
+    </div>
+    <script>
+        function footerAdjustment() {
+            let footerHeight = document.getElementsByTagName('footer').item(0).offsetHeight;
+            let pageContent = document.getElementById('content-holder');
+            pageContent.style.paddingBottom = footerHeight;
+        }
+
+        footerAdjustment();
+        window.onresize = footerAdjustment;
+
+    </script>
 </body>
 </html>

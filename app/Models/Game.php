@@ -9,6 +9,8 @@ class Game extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mongodb';
+
     /* public function getAttribute($key) {
         if (array_key_exists($key, $this->attributes)) {
             return parent::getAttribute($key);
